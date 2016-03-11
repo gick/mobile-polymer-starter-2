@@ -1,0 +1,3 @@
+[{"class":"current","started":false,"completed":false,"indice":{"isBasic":true,"isGmap":false,"question":"Test","response":"test","index":0},"name":"blou","activityName":"Find a tree"},
+  {"class":"disabled","started":false,"completed":false,"indice":{"isGmap":true,"isBasic":false,"lat_dest":11.333,"long_dest":111.333,"index":1},"name":"blouu","activityName":"Find a bigger one"},
+  {"class":"disabled","started":false,"completed":false,"indice":{"isGmap":true,"isBasic":false,"lat_dest":11.333,"long_dest":111.333,"index":2},"name":"blokddkdckdu","activityName":"Let's go drinking"}]
