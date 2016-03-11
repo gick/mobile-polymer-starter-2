@@ -61,8 +61,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   </style>
   <template>
     <iron-ajax auto url="example.json" handle-as="json" last-response="{{items}}"></iron-ajax>
+
     <template    id="mainRepeat" is="dom-repeat" items="{{items}}" as="item">
-      <fullscreen-api target="paper-card"id="fsapi"></fullscreen-api>
+      <fullscreen-api  class="fsapi"></fullscreen-api>
+
       <button type="button" on-click="goFullscreen" hidden$="[[!fullscreenAvailable]]">Display this page in full screen mode</button>
 
       <paper-card style="--paper-card-header-image:{width:10px,height:10px}"class$="[[item.class ]]"   heading="[[item.activityName]]" image="./images/tree2.png" >
@@ -113,8 +115,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           var dialog = Polymer.dom(this.root).querySelector("mcq-activity");
           dialog.open();
         },
-        goFullscreen:function() {
-        var fsapi = document.querySelector('#fsapi');
+        goFullscreen:function(e) {
+         var index =e.model.index+1;
+          var fsapi = Polymer.dom(this.root).querySelector(".fsapi");
+          fsapi.setAttribute('target','paper-card:nth-of-type('+index+')');
         fsapi.toggleFullscreen();
       }
 
