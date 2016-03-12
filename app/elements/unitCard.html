@@ -65,6 +65,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <paper-card style="--paper-card-header:{ background-color: #a7ff97;}"class$="[[item.class ]]"   heading="[[item.activityName]]" >
       <div style="min-height:200px;height:70%" class="card-content">
         <template is="dom-if" if="{{item.started}}">
+          <mcq-activity   mcq="{{item.mcq}}" id="mcq"></mcq-activity>
+
           <template is="dom-if" if="[[item.indice.isBasic]]">
             <basic-indice indice="[[item.indice]]"></basic-indice>
           </template>
@@ -76,7 +78,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </div>
       <div class="card-actions" style="position: absolute;width: 100%;bottom: 10px;">
 
-        <mcq-activity  mcq="{{item.mcq}}" id="mcq"></mcq-activity>
         <template is="dom-if" if="{{item.completed}}">
           You learn this today
         </template>
@@ -102,7 +103,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         },
         ready:function(){
-          this.addEventListener('eventFromChild', this.myAction);
+          this.addEventListener('spActivityComplete', this.next);
           this.addEventListener('eventFromIndiceChild', this.indiceCompleted);
 
         },
@@ -118,7 +119,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
         ,
+        next:function(item){
+          for (i in this.items){
+            if(i.started==true){
+              var current=this.items.indexOf(i);
+            }
+          }
 
+          var fsapi = Polymer.dom(this.root).querySelector(".fsapi");
+          fsapi.exitFullscreen();
+
+
+        },
         computeClass:function(item){
           console.log(item)
           if(item.current) return "";
@@ -145,7 +157,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           console.log(index)
           var str='items.'+index+'.class'
           this.set(str,'current');
-          model.set('item.class',"disabled");
+          model.set('item.completed',"true");
+          model.set('item.class',"done");
+
           console.log(this.items)
         }
         ,

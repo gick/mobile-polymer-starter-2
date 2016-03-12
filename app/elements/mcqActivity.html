@@ -26,11 +26,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <paper-dialog modal id="dialog" entry-animation="scale-up-animation"
                     exit-animation="fade-out-animation">
         <h2>{{mcq.question}}</h2>
-        <paper-radio-group id="paper" selected="small" allow-empty-selection>
-          <paper-radio-button name="small">{{mcq.resp.resp1}}</paper-radio-button>
-          <paper-radio-button name="medium">{{mcq.resp.resp2}}</paper-radio-button>
-          <paper-radio-button name="large">{{mcq.resp.resp3}}</paper-radio-button>
-          <paper-radio-button name="large">{{mcq.resp.resp4}}</paper-radio-button>
+        <paper-radio-group id="paper">
+          <paper-radio-button name="a">{{mcq.resp.resp1}}</paper-radio-button>
+          <paper-radio-button name="b">{{mcq.resp.resp2}}</paper-radio-button>
+          <paper-radio-button name="c">{{mcq.resp.resp3}}</paper-radio-button>
+          <paper-radio-button name="d">{{mcq.resp.resp4}}</paper-radio-button>
 
         </paper-radio-group>
         <div class="buttons">
@@ -67,13 +67,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         },
         toggle:function(e){
           console.log(e);
-          var selected=this.$.paper.selected;
-          console.log(selected);
-          console.log(this.properties.mcq.resp)
+          var selected=this.$.paper.selectedItem;
+         var value=selected.querySelector('#radioLabel').innerText;
           if(selected==this.properties.mcq.resp.correct){
-            alert("done")
+            this.fire('spActivityComplete', {complete:this.properties.mcqComplete.value});
           }
-          this.fire('eventFromChild', {complete:this.properties.mcqComplete.value,index:this.properties.anal.value});
+
 
         }
         ,

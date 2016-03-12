@@ -10,7 +10,9 @@
     "polymer": "Polymer/polymer#^1.2.0",
     "google-map": "GoogleWebComponents/google-map#^1.1.10",
     "geo-location": "ebidel/geo-location#^1.0.3",
-    "fullscreen-api": "vguillou/fullscreen-api"
+    "fullscreen-api": "vguillou/fullscreen-api",
+    "html5-qrcode":"dwa012/html5-qrcode",
+    "jquery": "jquery/jquery"
   },
   "devDependencies": {
     "web-component-tester": "^4.0.0"
