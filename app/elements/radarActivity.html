@@ -38,7 +38,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <paper-material >
       <geo-location id="geo" watch-pos latitude="{{ latitude }}" longitude="{{ longitude }}"></geo-location>
-      {{latitude}}     {{longitude}}
+     <div>{{latitude}}     {{longitude}}</div>
+     <div>  100  </div><div>  {{mod}}  {{distance}}  </div>
     </paper-material>
   </template>
   <script>
@@ -52,11 +53,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           return true;
         },
 
-        ready:function(){      var loc = this.$.geo;
+        ready:function(){     var loc = this.$.geo;
       loc.addEventListener('geo-response', function(e) {
-        console.log('lat:' + this.latitude, 'lng:' + this.longitude);
+        this.coord=true;
+
+
+
       })},
 
+        changeLat:function(newv,oldv){
+          this.distance=this.distancecalc();
+          this.notifyPath('distance',this.distance*1000)
+        },
+        changeLong:function(newv,oldv){
+          this.distance=this.distancecalc();
+          this.notifyPath('distance',this.distance*1000)
+        },
+      distancecalc:function(){
+        this.distance=distance(this.latitude,this.longitude,46.5827512,4.486670,'K');
+        console.log('lat:' + this.latitude, 'lng:' + this.longitude);
+        console.log(this.distance)*1000;
+        return this.distance;
+      },
 
         start:function(){
 
@@ -65,6 +83,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         },
         properties: {
+          latitude:{type:Number,notify:true,observer:'changeLat'},
+          longitude:{type:Number,notify:true,observer:'changeLong'},
+
+          distance:{type :Number,notify:true},
+          mod:{type:Number,notify:true,value:10},
           completed:{type:Boolean,value:false},
           animationConfig: {
             type: Object,
