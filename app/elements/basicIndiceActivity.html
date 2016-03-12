@@ -33,14 +33,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </div>
         </paper-dialog>
 
-
-
-
-        <span>{{indice.question}}</span>
-        <paper-input label="this input requires some text" required auto-validate error-message="needs some text!"></paper-input>
       </div>
-      <paper-button on-click="checkResponse">Validate</paper-button>
 
+
+
+        <div>{{indice.question}}</div>
+      <div style="display:inline-block">
+        <paper-input style="display:inline-block" label="Set answer here" required auto-validate error-message="needs some text!"></paper-input>
+        <paper-button style="display:inline-block" on-click="checkResponse">Check</paper-button>
+      </div>
   </template>
 
   <script>
