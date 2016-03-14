@@ -122,11 +122,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
             <section data-route="users" tabindex="-1">
               <paper-material elevation="1">
-                <geo-location id="geo" watch-pos latitude="{{ latitude }}" longitude="{{ longitude }}"></geo-location>
+                <geo-location id="geo" watch-pos highAccuracy="true" latitude="{{ latitude }}" longitude="{{ longitude }}"></geo-location>
 
-                {{longitude}} {{latitude}}
 
-                <h1>Prototype de démonstration dans le cadre du projet ANR ReVeRIES</h1>
+                <h1>Prototype de démonstration dans le cadre du projet ANR ReVeRIES
+                position:                 {{longitude}} {{latitude}}
+
+                </h1>
               </paper-material>
             </section>
 
