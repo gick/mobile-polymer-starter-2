@@ -29,6 +29,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     </style>
     <content>
+      <geo-location id="geo" watch-pos high-accuracy latitude="{{ latitude }}" longitude="{{ longitude }}"></geo-location>
+        <h1>distance : {{distance}}</h1>
       <paper-material>
 
       </paper-material>
@@ -42,15 +44,42 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   Polymer({
 
     is: 'radar-anim',
+    ready:function(){     var loc = this.$.geo;
+      loc.fetch();
+      this.animate();
+
+    },
 
     behaviors: [
       Polymer.NeonAnimationRunnerBehavior
     ],
-      var:time={duration:300}
+      var:time={duration:300},
+
+    changeLat:function(newv,oldv){
+      this.distance=this.distancecalc();
+      this.notifyPath('distance',this.distance)
+
+    }
 
     ,
+    changeLong:function(newv,oldv){
+      this.distance=this.distancecalc();
+      this.notifyPath('distance',this.distance)
+    },
+    distancecalc:function(){
+      this.distance=distance(this.latitude,this.longitude,CERIUM_LAT,CERIUM_LONG,'K');
+      return this.distance *1000;
+    },
+
     properties:{
-      frequency:{type:Number,value:1000,notify:true,observer:"_onFreqChange"},
+      distance:{type :Number,notify:true,observer:'changeDist',
+        reflectToAttribute: true
+
+      },
+      latitude:{type:Number,notify:true,observer:'changeLat'},
+    longitude:{type:Number,notify:true,observer:'changeLong'},
+
+    frequency:{type:Number,value:1000,notify:true,observer:"_onFreqChange"},
       animationConfig: {
         value: function() {
           return {
@@ -73,18 +102,30 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
     listeners: {
-      'neon-animation-finish': '_onNeonAnimationFinish'
+      'neon-animation-finish': '_onNeonAnimationFinish',
+      'geo-response' : '_onGeoResponse'
     },
     _onFreqChange:function(newval,oldval){
       console.log("freq change" + newval)
       time.duration=newval;
 
     },
+    _onGeoResponse:function(obj){
+      console.log(obj);
+    },
+
+    changeDist:function(){
+      this.fire('radar-update',this.distance);
+    }
+    ,
     animate:function(){
+      var loc = this.$.geo;
+      loc.fetch();
       if(this.status=="hide"){this.animateShow()}else this.animateHide();
     },
 
     animateShow: function() {
+
       this.status="show";
       this.playAnimation('show');
     },

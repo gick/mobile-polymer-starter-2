@@ -64,8 +64,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <iron-ajax auto url="example.json" handle-as="json" last-response="{{items}}"></iron-ajax>
     <template    id="mainRepeat" is="dom-repeat" items="{{items}}" as="item">
       <fullscreen-api  class="fsapi"></fullscreen-api>
-      <paper-button on-click="animateRadar"> ANIMATE RADAR</paper-button>
-      <radar-anim frequency="{{freq}}"></radar-anim>
       <paper-card style="--paper-card-header:{ background-color: #a7ff97;}"class$="[[item.class ]]"   heading="[[item.activityName]]" >
       <div style="min-height:200px;height:70%" class="card-content">
         <template is="dom-if" if="{{item.started}}">
@@ -78,7 +76,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <template is="dom-if" if="[[item.indice.isGmap]]">
             <gmap-activity id="map"></gmap-activity>
           </template>
-        </div>
+           <template is="dom-if" if="[[item.indice.isRadar]]">
+             <radar-anim distance={{distance}} long=ˇ{{longitude}} frequency="{{freq}}"></radar-anim>
+           </template>
+
+
+         </div>
 
         </template>
 
@@ -116,7 +119,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         },
         ready:function(){
           this.freq=1500;
-
+          this.addEventListener('radar-update',this.distChanged);
           this.addEventListener('spActivityComplete', this.next);
           this.addEventListener('eventFromIndiceChild', this.indiceCompleted);
 
@@ -125,7 +128,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           var dialog = Polymer.dom(this.root).querySelector("mcq-activity");
           dialog.open();
         },
-
+        distChanged:function(d){
+          console.log(d);
+        },
         animateRadar:function(){
           this.freq-=100;
         Polymer.dom(this.root).querySelector("radar-anim").animate();
@@ -143,16 +148,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           var i;
           for (i in this.items){
             if(i.started==true){
-            var current=this.items.indexOf(i) +1
+            var current=this.items.indexOf(i)
             }
           }
-          this.set('items.'+current+'.class',"done")
-          this.set('items.'+current+'.completed',"true")
+          console.log(i)
+          this.notifyPath('items.'+current+'.started',"false")
+          this.notifyPath('items.'+current+'.class',"done")
+          this.notifyPath('items.'+current+'.completed',"true")
 
 
           var fsapi = Polymer.dom(this.root).querySelector(".fsapi");
           fsapi.exitFullscreen();
-          this.nextActivity("sp",i)
+        //  this.nextActivity("sp",i)
 
 
         },

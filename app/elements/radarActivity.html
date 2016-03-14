@@ -50,10 +50,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         ready:function(){     var loc = this.$.geo;
       loc.addEventListener('geo-response', function(e) {
-        this.coord=true;
-
-
-
       })},
 
         changeLat:function(newv,oldv){
@@ -66,7 +62,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           this.notifyPath('distance',this.distance)
         },
       distancecalc:function(){
-        this.distance=distance(this.latitude,this.longitude,47.16,6.74,'K');
+        this.distance=distance(this.latitude,this.longitude,CERIUM_LAT,CERIUM_LONG,'K');
         console.log('lat:' + this.latitude, 'lng:' + this.longitude);
         console.log(this.distance)*1000;
         return this.distance;
