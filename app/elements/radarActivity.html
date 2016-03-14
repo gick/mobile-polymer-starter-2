@@ -25,11 +25,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       height: 300px;
       width: 300px;
     }
-    google-map{
-      width:100%;
-      height:100%;
-    }
-
 
 
   </style>
@@ -63,11 +58,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         changeLat:function(newv,oldv){
           this.distance=this.distancecalc();
-          this.notifyPath('distance',this.distance*1000)
+          this.notifyPath('distance',this.distance)
+
         },
         changeLong:function(newv,oldv){
           this.distance=this.distancecalc();
-          this.notifyPath('distance',this.distance*1000)
+          this.notifyPath('distance',this.distance)
         },
       distancecalc:function(){
         this.distance=distance(this.latitude,this.longitude,47.16,6.74,'K');

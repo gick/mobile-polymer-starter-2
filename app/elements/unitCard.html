@@ -29,7 +29,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       --paper-card-header:{ background-color: #b2ffa6;}    }
 
 
-
+    paper-button.red {
+      background-color: var(--paper-red-500);
+      color: white;
+    }
 
 
 
@@ -37,7 +40,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
  }
 
-
+    paper-button.green {
+      background-color: var(--paper-green-500);
+      color: white;
+    }
 
     .disabled{
       opacity:0.2;
@@ -56,15 +62,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   </style>
   <template>
     <iron-ajax auto url="example.json" handle-as="json" last-response="{{items}}"></iron-ajax>
-    <radar-activity></radar-activity>
     <template    id="mainRepeat" is="dom-repeat" items="{{items}}" as="item">
       <fullscreen-api  class="fsapi"></fullscreen-api>
-
-      <button type="button" on-click="goFullscreen" hidden$="[[!fullscreenAvailable]]">Display this page in full screen mode</button>
-
+      <paper-button on-click="animateRadar"> ANIMATE RADAR</paper-button>
+      <radar-anim frequency="{{freq}}"></radar-anim>
       <paper-card style="--paper-card-header:{ background-color: #a7ff97;}"class$="[[item.class ]]"   heading="[[item.activityName]]" >
       <div style="min-height:200px;height:70%" class="card-content">
         <template is="dom-if" if="{{item.started}}">
+         <div hidden$="[[item.completed]]">
           <mcq-activity   mcq="{{item.mcq}}" id="mcq"></mcq-activity>
 
           <template is="dom-if" if="[[item.indice.isBasic]]">
@@ -73,16 +78,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <template is="dom-if" if="[[item.indice.isGmap]]">
             <gmap-activity id="map"></gmap-activity>
           </template>
+        </div>
 
         </template>
-      </div>
-      <div class="card-actions" style="position: absolute;width: 100%;bottom: 10px;">
 
         <template is="dom-if" if="{{item.completed}}">
           You learn this today
         </template>
-        <paper-button id="Start" on-click="start">OK</paper-button>
-        <paper-button on-click="nextActivity" id="cancel" >Dismiss</paper-button>
+
+      </div>
+
+        <div hidden$="[[item.completed]]" class="card-actions" style="position: absolute;width: 100%;bottom: 10px;">
+
+        <paper-button id="Start" raised class="green" on-click="start">Start</paper-button>
+        <paper-button on-click="nextActivity" class="red" raised id="cancel" >Dismiss</paper-button>
+        <paper-button type="button" style="float:right;margin-right: 30px;" on-click="goFullscreen" hidden$="[[!fullscreenAvailable]]">Show full screen</paper-button>
+
+
       </div>
     </paper-card>
   </template>
@@ -103,6 +115,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         },
         ready:function(){
+          this.freq=1500;
+
           this.addEventListener('spActivityComplete', this.next);
           this.addEventListener('eventFromIndiceChild', this.indiceCompleted);
 
@@ -111,6 +125,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           var dialog = Polymer.dom(this.root).querySelector("mcq-activity");
           dialog.open();
         },
+
+        animateRadar:function(){
+          this.freq-=100;
+        Polymer.dom(this.root).querySelector("radar-anim").animate();
+      }
+        ,
         goFullscreen:function(e) {
          var index =e.model.index+1;
           var fsapi = Polymer.dom(this.root).querySelector(".fsapi");
@@ -120,14 +140,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         ,
         next:function(item){
+          var i;
           for (i in this.items){
             if(i.started==true){
-              var current=this.items.indexOf(i);
+            var current=this.items.indexOf(i) +1
             }
           }
+          this.set('items.'+current+'.class',"done")
+          this.set('items.'+current+'.completed',"true")
+
 
           var fsapi = Polymer.dom(this.root).querySelector(".fsapi");
           fsapi.exitFullscreen();
+          this.nextActivity("sp",i)
 
 
         },
@@ -136,31 +161,43 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           if(item.current) return "";
           else return "disabled"
         },
-
+        showItem:function(a,b){
+          console.log(a)
+          console.log(b)
+          console.log(a && b)
+          return a && b;
+        },
         myAction:function(e,f){
           console.log(e.detail)
           console.log(f)
           alert('mcqcomplete')
         },
         start:function(e){
+          console.log(e);
         var model= e.model;
+
+
         //  this.items[e.model.index].started=!this.items[e.model.index].started;
           model.set('item.started',!this.items[e.model.index].started);
-          console.log(e.model);
 
 
         },
 
         nextActivity:function(e){
-          var model= e.model
-          var index= e.model.index+1;
-          console.log(index)
-          var str='items.'+index+'.class'
-          this.set(str,'current');
-          model.set('item.completed',"true");
-          model.set('item.class',"done");
+            var model= e.model
+            var index= e.model.index+1;
+            var str='items.'+index+1+'.class'
+          /*  this.items[index].class='current'
+            this.items[index -1].class='done'
 
-          console.log(this.items)
+            this.notifyPath("items."+index+".class",this.items[index].class);
+            this.notifyPath("items."+index-1+".class",this.items[index-1].class);
+*/      console.log(model)
+        model.set("item.class","done")
+        model.set("item.completed",true)
+          this.set('items.'+index+'.class',"current")
+          this.notifyPath(items[index],"current");
+          console.log(this.set.items)
         }
         ,
 

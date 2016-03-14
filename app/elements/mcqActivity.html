@@ -69,8 +69,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           console.log(e);
           var selected=this.$.paper.selectedItem;
          var value=selected.querySelector('#radioLabel').innerText;
-          if(selected==this.properties.mcq.resp.correct){
-            this.fire('spActivityComplete', {complete:this.properties.mcqComplete.value});
+
+
+          if(value==this.properties.mcq.resp.correct){
+            alert("correct")
+            this.fire('spActivityComplete', {"mcqComplete":"true"});
           }
 
 
