@@ -8,9 +8,6 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 
-<link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../bower_components/paper-styles/typography.html">
-
 <dom-module id="mcq-activity">
   <style>
     paper-dialog {
@@ -25,7 +22,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       <paper-dialog modal id="dialog" entry-animation="scale-up-animation"
                     exit-animation="fade-out-animation">
-        <h2>{{mcq.question}}</h2>
+        <div>{{mcq.question}}</div>
         <paper-radio-group id="paper">
           <paper-radio-button name="a">{{mcq.resp.resp1}}</paper-radio-button>
           <paper-radio-button name="b">{{mcq.resp.resp2}}</paper-radio-button>

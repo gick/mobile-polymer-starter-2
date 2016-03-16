@@ -11,8 +11,9 @@
     "google-map": "GoogleWebComponents/google-map#^1.1.10",
     "geo-location": "ebidel/geo-location#^1.0.3",
     "fullscreen-api": "vguillou/fullscreen-api",
-    "html5-qrcode":"dwa012/html5-qrcode",
-    "jquery": "jquery/jquery"
+    "html5-qrcode": "dwa012/html5-qrcode",
+    "jquery": "jquery/jquery",
+    "video-camera-element": "^0.1.3"
   },
   "devDependencies": {
     "web-component-tester": "^4.0.0"

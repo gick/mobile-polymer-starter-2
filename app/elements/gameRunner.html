@@ -1,0 +1,129 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<dom-module id="game-runner">
+  <style>
+
+    paper-card {
+
+      --paper-card-header:{ background-color: #b2ffa6;}    }
+
+    paper-button.green {
+      background-color: var(--paper-green-500);
+      color: white;
+    }
+
+  </style>
+  <template>
+  <h1>ReveRIES Game Runner</h1>
+  <geo-location watchPos ></geo-location>
+    Accuracy of your position : {{accuracy}}
+    <div class="horizontal-section-container">
+      <div>
+        <div class="vertical-section">
+          <div><p>Choose a json scenario to get started or upload
+            new scenario in the scenario manager<</p>
+          <p>Please check your device compativility before
+          starting.
+          </p></div>
+          <paper-card style="--paper-card-header:{ background-color: #a7ff97;}"   heading="Standard scénario" >
+            <div class="card-actions">
+              <paper-button id="Start" raised class="green" on-click="startScenario">Start</paper-button>
+            </div>
+          </paper-card>
+          <paper-card  style="--paper-card-header:{ background-color: #a7ff97;}; margin-left:30px"   heading="Advanced scénario" > <div class="card-actions">
+            <paper-button id="Start" raised class="green" on-click="startScenario">Start</paper-button>
+          </div>
+          </paper-card>
+        </div>
+
+    </div>
+    </div>
+
+    <iron-ajax  id="ajaxLoader" url="example.json" handle-as="json" last-response="{{items}}"></iron-ajax>
+    <template id="mainRepeat" is="dom-repeat" items="{{items}}" as="item">
+    <unit-card item="{{item}}"></unit-card>
+    </template>
+</template>
+
+  <script>
+    (function() {
+      'use strict';
+      Polymer({
+        behaviors: [
+          Polymer.NeonAnimationRunnerBehavior
+
+        ],
+        is: 'game-runner',
+        isComplete:function(){
+          return true;
+        },
+        ready:function(){
+          this.addEventListener('itemDismissed',this.itemDismissed);
+          this.addEventListener('itemCompleted',this.itemDismissed);
+          this.addEventListener('geo-response',this.handleGeo);
+
+        },
+        handleGeo:function(eb){
+         console.log(eb.detail.position.coords.accuracy)
+          this.accuracy=eb.detail.position.coords.accuracy;
+        },
+        startScenario:function(){
+          this.$.ajaxLoader.generateRequest();
+        },
+        itemCompleted1:function(ev){
+          console.log("item completed")
+
+        }
+
+
+        ,
+        itemDismissed:function(ev){
+
+          ev.detail.disable();
+          var index= parseInt(ev.detail.item.index)
+
+          if(true){
+            Polymer.dom(this.root).querySelectorAll('unit-card')[index+1].enable();
+          }
+        },
+
+        disableItem:function(index){
+          index.disable();
+        }
+
+      ,
+        start:function(){
+
+
+
+
+        },
+        animate: function() {
+          console.log("animate")
+          // run scale-down-animation
+          this.playAnimation();
+        },
+        properties: {
+          completed:{type:Boolean,value:false},
+          animationConfig: {
+            type: Object,
+            value: function() {
+              return {
+                name: 'scale-down-animation',
+                node: this
+              }
+            }
+          }}
+
+      });
+    })();
+  </script>
+</dom-module>

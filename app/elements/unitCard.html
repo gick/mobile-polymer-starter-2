@@ -8,9 +8,6 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 
-<link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../bower_components/paper-styles/typography.html">
-
 <dom-module id="unit-card">
   <style>
 
@@ -61,8 +58,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   </style>
   <template>
-    <iron-ajax auto url="example.json" handle-as="json" last-response="{{items}}"></iron-ajax>
-    <template    id="mainRepeat" is="dom-repeat" items="{{items}}" as="item">
       <fullscreen-api  class="fsapi"></fullscreen-api>
       <paper-card style="--paper-card-header:{ background-color: #a7ff97;}"class$="[[item.class ]]"   heading="[[item.activityName]]" >
       <div style="min-height:200px;height:70%" class="card-content">
@@ -95,7 +90,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         <paper-button id="Start" raised class="green" on-click="start">Start</paper-button>
         <paper-button on-click="nextActivity" class="red" raised id="cancel" >Dismiss</paper-button>
-        <paper-button type="button" style="float:right;margin-right: 30px;" on-click="goFullscreen" hidden$="[[!fullscreenAvailable]]">Show full screen</paper-button>
+          <paper-button on-click="next" class="red" raised id="cancel" >Test next</paper-button>
+
+
+          <paper-button type="button" style="float:right;margin-right: 30px;" on-click="goFullscreen" hidden$="[[!fullscreenAvailable]]">Show full screen</paper-button>
 
 
       </div>
@@ -117,12 +115,35 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
         },
+        enable:function(){
+          this.notifyPath("item.class","current")
+        },
+
+        disable:function(){
+          this.notifyPath("item.class","done")
+          this.notifyPath("item.completed",true)
+
+        },
+
+
         ready:function(){
+          console.log(this.item);
           this.freq=1500;
           this.addEventListener('radar-update',this.distChanged);
-          this.addEventListener('spActivityComplete', this.next);
+          this.addEventListener('spActivityComplete', this.spCompleted);
           this.addEventListener('eventFromIndiceChild', this.indiceCompleted);
+          this.addEventListener('gmap_finished', this.indiceCompleted);
 
+        },
+
+        gmapFinished:function(ev){
+          console.log("got fired event")
+          console.log(ev)
+        },
+        spCompleted:function(e){
+          console.log(e);
+          console.log(this);
+          this.fire('itemCompleted',this);
         },
         indiceCompleted:function(e){
           var dialog = Polymer.dom(this.root).querySelector("mcq-activity");
@@ -145,29 +166,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         ,
         next:function(item){
-          var i;
-          for (i in this.items){
-            if(i.started==true){
-            var current=this.items.indexOf(i)
-            }
-          }
-          console.log(i)
-          this.notifyPath('items.'+current+'.started',"false")
-          this.notifyPath('items.'+current+'.class',"done")
-          this.notifyPath('items.'+current+'.completed',"true")
-
-
-          var fsapi = Polymer.dom(this.root).querySelector(".fsapi");
-          fsapi.exitFullscreen();
-        //  this.nextActivity("sp",i)
+          this.fire('itemDismissed',this);        //  this.nextActivity("sp",i)
 
 
         },
-        computeClass:function(item){
-          console.log(item)
-          if(item.current) return "";
-          else return "disabled"
-        },
+
+
+
+
         showItem:function(a,b){
           console.log(a)
           console.log(b)
@@ -180,14 +186,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           alert('mcqcomplete')
         },
         start:function(e){
-          console.log(e);
         var model= e.model;
-
-
-        //  this.items[e.model.index].started=!this.items[e.model.index].started;
-          model.set('item.started',!this.items[e.model.index].started);
-
-
+        this.item.started=!this.item.started;
+        this.notifyPath('item.started',this.item.started);
         },
 
         nextActivity:function(e){
@@ -207,9 +208,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           console.log(this.set.items)
         }
         ,
-
+        getCurrentItem:function(){
+          console.log(this.items)
+          console.log(this.items.length)
+          for(var i=0;i<this.items.length;i++){
+            console.log(this.items[i])
+            if(this.items[i].started==true)
+              return i;
+          }
+          return -1;
+        },
         properties: {
-          items:{type : Array, notify:true}
+          item:{type : Object, notify:true}
         }
       });
     })();

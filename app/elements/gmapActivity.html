@@ -8,27 +8,14 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 
-<link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../bower_components/paper-styles/typography.html">
-
 <dom-module id="gmap-activity">
   <style>
     :host {
-      display: inline-block;
 
         }
 
-paper-material {
-  width: 100%;
-  height: 90%;
-  margin: 0 auto;
-  margin-top: 90px;
-  margin-bottom: 90px;
-  display: block;
-}
     google-map{
-      width:500px;
-      height:500px;
+      height:200px;
       margin:0 auto;
     }
 
@@ -38,14 +25,13 @@ paper-material {
   <template>
 
 
-    <paper-material >
       <geo-location watch-pos latitude="{{ latitude }}" longitude="{{ longitude }}"></geo-location>
-      <google-map latitude="48.0852" longitude="-0.755469">
+      <google-map zoom="15" block latitude="48.0852" longitude="-0.755469">
         <google-map-marker latitude="[[ latitude ]]" longitude="[[longitude]]">You</google-map-marker>
-        <google-map-marker latitude="46.57" longitude="-0.755469">Destination</google-map-marker>
+        <google-map-marker latitude="48.09" longitude="-0.755469">Destination</google-map-marker>
+        <paper-button on-click="gmapFinished">OK I am here</paper-button>
 
       </google-map>
-    </paper-material>
   </template>
   <script>
     (function() {
@@ -60,6 +46,12 @@ paper-material {
         isComplete:function(){
           return true;
         },
+
+        gmapFinished:function(){
+          console.log('firing event')
+          this.fire('gmap_finished',this)
+        }
+        ,
         start:function(){
 
 

@@ -8,8 +8,6 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 
-<link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../bower_components/paper-styles/typography.html">
 
 <dom-module id="basic-indice">
   <style>
@@ -40,7 +38,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <div>{{indice.question}}</div>
       <div style="display:inline-block">
         <paper-input style="display:inline-block" label="Set answer here" required auto-validate error-message="needs some text!"></paper-input>
-        <paper-button style="display:inline-block" on-click="checkResponse">Check</paper-button>
+        <paper-button raised  style="display:inline-block" on-click="checkResponse">Valider</paper-button>
       </div>
   </template>
 
