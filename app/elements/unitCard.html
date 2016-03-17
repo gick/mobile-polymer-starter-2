@@ -63,7 +63,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <div style="min-height:200px;height:70%" class="card-content">
         <template is="dom-if" if="{{item.started}}">
          <div hidden$="[[item.completed]]">
-          <mcq-activity   mcq="{{item.mcq}}" id="mcq"></mcq-activity>
 
           <template is="dom-if" if="[[item.indice.isBasic]]">
             <basic-indice indice="[[item.indice]]"></basic-indice>
@@ -74,7 +73,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
            <template is="dom-if" if="[[item.indice.isRadar]]">
              <radar-anim distance={{distance}} long=ˇ{{longitude}} frequency="{{freq}}"></radar-anim>
            </template>
-
+           <template is="dom-if" if="[[item.indice.completed]]">
+           <mcq-activity   mcq="{{item.mcq}}" id="mcq"></mcq-activity>
+           </template>
 
          </div>
 
@@ -82,6 +83,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         <template is="dom-if" if="{{item.completed}}">
           You learn this today
+          <!-- TO DO : include feedback -->
         </template>
 
       </div>
@@ -89,13 +91,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <div hidden$="[[item.completed]]" class="card-actions" style="position: absolute;width: 100%;bottom: 10px;">
 
         <paper-button id="Start" raised class="green" on-click="start">Start</paper-button>
-        <paper-button on-click="nextActivity" class="red" raised id="cancel" >Dismiss</paper-button>
-          <paper-button on-click="next" class="red" raised id="cancel" >Test next</paper-button>
-
-
+          <paper-button on-click="next" class="red" raised id="cancel" >Dissmiss</paper-button>
           <paper-button type="button" style="float:right;margin-right: 30px;" on-click="goFullscreen" hidden$="[[!fullscreenAvailable]]">Show full screen</paper-button>
-
-
       </div>
     </paper-card>
   </template>
@@ -114,6 +111,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
 
+        },
+        behaviors: [
+          Polymer.IronResizableBehavior
+        ],
+        addItem:function(){
+          var a =document.querySelector('user-inventory');
+          a.addItem('voula un beab cado');
         },
         enable:function(){
           this.notifyPath("item.class","current")
@@ -146,8 +150,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           this.fire('itemCompleted',this);
         },
         indiceCompleted:function(e){
-          var dialog = Polymer.dom(this.root).querySelector("mcq-activity");
-          dialog.open();
+          this.item.indice.completed=true;
+          this.notifyPath('item.indice.completed',true);
         },
         distChanged:function(d){
           console.log(d);

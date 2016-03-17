@@ -87,6 +87,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <span>Info</span>
           </a>
 
+          <a data-route="inventory" href="{{baseUrl}}inventory">
+            <iron-icon icon="maps:local-mall"></iron-icon>
+            <span>Inventaire</span>
+          </a>
+
+
+          <a data-route="configuration" href="{{baseUrl}}configuration">
+            <iron-icon icon="settings"></iron-icon>
+            <span>Config</span>
+          </a>
+
+
           <a data-route="contact" href="{{baseUrl}}contact">
             <iron-icon icon="mail"></iron-icon>
             <span>Contact</span>
@@ -134,7 +146,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 </h1>
               </paper-material>
             </section>
-
+            <section data-route="inventory" tabindex="-1">
+              <paper-material elevation="1">
+              <user-inventory></user-inventory>
+              </paper-material>
+            </section>
+            <section data-route="configuration" tabindex="-1">
+              <paper-material elevation="1">
+                <html5-camera></html5-camera>
+              </paper-material>
+            </section>
 
             <section data-route="contact" tabindex="-1">
               <paper-material elevation="1">

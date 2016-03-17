@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <script type="text/javascript" src="js/script.js"></script>
+  <title></title>
+</head>
+<body>
+<video id="MediaStreamVideo" autoplay=""></video>
+</body>
+</html>
+<script>
+
+  var stream;
+  var video = document.getElementById('MediaStreamVideo');
+  navigator.webkitGetUserMedia(
+    {video: true, audio: true}, // Options
+    function(localMediaStream) { // Success
+      stream = localMediaStream;
+      video.src = window.webkitURL.createObjectURL(stream);
+    },
+    function(err) { // Failure
+      alert('getUserMedia failed: Code ' + err.code);
+    }
+  );
+
+</script>

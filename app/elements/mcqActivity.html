@@ -20,8 +20,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   </style>
   <template>
 
-      <paper-dialog modal id="dialog" entry-animation="scale-up-animation"
-                    exit-animation="fade-out-animation">
+
         <div>{{mcq.question}}</div>
         <paper-radio-group id="paper">
           <paper-radio-button name="a">{{mcq.resp.resp1}}</paper-radio-button>
@@ -35,7 +34,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <paper-button on-click="toggle"dialog-confirm autofocus>Accept</paper-button>
         </div>
 
-      </paper-dialog>
 
 
 
@@ -47,7 +45,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       Polymer({
         is: 'mcq-activity',
         open:function(){
-          this.$.dialog.open();
         },
         ready:function(){
 
