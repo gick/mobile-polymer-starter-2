@@ -68,7 +68,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         },
         compute:function(item){
-          return JSON.stringify(item);
+          var result="";
+          for (var p in item){
+            result=result+ p.toString() + ":" + item[p].toString();
+          };
+          return result;
         },
 
 
