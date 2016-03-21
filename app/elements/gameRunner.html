@@ -23,8 +23,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   </style>
   <template>
   <h1>ReveRIES Game Runner</h1>
-  <geo-location id="geo"  watch-pos latitude="{{lat}}"></geo-location>
-    Accuracy of your position : {{accuracy}}  your latitude : {{lat}}
     <div class="horizontal-section-container">
       <div>
         <div class="vertical-section">
@@ -68,14 +66,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         ready:function(){
           this.addEventListener('itemDismissed',this.itemDismissed);
           this.addEventListener('itemCompleted',this.itemDismissed);
-          this.addEventListener('geo-response',this.handleGeo);
-          this.$.geo.fetch();
-
-        },
-        handleGeo:function(eb){
-         console.log(eb.detail.position.coords.accuracy)
-          this.accuracy=eb.detail.position.coords.accuracy;
-          this.latitude=eb.detail.position.latitude;
         },
         startScenario:function(){
           this.$.ajaxLoader.generateRequest();
