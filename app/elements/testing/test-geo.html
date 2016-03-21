@@ -18,8 +18,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   </style>
   <template>
-    <geo-test watch-pos latitude="{{lat}}"></geo-test>
-    Latitude :{{lat}}
+    <geo-test watch-pos high-accuracy longitude={{long}}  accuracy = {{acc}} latitude="{{latitude}}"></geo-test>
+    Latitude :{{latitude}} Lomgitude:{{long}} Accuracy:{{acc}}
   </template>
 
   <script>
@@ -35,9 +35,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           this.notifyPath('items',this.items);
         },
         ready :function() {
-          this.items=[];
+          this.addEventListener('geo-response',this.handleResp.bind(this));
 
         },
+        handleResp:function(ev){
+          alert('geoResp')
+        },
+
 
         _arrayobs:function(oldval,newval){
           console.log(oldval)

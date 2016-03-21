@@ -101,7 +101,7 @@ Provides the current location using the [Geolocation API](https://developer.mozi
          */
         maximumAge: {
           type: Number,
-          value: 0
+          value: 1000
         },
 
         /**
@@ -109,7 +109,7 @@ Provides the current location using the [Geolocation API](https://developer.mozi
          */
         timeout: {
           type: Number,
-          value: 50
+          value: 500
         },
 
         /**
@@ -143,7 +143,6 @@ Provides the current location using the [Geolocation API](https://developer.mozi
 
       ready: function() {
         this.fetch();
-        alert('ok')
       },
 
       clear: function () {
@@ -178,15 +177,15 @@ Provides the current location using the [Geolocation API](https://developer.mozi
         var success = this._onPosition.bind(this);
         var error = this._onError.bind(this);
         var options = {
-          enableHighAccuracy: this.highAccuracy,
-          timeout: this.timeout,
-          maximumAge: this.maximumAge
+          timeout: 2000,
+          maximumAge: 3000
         };
 
         if (this.watchPos) {
           watch_ = navigator.geolocation.watchPosition(success, error, options);
         }
         else {
+          alert('non watch pos')
           navigator.geolocation.getCurrentPosition(success, error, options);
         }
       },
@@ -198,7 +197,7 @@ Provides the current location using the [Geolocation API](https://developer.mozi
        */
       _onPosition: function(pos) {
         fetching_ = false;
-        console.log('ok')
+        console.log('get position')
         this._setPosition(pos);
         this._setLatitude(pos.coords.latitude);
         this._setLongitude(pos.coords.longitude);
