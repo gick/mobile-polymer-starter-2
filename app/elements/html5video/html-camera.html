@@ -25,8 +25,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <paper-material>
 
   <template is="dom-repeat" items={{deviceArray}} as="item">
-        <paper-item>device id :{{compute(item)}}</paper-item>
-  </template>
+    <paper-material>
+        {{getkeysValue(item)}}
+    </paper-material>
+          </template>
+    <br>
+
   </paper-material>
 </template>
 
@@ -53,6 +57,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               alert('getUserMedia failed: Code ' + err.code);
             }
           );*/
+
+          //TODO TRY CATCH
           navigator.mediaDevices.enumerateDevices()
             .then(function(devices) {
               console.log(devices.length)
@@ -67,14 +73,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
         },
-        compute:function(item){
-          var result="";
-          for (var p in item){
-            result=result+ p.toString() + ":" + item[p].toString();
-          };
-          return result;
-        },
 
+        getkeysValue:function(item){
+          var result=""
+          for(var i in item){
+            result=result+ " " + i.toString() + " : "  +item[i].toString() }
+          console.log(result);
+          return result
+        },
+        computeKey:function(key){console.log(key)},
 
         properties: {
           num:{type:Number,notify:true},
