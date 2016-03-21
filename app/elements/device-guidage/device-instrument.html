@@ -15,7 +15,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <dom-module id="device-instrument">
   <template>
     <device-guidage alpha="{{alpha}}"></device-guidage>
-    <div>alpha = {{alpha}}</div>
+    <div>alpha = {{alpha}}</div> <button on-click="checkLoc"> get loca</button>
     <device-compass angle="{{alpha}}"></device-compass>
   </template>
   <script>
@@ -27,6 +27,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         ready :function() {
 
         },
+        checkLoc:function(){
+          navigator.geolocation.getCurrentPosition(this.showLocation, this.showError, {enableHighAccuracy:false,timeout:30000,maximumAge:600000});
+        },
+        showLocation:function(event){
+          alert(event)
+        },
+        showError:function(){},
 
       });
     })();
