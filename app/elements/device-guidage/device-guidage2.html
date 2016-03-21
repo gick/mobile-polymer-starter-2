@@ -9,33 +9,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<dom-module id="device-guidage">
+
+<dom-module id="device-help">
 
   <script>
     (function() {
       'use strict';
 
       Polymer({
-        is: 'device-guidage',
+        is: 'device-help',
         ready :function() {
+          this.notifyPath('alpha',"100");
+          this.notifyPath('beta',"100");
+          this.notifyPath('gamma',"100");
 
-          var self=this;
-          if (window.DeviceOrientationEvent)
-            window.addEventListener('deviceorientation', this.handleOrientation.bind(this), false);
-          },
-
-        handleOrientation:function(ev){
-            console.log(ev);
-            this._setAlpha(ev.alpha);
-            this._setBeta(ev.beta);
-            this._setGamma(ev.gamma)
-             this.fire('device-orientationchange', {
-            alpha: this.alpha,
-            beta: this.beta,
-          });
 
         },
-
         properties: {
 
           idle: {
@@ -43,26 +32,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             value: false,
           },
           alpha: {
-            type: Number,
+            type: String,
             notify: true,
-            readOnly:true,
-
+            bindToAttribute:true,
             reflectToAttribute: true,
-            value: 0
+            value: "100"
           },
           beta: {
-            type: Number,
+            type: String,
             notify: true,
-            readOnly:true,
-
+            bindToAttribute:true,
             reflectToAttribute: true,
-            value: 0
+            value: "100"
           },
-          gamma :{type: Number,
+          gamma :{type: String,
             notify: true,
-            readOnly:true,
+            bindToAttribute:true,
             reflectToAttribute: true,
-            value: 0
+            value: "100"
           },
 
 
