@@ -46,7 +46,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         ready :function() {
           var stream;
           this.num=0;
-          var video = this.$.MediaStreamVideo;
          /* navigator.webkitGetUserMedia(
             {video: true, audio: true}, // Options
             function(localMediaStream) { // Success
@@ -59,18 +58,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           );*/
 
           //TODO TRY CATCH
+        try {
           navigator.mediaDevices.enumerateDevices()
-            .then(function(devices) {
+            .then(function (devices) {
               console.log(devices.length)
-              for(var i =0;i<devices.length;i++){
-                this.push('deviceArray',devices[i]);
+              for (var i = 0; i < devices.length; i++) {
+                this.push('deviceArray', devices[i]);
               }
               console.log(this.deviceArray);
             }.bind(this))
-            .catch(function(err) {
+            .catch(function (err) {
               console.log(err.name + ": " + err.message);
             });
-
+        } catch(ex){}
 
         },
 
