@@ -75,6 +75,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         handleGeo:function(eb){
          console.log(eb.detail.position.coords.accuracy)
           this.accuracy=eb.detail.position.coords.accuracy;
+          this.latitude=eb.detail.position.latitude;
         },
         startScenario:function(){
           this.$.ajaxLoader.generateRequest();
