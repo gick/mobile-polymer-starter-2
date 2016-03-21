@@ -1,7 +1,6 @@
 <!-- Copyright Eric Bidelman <ebidel@gmail.com> -->
 
-<link rel="import" href="../polymer/polymer.html">
-
+<link rel="import" href="../../bower_components/polymer/polymer.html">
 <!-- TODO: decide if we need to cache results across instances. -->
 
 <!--
@@ -32,6 +31,8 @@ Provides the current location using the [Geolocation API](https://developer.mozi
 
 @demo
 -->
+<dom-module id="geo-test">
+
 <script>
   (function() {
     var watch_ = null;
@@ -39,7 +40,7 @@ Provides the current location using the [Geolocation API](https://developer.mozi
 
     Polymer({
 
-      is: 'geo-location',
+      is: 'geo-test',
 
       hostAttributes: {
         hidden: true
@@ -100,7 +101,7 @@ Provides the current location using the [Geolocation API](https://developer.mozi
          */
         maximumAge: {
           type: Number,
-          value: 1000
+          value: 0
         },
 
         /**
@@ -108,7 +109,7 @@ Provides the current location using the [Geolocation API](https://developer.mozi
          */
         timeout: {
           type: Number,
-          value: 500
+          value: 50
         },
 
         /**
@@ -122,7 +123,7 @@ Provides the current location using the [Geolocation API](https://developer.mozi
         }
 
       },
-     /**
+      /**
        * Fired when the Geolocation API returns an error.
        *
        * @event geo-error
@@ -142,6 +143,7 @@ Provides the current location using the [Geolocation API](https://developer.mozi
 
       ready: function() {
         this.fetch();
+        alert('ok')
       },
 
       clear: function () {
@@ -153,13 +155,23 @@ Provides the current location using the [Geolocation API](https://developer.mozi
       fetch: function () {
         // Guard clause in case observer runs before element is ready. Refer to Polymer issue #3438
         // https://github.com/Polymer/polymer/issues/3438
-
+        if (this.idle === undefined || this.watchPos === undefined) {
+          return;
+          alert('test');
+        }
+        console.log('fetx')
+        if (fetching_) {
+          return;
+        }
 
         if (watch_) {
           navigator.geolocation.clearWatch(watch_);
           watch_ = null;
         }
 
+        if (this.idle) {
+          return;
+        }
 
         fetching_ = true;
 
@@ -186,7 +198,7 @@ Provides the current location using the [Geolocation API](https://developer.mozi
        */
       _onPosition: function(pos) {
         fetching_ = false;
-
+        console.log('ok')
         this._setPosition(pos);
         this._setLatitude(pos.coords.latitude);
         this._setLongitude(pos.coords.longitude);
@@ -214,3 +226,4 @@ Provides the current location using the [Geolocation API](https://developer.mozi
     });
   })();
 </script>
+</dom-module>

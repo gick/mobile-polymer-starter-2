@@ -9,30 +9,43 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="device-compass.html">
-<link rel="import" href="device-guidage.html">
-<link rel="import" href="../distance-elem.html">
+<link rel="import" href="geo-test.html">
 
-<dom-module id="device-instrument">
+<dom-module id="test-geo">
+  <style>
+
+
+
+  </style>
   <template>
-    <device-guidage alpha="{{alpha}}"></device-guidage>
-    <device-compass angle="{{alpha}}"></device-compass>
-    <h1>{{dist}}</h1>
+    <geo-test watch-pos latitude="{{lat}}"></geo-test>
+    Latitude :{{lat}}
   </template>
+
   <script>
     (function() {
       'use strict';
 
       Polymer({
-        is: 'device-instrument',
+        is: 'test-geo',
+        addItem:function(newIt){
+          this.push("items",{'text': newIt});
+
+          this.set('items',this.items);
+          this.notifyPath('items',this.items);
+        },
         ready :function() {
+          this.items=[];
 
         },
-        showLocation:function(event){
-          alert(event)
-        },
-        showError:function(){},
 
+        _arrayobs:function(oldval,newval){
+          console.log(oldval)
+        },
+
+        properties: {
+          items:{type:Array,notify:true,value:[],observer:'_arrayobs'}
+        }
       });
     })();
   </script>
