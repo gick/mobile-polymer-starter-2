@@ -18,8 +18,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   </style>
   <template>
-    <geo-test  high-accuracy watch-pos longitude={{long}}  accuracy = {{acc}} latitude="{{latitude}}"></geo-test>
+    <button on-click="fetch">FETCH</button>
+
+    <geo-test id="geo" high-accuracy watch-pos longitude={{long}}  accuracy = {{acc}} latitude="{{latitude}}"></geo-test>
     Latitude :{{latitude}} Lomgitude:{{long}} Accuracy:{{acc}}
+    NewLat {{newlat}}
+    EventLoc {{eventloc}}
   </template>
 
   <script>
@@ -29,16 +33,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       Polymer({
         is: 'test-geo',
         ready :function() {
+          this.addEventListener('geo-response',this.handle.bind(this));
+        },
+        fetch:function(){
+          this.$.geo.fetch();
+        },
+        handle:function(event){
+          this.newLat=event.detail.latitude;
+          this.set('newlat',this.newlat)
+
+
 
         },
-
 
         _arrayobs:function(oldval,newval){
           console.log(oldval)
         },
 
         properties: {
-          items:{type:Array,notify:true,value:[],observer:'_arrayobs'}
+          items:{type:Array,notify:true,value:[],observer:'_arrayobs'},
+          newlat:{type:Number,notify:true},
+          eventloc:{type:Number,value:0,notify:true},
+
         }
       });
     })();
