@@ -18,7 +18,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   </style>
   <template>
-    <geo-test watch-pos high-accuracy longitude={{long}}  accuracy = {{acc}} latitude="{{latitude}}"></geo-test>
+    <geo-test  high-accuracy longitude={{long}}  accuracy = {{acc}} latitude="{{latitude}}"></geo-test>
     Latitude :{{latitude}} Lomgitude:{{long}} Accuracy:{{acc}}
   </template>
 
@@ -35,7 +35,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           this.notifyPath('items',this.items);
         },
         ready :function() {
-          this.addEventListener('geo-response',this.handleResp.bind(this));
 
         },
 
