@@ -167,8 +167,8 @@ Provides the current location using the [Geolocation API](https://developer.mozi
         var error = this._onError.bind(this);
         var options = {
           enableHighAccuracy: this.highAccuracy,
-          timeout: this.timeout,
-          maximumAge: this.maximumAge
+          timeout: 10000,
+          maximumAge: 1000
         };
 
         if (this.watchPos) {
