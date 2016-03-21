@@ -182,11 +182,11 @@ Provides the current location using the [Geolocation API](https://developer.mozi
         };
 
         if (this.watchPos) {
-          watch_ = navigator.geolocation.watchPosition(success, error, options);
+          watch_ = navigator.geolocation.watchPosition(success);
         }
         else {
           alert('non watch pos')
-          navigator.geolocation.getCurrentPosition(success, error, options);
+          navigator.geolocation.getCurrentPosition(success);
         }
       },
 
