@@ -12,7 +12,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <style>
 
     paper-card {
-
+      display:inline-block;
+      max-width:300px;
+      margin-bottom: 90px;
       --paper-card-header:{ background-color: #b2ffa6;}    }
 
     paper-button.green {
@@ -36,7 +38,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               <paper-button id="Start" raised class="green" on-click="startScenario">Start</paper-button>
             </div>
           </paper-card>
-          <paper-card  style="--paper-card-header:{ background-color: #a7ff97;}; margin-left:30px"   heading="Advanced scénario" > <div class="card-actions">
+          <paper-card  style="--paper-card-header:{ background-color: #a7ff97;}; "   heading="Advanced scénario" > <div class="card-actions">
             <paper-button id="Start" raised class="green" on-click="startScenario">Start</paper-button>
           </div>
           </paper-card>

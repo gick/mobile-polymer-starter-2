@@ -22,16 +22,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   </style>
 <template>
-  <paper-material>
+  <input type="file" accept="image/*" capture="camera">
+  <input type="file" accept="video/*" capture="camcorder">
+  <input type="file" accept="audio/*" capture="microphone">
 
-  <template is="dom-repeat" items={{deviceArray}} as="item">
+  <template is="dom-repeat" items={{deviceArray}} as="item" filter="isVideoInput">
     <paper-material>
-        {{getkeysValue(item)}}
+       {{item.label}}
     </paper-material>
-          </template>
-    <br>
+  </template>
 
-  </paper-material>
+
+
+  <template is="dom-repeat" items={{deviceArray}} as="item" filter="isAudioInput">
+    <paper-material>
+      {{item.label}}
+    </paper-material>
+  </template>
+
 </template>
 
   <script>
@@ -43,6 +51,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         deviceObserver:function(newval,oldval){
           console.log(newval);
         },
+        isVideoInput:function(item){
+          if(item.kind=="videoinput") return true;
+        }
+        ,
+        isAudioInput:function(item){
+          if(item.kind=="audioinput") return true;
+        }
+
+        ,
         ready :function() {
           var stream;
           this.num=0;
