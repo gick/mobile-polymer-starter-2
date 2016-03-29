@@ -89,7 +89,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </a>
 
           <a data-route="inventory" href="{{baseUrl}}inventory">
-            <qr-reader></qr-reader>
             <iron-icon icon="maps:local-mall"></iron-icon>
             <span>Inventaire</span>
           </a>
@@ -144,7 +143,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </section>
             <section data-route="inventory" tabindex="-1">
               <paper-material elevation="1">
-              <user-inventory></user-inventory>
+                <qr-reader></qr-reader>
+
+                <user-inventory></user-inventory>
               </paper-material>
             </section>
             <section data-route="configuration" tabindex="-1">
