@@ -13,7 +13,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../multimedia-activity/multimedia-activity.html">
 
+<!--
+User inventory maintains an access to the user items.
+It is displayed as a list with custom displays for : image,
+youtube video, mp3.
+@group Gameplay Element
+@element user-inventory
+@demo demo/index.html
+
+
+-->
 <dom-module id="user-inventory">
   <style>
 
@@ -24,9 +35,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <paper-material>
         <paper-listbox>
           <template is="dom-repeat" items={{items}} as="item">
+          <template is="dom-if" if="{{showAudio(item)}}">
+              <paper-item on-click="playitem">Audio item</paper-item>
+              <multimedia-activity isaudio="true" src="item.src"></multimedia-activity>
+            </template>
 
-          <paper-item>{{item.text}}</paper-item>
+
+            <template  is="dom-if" if={{showVideo(item)}}>
+              <multimedia-activity isvideo="true" src="item.videoio"></multimedia-activity>
           </template>
+            <template is="dom-if" if="{{!item.type}}">
+            <paper-item on-click="playitem">{{item.text}}</paper-item>
+             </template>
+            </template>
 
         </paper-listbox>
       </paper-material>
@@ -38,22 +59,68 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       Polymer({
         is: 'user-inventory',
-        addItem:function(newIt){
-           this.push("items",{'text': newIt});
 
-          this.set('items',this.items);
-          this.notifyPath('items',this.items);
+        computeAudio(el){
+          console.log(el)
+          return false;
         },
+        /**
+         * Function to use to add a new item, do MOT add item by manipulatig the array
+         */
+        addItem:function(newIt){
+           if(newIt.type){
+             if(newIt.type==="audio"){
+             console.log("Audio application");
+             this.push("items",newIt)
+      }
+             if(newIt.type==="video"){
+               console.log("video application");
+               this.push("items",newIt)
+             }
+
+           }else {
+
+             this.push("items", {'text': newIt});
+
+             this.set('items', this.items);
+             this.notifyPath('items', this.items);
+           }
+           },
+
+        /**
+         *Play the selected item (internal)
+         */
+        playitem:function(){
+
+        },
+
         ready :function() {
           this.items=[];
 
         },
+        showAudio:function(item){
+          if(!item.type)
+          return false;
+          if(item.type==="audio")
+          return true;
+          return false
+        },
+
+        showVideo:function(item){
+          if(!item.type)
+            return false;
+          if(item.type==="video")
+            return true;
+          return false        },
 
         _arrayobs:function(oldval,newval){
           console.log(oldval)
         },
 
         properties: {
+          /**
+           * List of currenr urens in the inventory
+           */
           items:{type:Array,notify:true,value:[],observer:'_arrayobs'}
         }
       });

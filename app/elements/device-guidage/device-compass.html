@@ -23,11 +23,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         },
 
-        change:function(){
-          this.angle=this.angle+10;
-        },
-        _onAngleChange : function(){
-          this.transform('rotateZ('+this.angle+'deg)', this.$.mycompass);
+        _onAngleChange : function(newval,oldval){
+          this.transform('rotateZ('+newval+'deg)', this.$.mycompass);
 
         },
         properties: {

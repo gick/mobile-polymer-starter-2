@@ -22,15 +22,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   </style>
 <template>
-  <input type="file" accept="image/*" capture="camera">
+  <input type="file" on-input="" accept="image/*" capture="camera">
   <input type="file" accept="video/*" capture="camcorder">
   <input type="file" accept="audio/*" capture="microphone">
 
-  <template is="dom-repeat" items={{deviceArray}} as="item" filter="isVideoInput">
-    <paper-material>
-       {{item.label}}
-    </paper-material>
-  </template>
+
 
 
 

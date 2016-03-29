@@ -1,0 +1,44 @@
+<!doctype html>
+<!-- Copyright Eric Bidelman <ebidel@gmail.com> -->
+<html>
+<head>
+  <link rel="import" href="../../../bower_components/polymer/polymer.html">
+  <link rel="import" href="../../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+  <link rel="import" href="../../../bower_components/paper-listbox/paper-listbox.html">
+  <link rel="import" href="../../../bower_components/paper-item/paper-item.html">
+  <link rel="import" href="../../../bower_components/paper-button/paper-button.html">
+  <link rel="import" href="../inventory.html">
+
+
+  <script src="../../../bower_components/webcomponentsjs/webcomponents.js"></script>
+
+</head>
+<body>
+  <user-inventory></user-inventory>
+  <paper-listbox>
+    <paper-item>Audio</paper-item>
+    <paper-item>Video</paper-item>
+    <paper-item>Texte</paper-item>
+  </paper-listbox>
+  <paper-button  raised onclick="addItem()"> Add </paper-button>
+</body>
+<script>
+  addItem=function(){
+    var i=document.querySelectorAll('user-inventory')
+    var n = document.querySelectorAll("paper-listbox")[1].selected;
+
+    console.log(n);
+    if(n===0){
+    i[0].addItem({type:'audio',src:'../test.mp3'})}
+    else if (n===1) {
+      i[0].addItem({type:'video'});
+    }
+    else {
+      i[0].addItem('test');
+
+
+    }
+
+  };
+</script>
+</html>

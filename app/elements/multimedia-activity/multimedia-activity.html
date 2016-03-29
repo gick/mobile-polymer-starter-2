@@ -11,6 +11,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/paper-audio-player/paper-audio-player.html">
 <link rel="import" href="../../bower_components/google-youtube/google-youtube.html">
 
+<!--
+multimedia-activity allows to play Mp3 or youtube activity .
+the video start automatically by default
+@group Gameplay Element
+@element multimedia-activity
+@demo demo/index.html
+
+
+-->
 
 
 <dom-module id="multimedia-activity">
@@ -27,7 +36,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 </template>
 
     <template is="dom-if" if="[[isvideo]]">
-  <google-youtube chromeless="true" video-id="{{src}}"></google-youtube>
+      is video
+  <google-youtube autoplay="1" video-id="{{videoid}}"></google-youtube>
   </template>
 
 </template>
@@ -40,17 +50,30 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       Polymer({
         is: 'multimedia-activity',
         ready:function(){
-          console.log(this);
         },
         _multimediaObserver:function(newval,oldval){
         console.log(newval);
         },
 
         properties: {
+        /*..
+        .source (URL or filepath of the mp3
+        */
           src:{type:String,notify:true},
+          /*..
+           .youtube id of the video
+           */
+
+          videoid:{type:String,notify:true},
+          /*..
+           .set to  true if item is a mp3
+           */
+
           isaudio:{type :Boolean,value:false, notify :true},
+          /*..
+           .set to  true if item is a video
+           */
           isvideo:{type:Boolean,value:false, notify:true},
-          source:{type:Boolean, notify:true},
 
           completed:{type:Boolean,value:false}
 
