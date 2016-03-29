@@ -49,11 +49,7 @@ function distance(lat1, lon1, lat2, lon2, unit) {
 
     console.log('Our app is ready to rock!');
   });
-  app.addEventListener('')
-  // See https://github.com/Polymer/polymer/issues/1381
-  window.addEventListener('WebComponentsReady', function() {
-    // imports are loaded and elements have been registered
-  });
+
 
   // Main area's paper-scroll-header-panel custom condensing transformation of
   // the appName in the middle-container and the bottom title in the bottom-container.
