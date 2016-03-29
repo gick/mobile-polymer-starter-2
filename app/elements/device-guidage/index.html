@@ -4,13 +4,19 @@
   <meta charset="UTF-8">
   <script src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
   <link rel="import" href="device-instrument.html">
+  <link rel="import" href="device-guidage.html">
+
+  <link rel=import" href="../distance-elem/distance-element.html">
+  <link rel=import" href="../../bower_components/paper-material/paper-material.html">
 
 </head>
-<body>
-<paper-material elevation="1">
-
+<body unresolved>
+<paper-material>
   <device-instrument>
   </device-instrument>
+  <device-guidage angle="{{alpha}}"></device-guidage>
+  <distance-element distance="{{dist}}"></distance-element>
+angle {{alpha}}, dist: {{dist}}
 
 </paper-material>
 </body>

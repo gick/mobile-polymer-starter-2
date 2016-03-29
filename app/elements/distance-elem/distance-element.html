@@ -1,0 +1,89 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../testing/geo-test.html">
+
+<dom-module id="distance-element">
+<template>
+  <geo-test id="geo" watch-pos high-accuracy latitude="{{ latitude }}" longitude="{{ longitude }}"></geo-test>
+  {{distance}}
+
+</template>
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'distance-element',
+        ready :function() {
+          this.$.geo.fetch();
+          this.addEventListener('geo-response',this.geoListenner.bind(this));
+        },
+        distance_calc:function (lat1, lon1, lat2, lon2, unit) {
+          console.log(lat1, lon1, lat2, lon2, unit)
+        var radlat1 = Math.PI * lat1/180
+        var radlat2 = Math.PI * lat2/180
+        var theta = lon1-lon2
+        var radtheta = Math.PI * theta/180
+        var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+        dist = Math.acos(dist)
+        dist = dist * 180/Math.PI
+        dist = dist * 60 * 1.1515
+        if (unit=="K") { dist = dist * 1.609344 }
+        if (unit=="N") { dist = dist * 0.8684 }
+        console.log(dist);
+          return dist
+      }
+        ,
+        setDistance:function(){
+          var dist=this.distance_calc(this.latitude,this.longitude,this.destinationLatitude,this.destinationLongitude,'K');
+          this.set('distance',dist);
+        },
+        geoListenner:function(event){
+          this.set('latitude',event.detail.latitude);
+          this.set('longitude',event.detail.longitude);
+          this.longitude=event.detail.longitude;
+          this.latitude=event.detail.latitude
+          this.setDistance()
+        },
+        changeDestLat(newval, old){
+          this.set('destinationLatitude',newval);
+          console.log('setting lat')
+          this.destinationLatitude=newval
+          this.setDistance()
+
+          // distanceChanged();
+        },
+        changeDestLong(newval, old){
+          this.set('destinationLongitude',newval);
+          console.log("setting long")
+          console.log(newval);
+          this.destinationLongitude=newval
+
+          this.setDistance()
+
+        },
+
+        properties:{
+
+          distance:{ type: Number, notify:true,reflectToAttribute: true,value: 0},
+          latitude:{ type: Number, notify:true,value: 0},
+          longitude:{ type: Number, notify:true,value: 0},
+
+          destinationLatitude:{type:Number,notify:true,observer:'changeDestLat'},
+          destinationLongitude:{type:Number,notify:true,observer:'changeDestLong'},
+        }
+
+      });
+    })();
+  </script>
+</dom-module>

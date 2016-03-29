@@ -11,13 +11,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="device-compass.html">
 <link rel="import" href="device-guidage.html">
-<link rel="import" href="../distance-elem.html">
+<link rel="import" href="../distance-elem/distance-element.html">
 
 <dom-module id="device-instrument">
   <template>
     <device-guidage alpha="{{alpha}}"></device-guidage>
     <device-compass angle="{{alpha}}"></device-compass>
-    <h1> angle {{alpha}}</h1>
+    <distance-element distance="{{dist}}"></distance-element>
+    <h1> angle {{alpha}}, dist: {{dist}}</h1>
   </template>
   <script>
     (function() {
