@@ -15,9 +15,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <dom-module id="device-instrument">
   <template>
-    <device-guidage alpha="{{alpha}}"></device-guidage>
+    <distance-element latitude="{{lat}}" longitude="{{long}}" destination-latitude="{{destlat}}" destination-longitude="{{destlong}}" distance="{{dist}}"></distance-element>
+    <device-guidage latitude="{{lat}}"  longitude="{{long}}" destination-latitude="{{destlat}}" destination-longitude="{{destlong}}"  alpha="{{alpha}}"></device-guidage>
     <device-compass angle="{{alpha}}"></device-compass>
-    <distance-element distance="{{dist}}"></distance-element>
     <h1> angle {{alpha}}, dist: {{dist}}</h1>
   </template>
   <script>
@@ -33,7 +33,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           alert(event)
         },
         showError:function(){},
+        changeDestong:function(newval,oldval){
+          console.log(newval)
+        },
 
+        changeDestLat:function(newval,oldval){
+          console.log(newval)
+        },
+        properties:{
+          destlat: {type: Number, notify: true, observer: 'changeDestLat'},
+          destlong: {type: Number, notify: true, observer: 'changeDestLong'},
+        }
       });
     })();
   </script>

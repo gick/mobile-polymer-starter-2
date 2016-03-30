@@ -9,6 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+
 <dom-module id="device-guidage">
 
   <script>
@@ -20,9 +21,29 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         ready :function() {
 
           var self=this;
-          if (window.DeviceOrientationEvent)
-            window.addEventListener('deviceorientation', this.handleOrientation.bind(this), false);
+         // if (window.DeviceOrientationEvent)
+          //  window.addEventListener('deviceorientation', this.handleOrientation.bind(this), false);
           },
+
+        angleFromCoordinate:function( lat1, long1, lat2,
+        long2) {
+
+        var  dLon = (long2 - long1);
+
+        var y = Math.sin(dLon) * Math.cos(lat2);
+        var x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1)
+          * Math.cos(lat2) * Math.cos(dLon);
+
+        var brng = Math.atan2(y, x);
+
+
+          brng = brng*360/(2*Math.PI);
+
+        brng = (brng + 360) % 360;
+        brng = 360 - brng;
+
+        return brng;
+      },
 
         handleOrientation:function(ev){
             console.log(ev);
@@ -33,6 +54,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             alpha: this.alpha,
             beta: this.beta,
           });
+
+        },
+        changeDestLat:function(newval,oldval){
+        var al=this.angleFromCoordinate(this.latitude,this.longitude,mewval,this,destinationLongitude)
+          this._setAlpha(al);
+
+        },
+
+        changeDestLong:function(newval,oldval){
+          var al=this.angleFromCoordinate(this.latitude,this.longitude,this.destinationLatitude,newval)
+          this._setAlpha(al);
+
+        },
+        changeLat:function(newval,oldval){
+          var al=this.angleFromCoordinate(newval,this.longitude,this.destinationLatitude,this,destinationLongitude)
+          this._setAlpha(al);
+
+        },
+        changeLong:function(newval,oldval){
+          var al=this.angleFromCoordinate(this.latitude,newval,this.destinationLatitude,this.destinationLongitude)
+          this._setAlpha(al);
 
         },
 
@@ -65,6 +107,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             value: 0
           },
 
+          destlat: {type: Number, notify: true, observer: 'changeDestLat'},
+          destlong: {type: Number, notify: true, observer: 'changeDestLong'},
+          lattitude: {type: Number, notify: true, observer: 'changeLat'},
+          longitude: {type: Number, notify: true, observer: 'changeLong'},
 
         }
       });
