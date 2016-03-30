@@ -47,7 +47,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               var done = e.loaded, total = e.total;
               self.progress = Math.floor(done/total*1000)/10;
             });
-            xhr.open('POST', "http://reveries-project.fr/profile", true);
+            xhr.open('POST', "https://reveries-project.fr/profile", true);
             xhr.onload = function(e) {
               if(xhr.status == 200) {
                 console.log(xhr)
