@@ -12,7 +12,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <html lang="en">
 
 <head>
-
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
   <meta charset="utf-8">
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -130,9 +130,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <iron-pages attr-for-selected="data-route" selected="{{route}}">
             <section data-route="home" tabindex="-1">
               <game-runner></game-runner>
-
-
-
             </section>
 
             <section data-route="users" tabindex="-1">
