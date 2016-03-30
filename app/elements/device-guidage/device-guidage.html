@@ -47,7 +47,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         handleOrientation:function(ev){
             console.log(ev);
-            this._setAlpha(angleFromCoordinate(this.latitude,this.longitude,this.destinationLatitude,this.destinationLongitude));
+            this._setAlpha(this.angleFromCoordinate(this.latitude,this.longitude,this.destinationLatitude,this.destinationLongitude));
             this._setBeta(ev.beta);
             this._setGamma(ev.  gamma)
              this.fire('device-orientationchange', {
