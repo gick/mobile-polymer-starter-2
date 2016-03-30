@@ -21,8 +21,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         ready :function() {
 
           var self=this;
-         // if (window.DeviceOrientationEvent)
-          //  window.addEventListener('deviceorientation', this.handleOrientation.bind(this), false);
+          if (window.DeviceOrientationEvent)
+            window.addEventListener('deviceorientation', this.handleOrientation.bind(this), false);
           },
 
         angleFromCoordinate:function( lat1, long1, lat2,
@@ -47,7 +47,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         handleOrientation:function(ev){
             console.log(ev);
-            this._setAlpha(ev.alpha);
+            this._setAlpha(angleFromCoordinate(this.latitude,this.longitude,this.destinationLatitude,this.destinationLongitude));
             this._setBeta(ev.beta);
             this._setGamma(ev.  gamma)
              this.fire('device-orientationchange', {
