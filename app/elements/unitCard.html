@@ -65,7 +65,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
          <div hidden$="[[item.completed]]">
 
           <template is="dom-if" if="[[item.indice.isBasic]]">
+            <template is="dom-if" if="[[!item.indice.completed]]">
             <basic-indice indice="[[item.indice]]"></basic-indice>
+            </template>
           </template>
           <template is="dom-if" if="[[item.indice.isGmap]]">
             <gmap-activity id="map"></gmap-activity>

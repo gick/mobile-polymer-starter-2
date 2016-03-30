@@ -9,17 +9,51 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../bower_components/paper-styles/typography.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-material/paper-material.html">
+
 
 <dom-module id="qr-reader">
-  <template>
+
+
     <style>
-      :host {
-        display: block;
+      .inputfile {
+        width: 0.1px;
+        height: 0.1px;
+        opacity: 0;
+        overflow: hidden;
+        position: absolute;
+        z-index: -1;
       }
 
+
+      .inputfile + label {
+        font-size: 1.25em;
+        font-weight: 700;
+        color: white;
+        padding-bottom: 4px;
+        padding-top: 4px;
+        padding-left: 4px;
+        padding-right: 4px;
+        border-radius: 5px;
+        background-color: lightgrey;
+        display: inline-block;
+      }
+
+      .inputfile:focus + label,
+      .inputfile + label:hover {
+        background-color: black;
+      }
+      .inputfile + label {
+        cursor: pointer; /* "hand" cursor */
+      }
     </style>
-    <input type="file" on-change="fileChange" accept="image/*" capture="camera">
+  <template>
+    <h3>{{trailer}}</h3>
+    <input type="file"  on-change="fileChange" accept="image/*" capture="camera" name="file" id="file" class="inputfile" />
+    <label for="file">Take a QR-code picture</label>
+    <h3>Problem, please try to take new picture</h3>
+    {{file}}
   </template>
 
   <script>
@@ -35,6 +69,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           console.log(ev);
         },
         uploadFile:function(file){
+          this.set('file','newfile')
           if(!file){
             this.fileName = "";
           } else{
@@ -65,14 +100,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         }
         ,
+        trailerObserver:function(newval,oldval){
+          this.set('trailer',newval)
+
+        },
+        changeFile:function(ev){
+          console.log(ev)
+        }
+        ,
         properties: {
-          items: {
-            type: Array,
+          trailer:{type:String,notify:true,observer:'trailerObserver'},
+          file:{type:String,notify:true},
+          expectedResponse: {
+            type: String,
             notify: true
           }
         },
 
         ready: function() {
+        //  this.$.fileinput.addEventListener("change",this.changeFile)
         }
       });
     })();
