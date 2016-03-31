@@ -20,6 +20,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     if (window.location.port === '') {  // if production
       page.base(app.baseUrl.replace(/\/$/, ''));
     }
+
     // Middleware
     function scrollToTop(ctx, next) {
       app.scrollPageToTop();
@@ -40,11 +41,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       next();
     });
 
-    page('/reveries/', function() {
+    page('/reveries', function() {
       app.route = 'home';
       setFocus(app.route);
     });
 
+    page(app.baseUrl, function() {
+      app.route = 'home';
+      setFocus(app.route);
+    });
 
     page('/reveries/users', function() {
       app.route = 'users';
@@ -61,7 +66,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       setFocus(app.route);
     });
 
-    page('/reveries/users/:name', function(data) {
+    page('/users/:name', function(data) {
       app.route = 'user-info';
       app.params = data.params;
       setFocus(app.route);
