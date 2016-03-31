@@ -22,7 +22,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <device-guidage latitude="{{latitude}}"  longitude="{{longitude}}" destination-latitude="{{destlat}}" destination-longitude="{{destlong}}"  alpha="{{alpha}}"></device-guidage>
     </div>
   </template>
-
+  <paper-button on-click="emitDone" >Done</paper-button>
   <script>
     (function() {
       'use strict';
@@ -30,6 +30,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       Polymer({
         is: 'device-instrument',
         ready :function() {
+
+        },
+        emitDone:function(){
+          this.fire('eventFromIndiceChild',this.properties.indice.index);
 
         },
         showLocation:function(event){
