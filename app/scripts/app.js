@@ -35,7 +35,7 @@ function distance(lat1, lon1, lat2, lon2, unit) {
     // set app.baseURL to '/your-pathname/' if running from folder in production
     // app.baseUrl = '/polymer-starter-kit/';
   }
-
+  app.baseUrl = '/reveries';
   app.displayInstalledToast = function() {
     // Check to make sure caching is actually enabled—it won't be in the dev environment.
     if (!Polymer.dom(document).querySelector('platinum-sw-cache').disabled) {
