@@ -76,30 +76,30 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         <!-- Drawer Content -->
         <paper-menu attr-for-selected="data-route" selected="[[route]]">
-          <a data-route="home" href="./">
+          <a data-route="home" href="{{baseUrl}}">
             <iron-icon icon="home"></iron-icon>
             <span>ReVeRIES</span>
           </a>
 
-          <a data-route="users" href="./users">
+          <a data-route="users" href="{{baseUrl}}users">
             <iron-icon icon="info"></iron-icon>
 
             <span>Info</span>
           </a>
 
-          <a data-route="inventory" href="./inventory">
+          <a data-route="inventory" href="{{baseUrl}}inventory">
             <iron-icon icon="maps:local-mall"></iron-icon>
             <span>Inventaire</span>
           </a>
 
 
-          <a data-route="configuration" href="./configuration">
+          <a data-route="configuration" href="{{baseUrl}}configuration">
             <iron-icon icon="settings"></iron-icon>
             <span>Config</span>
           </a>
 
 
-          <a data-route="contact" href="./contact">
+          <a data-route="contact" href="{{baseUrl}}contact">
             <iron-icon icon="mail"></iron-icon>
             <span>Contact</span>
           </a>
