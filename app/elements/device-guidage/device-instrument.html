@@ -13,16 +13,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="device-guidage.html">
 <link rel="import" href="../distance-elem/distance-element.html">
 <link rel="import" href="../../bower_components/geo-location/geo-location.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-material/paper-material.html">
+
 
 <dom-module id="device-instrument">
   <template>
-    <div style="display:block;height:250px">
     <distance-element latitude="{{lat}}" longitude="{{long}}" destination-latitude="{{destlat}}" destination-longitude="{{destlong}}" distance="{{dist}}"></distance-element>
     <geo-location watch-pos latitude="{{latitude}}" longitude="{{longitude}}"></geo-location>
     <device-guidage latitude="{{latitude}}"  longitude="{{longitude}}" destination-latitude="{{destlat}}" destination-longitude="{{destlong}}"  alpha="{{alpha}}"></device-guidage>
-    </div>
-  </template>
+  <paper-material>
+    Remaining distance : {{dist}}
   <paper-button on-click="emitDone" >Done</paper-button>
+  </paper-material>
+  </template>
+
   <script>
     (function() {
       'use strict';
