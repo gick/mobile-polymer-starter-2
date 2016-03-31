@@ -12,13 +12,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="device-compass.html">
 <link rel="import" href="device-guidage.html">
 <link rel="import" href="../distance-elem/distance-element.html">
+<link rel="import" href="../../bower_components/geo-location/geo-location.html">
 
 <dom-module id="device-instrument">
   <template>
     <distance-element latitude="{{lat}}" longitude="{{long}}" destination-latitude="{{destlat}}" destination-longitude="{{destlong}}" distance="{{dist}}"></distance-element>
-    <device-guidage latitude="{{lat}}"  longitude="{{long}}" destination-latitude="{{destlat}}" destination-longitude="{{destlong}}"  alpha="{{alpha}}"></device-guidage>
+    <geo-location watch-pos latitude="{{latitude}}" longitude="{{longitude}}"></geo-location>
+    <device-guidage latitude="{{latitude}}"  longitude="{{longitude}}" destination-latitude="{{destlat}}" destination-longitude="{{destlong}}"  alpha="{{alpha}}"></device-guidage>
     <device-compass angle="{{alpha}}"></device-compass>
-    <h1>Distance : {{dist}}</h1>
+    <h1>{{alpha}}  Distance : {{dist}}</h1>
   </template>
   <script>
     (function() {

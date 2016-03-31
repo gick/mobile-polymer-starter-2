@@ -128,6 +128,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <div class="content">
           <iron-pages attr-for-selected="data-route" selected="{{route}}">
             <section data-route="home" tabindex="-1">
+              <geo-location watch-pos latitude="{{latitude}}" longitude="{{longitude}}"></geo-location>
+              <device-guidage latitude="{{latitude}}"  longitude="{{longitude}}" destination-latitude="{{destlat}}" destination-longitude="{{destlong}}" beta="{{beta}}" alpha="{{alpha}}"></device-guidage>
+                {{latitude}} {{longitude}}{{alpha}}{{beta}}
               <game-runner></game-runner>
             </section>
 

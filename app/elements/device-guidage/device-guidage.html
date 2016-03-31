@@ -46,9 +46,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
         handleOrientation:function(ev){
+          console.log('handle orientation')
             this._setAlpha(ev.alpha-this.angleFromCoordinate(this.latitude,this.longitude,this.destinationLatitude,this.destinationLongitude));
             this._setBeta(ev.beta);
-            this._setGamma(ev.  gamma)
+            this._setGamma(ev.gamma)
+          console.log(this.alpha);
+          console.log(ev.alpha);
+          console.log(ev.alpha);
              this.fire('device-orientationchange', {
             alpha: this.alpha,
             beta: this.beta,
@@ -67,6 +71,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         },
         changeLat:function(newval,oldval){
+          console.log('change longtitude')
           var al=this.angleFromCoordinate(newval,this.longitude,this.destinationLatitude,this,destinationLongitude)
           this._setAlpha(al);
 
