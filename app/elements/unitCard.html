@@ -51,9 +51,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     .done{
       opacity:0.7;
       background-color: greenyellow;
-      pointer-events: none;
-      cursor: default;
-
     }
 
   </style>
@@ -61,6 +58,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <fullscreen-api  class="fsapi"></fullscreen-api>
       <paper-card style="--paper-card-header:{ background-color: #a7ff97;}"class$="[[item.class ]]"   heading="[[item.activityName]]" >
       <div style="min-height:200px;height:70%" class="card-content">
+
         <template is="dom-if" if="{{item.started}}">
          <div hidden$="[[item.completed]]">
 
@@ -73,19 +71,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <gmap-activity id="map"></gmap-activity>
           </template>
            <template is="dom-if" if="[[item.indice.isRadar]]">
-             <radar-anim distance={{distance}} long=ˇ{{longitude}} frequency="{{freq}}"></radar-anim>
+             <device-instrument destination-latitude="48.0852" destination-longitude="-0.755469">
+             </device-instrument>
            </template>
            <template is="dom-if" if="[[item.indice.completed]]">
            <mcq-activity   mcq="{{item.mcq}}" id="mcq"></mcq-activity>
            </template>
-
          </div>
 
         </template>
-
         <template is="dom-if" if="{{item.completed}}">
-          You learn this today
-          <!-- TO DO : include feedback -->
+          <template is="dom-if" if="{{item.hasmultimedia}}">
+            <h2>{{item.multimediatext}}</h2>
+            <multimedia-activity src="sapin.mp3" isaudio="{{item.isaudio}}"></multimedia-activity>
+          </template>
         </template>
 
       </div>

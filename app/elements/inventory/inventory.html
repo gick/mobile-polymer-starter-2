@@ -42,7 +42,7 @@ youtube video, mp3.
 
 
             <template  is="dom-if" if={{showVideo(item)}}>
-              <multimedia-activity isvideo="true" src="item.videoio"></multimedia-activity>
+              <multimedia-activity isvideo="true" src="item.videoid"></multimedia-activity>
           </template>
             <template is="dom-if" if="{{!item.type}}">
             <paper-item on-click="playitem">{{item.text}}</paper-item>
