@@ -19,13 +19,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <dom-module id="device-instrument">
   <template>
+    <paper-material>
     <distance-element latitude="{{lat}}" longitude="{{long}}" destination-latitude="{{destlat}}" destination-longitude="{{destlong}}" distance="{{dist}}"></distance-element>
     <geo-location watch-pos latitude="{{latitude}}" longitude="{{longitude}}"></geo-location>
     <device-guidage latitude="{{latitude}}"  longitude="{{longitude}}" destination-latitude="{{destlat}}" destination-longitude="{{destlong}}"  alpha="{{alpha}}"></device-guidage>
     <device-compass> angle={{alpha}}</device-compass>
-  <paper-material>
     Remaining distance : {{dist}}
-  <paper-button on-click="emitDone" >Done</paper-button>
+  <paper-button raised on-click="emitDone" >Done</paper-button>
   </paper-material>
   </template>
 
@@ -39,7 +39,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         },
         emitDone:function(){
-          this.fire('eventFromIndiceChild',this.properties.indice.index);
+          this.fire('eventFromIndiceChild',this);
 
         },
         showLocation:function(event){
