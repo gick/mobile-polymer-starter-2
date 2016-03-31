@@ -67,12 +67,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <basic-indice indice="[[item.indice]]"></basic-indice>
             </template>
           </template>
-          <template is="dom-if" if="[[item.indice.isGmap]]">
+
+           <template is="dom-if" if="[[item.indice.isQr]]">
+             <template is="dom-if" if="[[!item.indice.completed]]">
+               <qr-reader expected-response="Chene" trailer="Scannez le QR code placé sur le chêne liège"></qr-reader>
+             </template>
+           </template>
+
+           <template is="dom-if" if="[[item.indice.isGmap]]">
             <gmap-activity id="map"></gmap-activity>
           </template>
            <template is="dom-if" if="[[item.indice.isRadar]]">
+             <template is="dom-if" if="[[!item.indice.completed]]">
              <device-instrument destination-latitude="48.0852" destination-longitude="-0.755469">
              </device-instrument>
+
+               </template>
            </template>
            <template is="dom-if" if="[[item.indice.completed]]">
            <mcq-activity   mcq="{{item.mcq}}" id="mcq"></mcq-activity>
@@ -83,7 +93,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <template is="dom-if" if="{{item.completed}}">
           <template is="dom-if" if="{{item.hasmultimedia}}">
             <h2>{{item.multimediatext}}</h2>
+            <template is="dom-if" if="{{item.isaudio}}">
             <multimedia-activity src="sapin.mp3" isaudio="{{item.isaudio}}"></multimedia-activity>
+              </template>
+
+            <template is="dom-if" if="{{item.isvideo}}">
+
+              <multimedia-activity videoid="DHnRIFfn3bE" isvideo="{{item.isvideo}}"></multimedia-activity>
+            </template>
+
           </template>
         </template>
 

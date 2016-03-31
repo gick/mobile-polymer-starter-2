@@ -52,7 +52,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <h3>{{trailer}}</h3>
     <input type="file"  on-change="fileChange" accept="image/*" capture="camera" name="file" id="file" class="inputfile" />
     <label for="file">Take a QR-code picture</label>
-    <h3>Problem, please try to take new picture</h3>
+    <div hidden$="{{ishidden}}">Problem processing code, please try to take new picture</div>
     {{file}}
   </template>
 
@@ -86,11 +86,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             xhr.open('POST', "http://reveries-project.fr/profile", true);
             xhr.onload = function(e) {
               if(xhr.status == 200) {
-                console.log(xhr)
-                alert(xhr.responseText)
+                console.log(xhr);
+                console.log(self.expectedResponse)
+                if(xhr.responseText==self.expectedResponse){
+                  self.fire('eventFromIndiceChild',this);
+                  self.fire('spActivityComplete', {"mcqComplete":"true"});
 
+                }else{ self.set('ishidden',false)
+                }
               } else {
-                alert(xhr.responseText)
                 console.log('error')
                 console.log(xhr);
               }
@@ -110,6 +114,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
         ,
         properties: {
+          ishidden:{type:Boolean,value:true},
           trailer:{type:String,notify:true,observer:'trailerObserver'},
           file:{type:String,notify:true},
           expectedResponse: {
@@ -119,6 +124,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         },
 
         ready: function() {
+          this.ishidden=true;
         //  this.$.fileinput.addEventListener("change",this.changeFile)
         }
       });
