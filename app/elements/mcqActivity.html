@@ -14,13 +14,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       max-width: 400px;
       min-width: 250px;
       margin : 0 auto;
-
+      height:100%;
       display:block;
     }
   </style>
   <template>
 
-
+        <div style="display:block">
         <div>{{mcq.question}}</div>
         <paper-radio-group id="paper">
           <paper-radio-button name="a">{{mcq.resp.resp1}}</paper-radio-button>
@@ -29,11 +29,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <paper-radio-button name="d">{{mcq.resp.resp4}}</paper-radio-button>
 
         </paper-radio-group>
-        <div class="buttons">
+
 
           <paper-button raised on-click="toggle"dialog-confirm autofocus>OK</paper-button>
-        </div>
 
+        </div>
 
 
 
