@@ -41,17 +41,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       next();
     });
 
-    page('/', function() {
+    page('/reveries/', function() {
       app.route = 'home';
       setFocus(app.route);
     });
 
-    page(app.baseUrl, function() {
-      app.route = 'home';
-      setFocus(app.route);
-    });
 
-    page('/users', function() {
+    page('/reveries/users', function() {
       app.route = 'users';
       setFocus(app.route);
     });
