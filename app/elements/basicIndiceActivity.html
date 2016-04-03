@@ -38,7 +38,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <div>{{indice.question}}</div>
       <div style="display:inline-block">
         <paper-input style="display:inline-block" label="Réponse" required auto-validate error-message="Au moins une réponse!"></paper-input>
-        <paper-button raised  style="display:inline-block" on-click="checkResponse">Valider</paper-button>
+        <paper-button raised  style="display:inline-block" on-click="checkResponse">Validate</paper-button>
       </div>
   </template>
 
@@ -72,7 +72,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
         ,
         _indiceDefObserver:function(newval,old){
-          console.log(newval)
+          console.log(newval);
           this.properties.indice=newval;
         },
         properties: {
