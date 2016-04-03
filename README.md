@@ -11,10 +11,10 @@ The repo includes a basic demo in example.json
 
 To take advantage of ReVeRIES starter kit you need to:
 
-1. Get a copy of the code.
-2. Install the dependencies if you don't already have them.
-3. Modify the application to your liking.
-4. Deploy your production code.
+1. Get a copy of the code : git clone https://github.com/gick/revereries-project.git
+2. Install the dependencies if you don't already have them : from the reveries-project directory,  $ npm install $ bower install
+3. Run the code locally : from the reveries-project directory, $ gulp serve, this will serve the website on port 8080
+4. Run the code for production : from the reveries-project directory $ gulp, this will create a /dist directory that you can serve using apache2 for example
 
 
 

@@ -1,5 +1,5 @@
-x§{
-  "name": "polymer-starter-kit",
+{
+  "name": "reveries-project",
   "private": true,
   "dependencies": {
     "iron-elements": "PolymerElements/iron-elements#^1.0.0",
