@@ -1,0 +1,115 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/iron-label/iron-label.html">
+<link rel="import" href="../../bower_components/paper-material/">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-item/paper-icon-item.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.htmliron">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-icons/social-icons.html">
+<link rel="import" href="../../bower_components/iron-icons/iron">
+<dom-module id="authenticate-element">
+    <style>
+    :host
+    </style>
+    <template>
+        <iron-request id="xhr"></iron-request>
+        <iron-ajax auto id="userConnect" url="/api/user" handle-as="json" on-response="handleResponse" last-response="{{auth}}"></iron-ajax>
+        <template is="dom-if" if="{{!auth.success}}">
+           <form id="authform" is="iron-form" method="post" action="/api/authenticate">  
+            <h1>Please log-in</h1>
+            <paper-input name="name" label="Name" required></paper-input>
+            <paper-input name="password" label="password" required></paper-input>
+            <paper-button raised on-click="_submit">Submit</paper-button>
+            <paper-button raised on-click="_reset">Reset</paper-button>
+            <div class="output"></div>
+            </form>
+        </template>
+        <template is="dom-if" if="{{auth.success}}">
+            <h1>User profile</h1>
+            <div role="listbox">
+                <paper-icon-item>
+                    <iron-icon icon="social:person" item-icon></iron-icon>
+                    User name : {{auth.username}}
+                </paper-icon-item>
+                <paper-icon-item>
+                    <iron-icon icon="icons:mail" item-icon></iron-icon>
+                    User email :
+                </paper-icon-item>
+                <paper-icon-item>
+                    <div class="icons:assessment" item-icon></div>
+                    User scenarios :
+                </paper-icon-item>
+                <paper-item>
+                    <paper-button on-click="logout" raised>Disconnect</paper-button>
+                    <paper-button style="float:right" raised>Update profile</paper-button>
+                </paper-item>
+            </div>
+        </template>
+    </template>
+    <script>
+    (function() {
+        'use strict';
+        Polymer({
+            is: 'authenticate-element',
+            ready: function() {
+	                 this.addEventListener('iron-form-response',this.handleResponse.bind(this));
+                // this.auth={};
+            },
+            logout: function() {
+            	var that=this;
+            	var promise=this.$.xhr.send({url:"/logout"}).completes;
+            	promise.then(function(){
+            		that.$.userConnect.generateRequest();
+            	});
+            },
+            handleResponse: function(resp) {
+            		var response = resp.detail.__data__.response;
+            		this.set('auth',{success:resp.detail.__data__.response.success,'username':resp.detail.__data__.response.username	});
+            		this.set()
+            		console.log(response);
+
+            		//this.auth={success:true};
+
+            		//this.setPath('auth.connect',true);
+            		//that.$.userConnect.generateRequest();
+	            },
+
+            _submit: function(event) {
+                Polymer.dom(event).localTarget.parentElement.submit();
+            },
+            _reset: function(event) {
+                var form = Polymer.dom(event).localTarget.parentElement
+                form.reset();
+                form.querySelector('.output').innerHTML = '';
+            },
+            _authChanged: function(newval, oldval) {
+                console.log(newval);
+            },
+            properties: {
+            	auth:{
+            	 type:Object,
+            	 notify:true,
+            	 value:{success:false}
+            	},
+                isAuthenticated: {
+                    type: Boolean,
+                    value: false,
+                    notify: true
+                }
+            }
+        });
+    })();
+    </script>
+</dom-module>
