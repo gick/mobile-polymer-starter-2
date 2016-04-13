@@ -15,8 +15,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <meta charset="utf-8">
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="generator" content="ReVeRies 0.1">
-  <title>RevERies 0.1</title>
+  <meta name="generator" content="ReVeRies 0.2">
+  <title>RevERies 0.2</title>
+  <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 
   <!-- Place favicon.ico in the `app/` directory -->
   <script src="./scripts/const.js"></script>
@@ -49,7 +50,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <!-- endbuild-->
 
   <!-- build:js bower_components/webcomponentsjs/webcomponents-lite.min.js -->
-  <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
   <!-- endbuild -->
 
   <!-- Because this project uses vulcanize this should be your only html import
@@ -61,7 +61,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 </head>
 
 <body unresolved>
-
   <span id="browser-sync-binding"></span>
   <template is="dom-bind" id="app">
 
@@ -83,18 +82,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           <a data-route="users" href="{{baseUrl}}users">
             <iron-icon icon="info"></iron-icon>
-            <span>Profil</span>
+            <span>Login/Profil</span>
+          </a>
+          
+          <a data-route="scenarios" href="{{baseUrl}}scenarios">
+            <iron-icon icon="icons:assignment"></iron-icon>
+            <span>My ressources</span>
           </a>
 
-          <a data-route="inventory" href="{{baseUrl}}inventory">
-            <iron-icon icon="maps:local-mall"></iron-icon>
-            <span>Inventaire</span>
+
+          <a data-route="public" href="{{baseUrl}}public">
+            <iron-icon icon="social:public"></iron-icon>
+            <span>Public ressources</span>
           </a>
 
 
           <a data-route="configuration" href="{{baseUrl}}configuration">
             <iron-icon icon="settings"></iron-icon>
-            <span>Config</span>
+            <span>Configuration</span>
           </a>
 
 
@@ -117,7 +122,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           <!-- Application name -->
           <div class="middle middle-container">
-            <div class="app-name">ReVeriES 0.1</div>
+            <div class="app-name">ReVeriES 0.2</div>
           </div>
 
           <!-- Application sub title -->
@@ -127,25 +132,58 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <div class="content">
           <iron-pages attr-for-selected="data-route" selected="{{route}}">
             <section data-route="home" tabindex="-1">
-              <game-runner></game-runner>
+            <paper-material>
+            <h2>Welcome to the ReVeRIES demonstrator! A web application for authoring and running mobile serious games.</h2>
+            <h3>Features</h3>
+            <ul>
+              <li>Only based on reusable web components</li>
+              <li>Let you author complex mobile scenarios and play them</li>
+              <li>No need for any installation : everything is done through this web app!</li>
+            </ul>
+            </paper-material>
+
+            <paper-material>
+            <p> Before using ReVeRIES for playing on a mobile device, please check your configuration using the <b>Configuration</b> button on the left side menu.</p>
+            <p> To gain access to all the power of ReVERIES, please login, you can then access your games and ressources. If you don't want to login you can play have an overview of the games in the Demo Game section.</p>
+            </paper-material>
+
+            <paper-material>
+            <p> License : I am pretty sure license information goes there, I am not a jurist so I will just gives general advices
+            <ul>
+              <li>This software is distrubuted without any garantee of performance or safety.</li>
+              <li>Feel free to distribute this app with any modification you like</li>
+              <li>There are no such thing as premium plan, if you bought one you've being scammed</li>
+              <li>Please don't use this app for taking over the world, it is not designed for that. Use Excel instead</li>
+            </ul>
+            </paper-material>
+
             </section>
 
             <section data-route="users" tabindex="-1">
-
               <paper-material elevation="1">
                 <authenticate-element></authenticate-element>
+              </paper-material>
 
-              </paper-material>
-            </section>
-            <section data-route="inventory" tabindex="-1">
               <paper-material elevation="1">
-                <user-inventory></user-inventory>
+                <signup-element></signup-element>
               </paper-material>
+
             </section>
+
             <section data-route="configuration" tabindex="-1">
               <paper-material elevation="1">
+              <supported-element></supported-element>
               </paper-material>
             </section>
+
+            <section data-route="public" tabindex="-1">
+                <paper-material elevation="1">
+                  <jsonymer-editor obj="{firstname:'Joe'}"></jsonymer-editor>
+                </paper-material>
+
+            </section>
+
+
 
             <section data-route="contact" tabindex="-1">
               <paper-material elevation="1">

@@ -25,9 +25,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </style>
     <template>
         <iron-request id="xhr"></iron-request>
-        <iron-ajax auto id="userConnect" url="/api/user" handle-as="json" on-response="handleResponse" last-response="{{auth}}"></iron-ajax>
+        <iron-ajax auto id="userConnect" url="/profile" handle-as="json" on-response="handleResponse" last-response="{{auth}}"></iron-ajax>
         <template is="dom-if" if="{{!auth.success}}">
-           <form id="authform" is="iron-form" method="post" action="/api/authenticate">  
+           <form id="authform" is="iron-form" method="post" action="/login">  
             <h1>Please log-in</h1>
             <paper-input name="name" label="Name" required></paper-input>
             <paper-input name="password" label="password" required></paper-input>
@@ -41,7 +41,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <div role="listbox">
                 <paper-icon-item>
                     <iron-icon icon="social:person" item-icon></iron-icon>
-                    User name : {{auth.username}}
+                    User name : {{auth.user.name}}
                 </paper-icon-item>
                 <paper-icon-item>
                     <iron-icon icon="icons:mail" item-icon></iron-icon>
@@ -68,17 +68,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 // this.auth={};
             },
             logout: function() {
-            	var that=this;
-            	var promise=this.$.xhr.send({url:"/logout"}).completes;
-            	promise.then(function(){
-            		that.$.userConnect.generateRequest();
-            	});
+                var that=this;
+            	var logout = document.createElement('iron-request')
+            	logout.send({url:"/logout"}).then(function(){that.$.userConnect.generateRequest();})
             },
             handleResponse: function(resp) {
-            		var response = resp.detail.__data__.response;
-            		this.set('auth',{success:resp.detail.__data__.response.success,'username':resp.detail.__data__.response.username	});
-            		this.set()
             		console.log(response);
+            		var response = resp.detail.__data__.response;
+            		this.set('auth',response);
+                    //this.set('auth',{success:resp.detail.__data__.response.success,'user': {name:resp.detail.__data__.response.success.});
 
             		//this.auth={success:true};
 
@@ -101,12 +99,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             	auth:{
             	 type:Object,
             	 notify:true,
-            	 value:{success:false}
+            	 value:{success:false},
+            	 bindToAttribute:true
             	},
-                isAuthenticated: {
+                isauthenticated: {
                     type: Boolean,
                     value: false,
-                    notify: true
+          			reflectToAttribute: true,
+          			notify:true,
                 }
             }
         });

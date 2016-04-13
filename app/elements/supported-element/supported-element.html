@@ -1,0 +1,225 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item-body.html">
+<dom-module id="supported-element">
+    <template>
+        <style>
+
+        </style>
+        <h2>Supported media</h2>
+        <paper-listbox>
+            <paper-item hidden$={{!video}}>
+              <paper-item-body two-line>
+                <div>Contratulation your device support HTML5 &lt;video&gt; tag </div>
+                <div secondary>Enjoy watching video during Mobile learning games</div>
+                </paper-item-body>
+            </paper-item>
+            <paper-item hidden$={{video}}>
+              <paper-item-body two-line>
+                <div>Sorry your device do not support HTML5 &lt;video&gt; tag </div>
+                <div secondary>You might miss some media</div>
+                </paper-item-body>
+            </paper-item>
+            <paper-item hidden$={{!audio}}>
+              <paper-item-body two-line>
+                <div>Contratulation your device support HTML5 &lt;audio&gt; tag </div>
+                <div secondary>Enjoy listenning audio during Mobile learning games</div>
+                </paper-item-body>
+            </paper-item>
+            <paper-item hidden$={{video}}>
+              <paper-item-body two-line>
+                <div>Sorry your device do not support HTML5 &lt;audio&gt; tag </div>
+                <div secondary>You might miss some media</div>
+                </paper-item-body>
+            </paper-item>
+          </paper-listbox>
+
+          <h2>Supported sensors</h2>
+          <paper-listbox>
+            <paper-item hidden$={{!geoloc}}>
+              <paper-item-body two-line>
+                <div>Contratulation your device support geolocation </div>
+                <div secondary>You should be able to perform most games</div>
+                </paper-item-body>
+            </paper-item>
+            <paper-item hidden$={{geoloc}}>
+              <paper-item-body two-line>
+                <div>Sorry your device do not support geolocation or you didn't enabled GPS </div>
+                <div secondary>Please enable GPS and reload the page</div>
+                </paper-item-body>
+            </paper-item>
+            <paper-item hidden$={{!orientation}}>
+              <paper-item-body two-line>
+                <div>Contratulation your device support device orientation API </div>
+                <div secondary>You will be able to use the compass!</div>
+                </paper-item-body>
+            </paper-item>
+            <paper-item hidden$={{orientation}}>
+              <paper-item-body two-line>
+                <div>Sorry your device do not support device orientation</div>
+                <div secondary>You will not be able to use the compass on this device</div>
+                </paper-item-body>
+            </paper-item>
+            <paper-item hidden$={{!motion}}>
+              <paper-item-body two-line>
+                <div>Contratulation your device support the motion API </div>
+                <div secondary>You will be able to use motion based games</div>
+                </paper-item-body>
+            </paper-item>
+            <paper-item hidden$={{motion}}>
+              <paper-item-body two-line>
+                <div>Sorry your device do not support device motion API</div>
+                <div secondary>You will not be able to use motion based game</div>
+                </paper-item-body>
+            </paper-item>
+        </paper-listbox>
+
+
+        <h2>Supported output</h2>
+        <paper-listbox>
+            <paper-item hidden$={{!mediadevices}}>
+              <paper-item-body two-line>
+                <div>Contratulation your device support direct Webcam and microphone access </div>
+                <div secondary>You can enjoy AR games and direct video chat</div>
+                </paper-item-body>
+            </paper-item>
+            <paper-item hidden$={{mediadevices}}>
+              <paper-item-body two-line>
+                <div>Sorry your device do not support getUserMedia </div>
+                <div secondary>You will not be able to play AR games neither do video chat</div>
+                </paper-item-body>
+            </paper-item>
+    </template>
+    <script>
+    'use strict';
+    (function() {
+    Polymer({
+                        
+        is: 'supported-element',
+
+
+        ready: function() {
+            if (navigator.geolocation) {
+                this.set('geoloc',true);
+            } else {
+                this.set('geoloc',false);
+            }
+
+            this.testVideo();
+            this.testAudio();
+            this.testDeviceOrientation();
+            this.testDeviceMotion();
+            this.testMediaDevice();
+        },
+
+        testVideo: function() {
+            var testEl = document.createElement("video"),
+                mpeg4, h264, ogg, webm;
+            if (testEl.canPlayType) {
+                webm = "" !== testEl.canPlayType('video/webm; codecs="vp8, vorbis"');
+            }
+            if(webm==true){
+                this.set('video',true);
+            } else
+            {
+              this.set("video",false)
+            }
+        },
+
+        testAudio: function() {
+            var testEl = document.createElement("audio")
+          if (testEl.play) {
+            this.set('audio',true);
+            }
+          else{
+            this.set('audio',false);
+          }
+        },
+
+
+        testDeviceOrientation:function(){
+          if(window.DeviceOrientationEvent){
+            this.set('orientation',true);
+          } else{
+          this.set('orientation',false);
+          }
+        },
+
+
+        testDeviceMotion:function(){
+          if(window.DeviceMotionEvent){
+            this.set('motion',true);
+          } else{
+          this.set('motion',false);
+          }
+        },
+
+         testMediaDevice:function(){
+          if(navigator.mediaDevices){
+            if(navigator.mediaDevices.enumerateDevices)
+            {
+            this.set('mediadevices',true)
+            }
+            else
+            {
+            this.set('mediadevices',false)
+            }
+
+          }else
+          {
+            this.set('mediadevices',false)
+          }
+          
+         
+        },
+
+
+
+
+
+
+
+                properties: {
+                    geoloc: {
+                        type: Boolean,
+                        notify: true
+                    },
+                    orientation: {
+                        type: Boolean,
+                        notify: true
+                    },
+                    motion: {
+                        type: Boolean,
+                        notify: true,
+                    },
+                    video:{
+                      type:Boolean,
+                      notify:true
+                    },
+                    audio:{
+                      type:Boolean,
+                      notify:true
+                    },
+                    mediadevices:{
+                      type:Boolean,
+                      notify:true
+                    }
+
+
+                },
+
+            });
+    })();
+    </script>
+</dom-module>

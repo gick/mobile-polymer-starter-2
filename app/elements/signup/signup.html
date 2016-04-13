@@ -1,0 +1,68 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/iron-label/iron-label.html">
+<link rel="import" href="../../bower_components/paper-material/">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-item/paper-icon-item.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.htmliron">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-icons/social-icons.html">
+<link rel="import" href="../../bower_components/iron-icons/iron">
+<dom-module id="signup-element">
+    <style>
+    :host
+    </style>
+    <template>
+           <form id="signupform" is="iron-form" method="post" action="/signup">  
+            <h1>New user</h1>
+            <paper-input name="name" label="Name" required></paper-input>
+            <paper-input name="password" label="password" required></paper-input>
+            <paper-button raised on-click="_submit">Create user</paper-button>
+            <paper-button raised on-click="_reset">Reset</paper-button>
+            <div class="output"></div>
+            </form>
+            <paper-toast id="userCreated" text="User created successfully"></paper-toast>
+            <paper-toast id="userNotCreated" text="Problem creating user"></paper-toast>
+    </template>
+    <script>
+    (function() {
+        'use strict';
+        Polymer({
+            is: 'signup-element',
+            ready: function() {
+	                 this.addEventListener('iron-form-response',this.handleResponse.bind(this));
+            },
+            handleResponse: function(resp) {
+            		var response = resp.detail.__data__.response;
+                    if(response.success==true){
+                        this.$.userCreated.open();
+                    } else {
+                        this.$.userNotCreated.open();
+                    }
+	            },
+
+            _submit: function(event) {
+                Polymer.dom(event).localTarget.parentElement.submit();
+            },
+            _reset: function(event) {
+                var form = Polymer.dom(event).localTarget.parentElement
+                form.reset();
+                form.querySelector('.output').innerHTML = '';
+            },
+            properties: {
+            }
+        });
+    })();
+    </script>
+</dom-module>
