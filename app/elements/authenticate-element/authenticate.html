@@ -45,12 +45,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 </paper-icon-item>
                 <paper-icon-item>
                     <iron-icon icon="icons:mail" item-icon></iron-icon>
-                    User email :
+                    User email : {{auth.user.email}}
                 </paper-icon-item>
                 <paper-icon-item>
                     <div class="icons:assessment" item-icon></div>
                     User scenarios :
                 </paper-icon-item>
+                <paper-icon-item>
+                    <div class="icons:verified-user" item-icon></div>
+                    User is admin : {{auth.user.isadmin}}
+                </paper-icon-item>
+
                 <paper-item>
                     <paper-button on-click="logout" raised>Disconnect</paper-button>
                     <paper-button style="float:right" raised>Update profile</paper-button>
@@ -76,6 +81,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             		console.log(response);
             		var response = resp.detail.__data__.response;
             		this.set('auth',response);
+                    var logged;
+                    if(!resp.detail.__data__.response.success){
+                        logged={logged:false}
+                    }
+                    else if (!resp.detail.__data__.response.user.isadmin)
+                    {
+                        logged={logged:'user',name:resp.detail.__data__.response.user.name}
+                    }
+                    else if (resp.detail.__data__.response.user.isadmin)
+                    {
+                        logged={logged:'admin', name:resp.detail.__data__.response.user.name}
+                    }
+                    this.fire('authentification-changed',logged);
                     //this.set('auth',{success:resp.detail.__data__.response.success,'user': {name:resp.detail.__data__.response.success.});
 
             		//this.auth={success:true};
@@ -91,9 +109,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 var form = Polymer.dom(event).localTarget.parentElement
                 form.reset();
                 form.querySelector('.output').innerHTML = '';
-            },
-            _authChanged: function(newval, oldval) {
-                console.log(newval);
             },
             properties: {
             	auth:{

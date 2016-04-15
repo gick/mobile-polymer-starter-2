@@ -1,0 +1,141 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<dom-module id="point-interest-display">
+    <template>
+        <style include="shared-styles">
+        paper-card {
+            --paper-card-header: {
+                background-color: #b2ffa6;
+            }
+            --paper-card-header-text: {
+                width: 250px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            ;
+            --paper-card: {
+                margin-left: 15px;
+                margin-bottom: 15px;
+            }
+            ;
+        }
+        
+        .info {
+            color: #737373;
+            font-weight: 400;
+            font-size: 16px;
+            font-family: 'Roboto', 'Noto', sans-serif;
+            display: inline-block;
+        }
+        
+        .mediaimg {
+            max-height: 300px;
+            max-width: 300px;
+            border-radius: 3px;
+            -moz-box-shadow: 6px 5px 2px #CECEB9;
+            -webkit-box-shadow: 6px 5px 2px #CECEB9;
+            -o-box-shadow: 6px 5px 2px #CECEB9;
+            box-shadow: 6px 5px 2px #CECEB9;
+            margin-bottom: 15px;
+        }
+        
+        .innerdiv {
+            position: relative;
+            overflow: visible;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        </style>
+        <iron-ajax id="ajaxLoader" url="/poi" handle-as="json" last-response="{{items}}"></iron-ajax>
+        <div class="innerdiv">
+            <template is="dom-repeat" items="{{items}}" as="item">
+                <template is="dom-if" if={{item.photo}}>
+                    <paper-card heading="{{item.name}}">
+                        <div class=card-content>
+                            <img class="mediaimg" src="/file/{{item.photo}}">
+                            <div>Longitude :
+                                <div class="info"> {{item.longitude}}</div>
+                            </div>
+                            <div>Latitude :
+                                <div class="info">{{item.latitude}}</div>
+                            </div>
+                            <div>Public :
+                                <div class="info">{{item.public}}</div>
+                            </div>
+                            <div>Date taken :
+                                <div class="info">{{item.date}}</div>
+                            </div>                                                        
+                            <div>Comment :
+                                <div class="info">{{iten.comment}}</div>
+                            </div>
+                        </div>
+                    </paper-card>
+                </template>
+                <template is="dom-if" if={{!item.photo}}>
+                    <paper-card heading="{{item.name}}">
+                        <div class=card-content>
+                            <div>Longitude :
+                                <div class="info"> {{item.longitude}}</div>
+                            </div>
+                            <div>Latitude :
+                                <div class="info">{{item.latitude}}</div>
+                            </div>
+                            <div>Public :
+                                <div class="info">{{item.public}}</div>
+                            </div>
+                            <div>Date taken :
+                                <div class="info">{{item.date}}</div>
+                            </div>                                                        
+                            <div>Comment :
+                                <div class="info">{{iten.comment}}</div>
+                            </div>
+                        </div>
+                    </paper-card>
+                </template>
+            </template>
+        </div>
+    </template>
+    <script>
+    (function() {
+        'use strict';
+
+        Polymer({
+            is: 'point-interest-display',
+
+            ready: function() {
+                this.addEventListener('authentification-changed', function(event) {
+                    if (event.detail.logged)
+                        this.$.ajaxLoader.generateRequest();
+                })
+                this.addEventListener('poi-changed', function(event) {
+                        this.$.ajaxLoader.generateRequest();
+                })
+
+            },
+
+
+            properties: {
+                poi: {
+                    type: Object,
+                    notify: true
+                }
+
+            }
+        });
+    })();
+    </script>
+</dom-module>
+2

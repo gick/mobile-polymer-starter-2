@@ -51,30 +51,57 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       setFocus(app.route);
     });
 
-    page('/users', function() {
-      app.route = 'users';
+    page('/user', function() {
+      app.route = 'user';
       setFocus(app.route);
     });
+
     page('/configuration', function() {
       app.route = 'configuration';
       setFocus(app.route);
     });
-
-
-    page('/inventory', function() {
-      app.route = 'inventory';
+    page('/demo', function() {
+      app.route = 'demo';
       setFocus(app.route);
     });
+
+
+
+    page('/ressources', function() {
+      if(app.auth.logged){
+
+      app.route = 'ressources';
+      setFocus(app.route);}
+      else{
+      app.route = 'notlogged';
+      setFocus(app.route);}
+
+      }
+    );
 
     page('/public', function() {
       app.route = 'public';
       setFocus(app.route);
     });
 
+
+    page('/admin', function() {
+      if(app.auth.logged=="admin"){
+      app.route = 'admin';
+      setFocus(app.route);}
+      else{
+      app.route = 'notdmin';
+      setFocus(app.route);}
+
+    });
+
+
     page('/contact', function() {
       app.route = 'contact';
       setFocus(app.route);
     });
+
+
 
     // 404
     page('*', function() {

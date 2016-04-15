@@ -7,6 +7,8 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
+
+
 function distance(lat1, lon1, lat2, lon2, unit) {
   var radlat1 = Math.PI * lat1/180;
   var radlat2 = Math.PI * lat2/180;
@@ -43,14 +45,28 @@ function distance(lat1, lon1, lat2, lon2, unit) {
     }
   };
 
+
   // Listen for template bound event to know when bindings
   // have resolved and content has been stamped to the page
   app.addEventListener('dom-change', function() {
+    app.$.poireg.addEventListener('poi-changed',function(event){
+      app.fire('poi-changed',auth.detail,{bubbles:false,node:app.$.poidisplay});
+    })
+
+    app.$.fileupload.addEventListener('success',function(event){
+      app.fire('media-changed',auth.detail,{bubbles:false,node:app.$.mediaviewer});
+    })
 
     console.log('Our app is ready to rock!');
+    app.$.auth.addEventListener('authentification-changed',function(auth){
+      app.auth=auth.detail;
+      app.fire('authentification-changed',auth.detail,{bubbles:false,node:app.$.poidisplay});
+      app.fire('authentification-changed',auth.detail,{bubbles:false,node:app.$.mediaviewer});
+
+    })
+
   });
-
-
+   
   // Main area's paper-scroll-header-panel custom condensing transformation of
   // the appName in the middle-container and the bottom title in the bottom-container.
   // The appName is moved to top and shrunk on condensing. The bottom sub title

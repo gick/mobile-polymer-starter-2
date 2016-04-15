@@ -15,91 +15,78 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <dom-module id="supported-element">
     <template>
         <style>
+            .second{font-family: 'Roboto', 'Noto', sans-serif;
+                -webkit-font-smoothing: antialiased;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    color: #737373;}
+
+
+                .primary{margin-bottom: 20px;}
 
         </style>
+
+
         <h2>Supported media</h2>
-        <paper-listbox>
-            <paper-item hidden$={{!video}}>
-              <paper-item-body two-line>
+
+            <div hidden class="primary" hidden$={{!video}}>
                 <div>Contratulation your device support HTML5 &lt;video&gt; tag </div>
-                <div secondary>Enjoy watching video during Mobile learning games</div>
-                </paper-item-body>
-            </paper-item>
-            <paper-item hidden$={{video}}>
-              <paper-item-body two-line>
+                <div class="second">Enjoy watching video during Mobile learning games</div>
+            </div>
+
+            <div hidden class="primary" hidden$={{video}}>
                 <div>Sorry your device do not support HTML5 &lt;video&gt; tag </div>
-                <div secondary>You might miss some media</div>
-                </paper-item-body>
-            </paper-item>
-            <paper-item hidden$={{!audio}}>
-              <paper-item-body two-line>
+                <div class="second">You might miss some media</div>
+            </div>
+            <div hidden class="primary" hidden$={{!audio}}>
                 <div>Contratulation your device support HTML5 &lt;audio&gt; tag </div>
-                <div secondary>Enjoy listenning audio during Mobile learning games</div>
-                </paper-item-body>
-            </paper-item>
-            <paper-item hidden$={{video}}>
-              <paper-item-body two-line>
+                <div class="second">Enjoy listenning audio during Mobile learning games</div>
+            </div>
+            <div hidden class="primary" hidden$={{video}}>
                 <div>Sorry your device do not support HTML5 &lt;audio&gt; tag </div>
-                <div secondary>You might miss some media</div>
-                </paper-item-body>
-            </paper-item>
-          </paper-listbox>
+                <div class="second">You might miss some media</div>
+            </div>
 
           <h2>Supported sensors</h2>
-          <paper-listbox>
-            <paper-item hidden$={{!geoloc}}>
-              <paper-item-body two-line>
+            <div hidden class="primary" hidden$={{!geoloc}}>
                 <div>Contratulation your device support geolocation </div>
-                <div secondary>You should be able to perform most games</div>
-                </paper-item-body>
-            </paper-item>
-            <paper-item hidden$={{geoloc}}>
-              <paper-item-body two-line>
+                <div class="second">You should be able to perform most games</div>
+            </div>
+            <div hidden class="primary" hidden$={{geoloc}}>
                 <div>Sorry your device do not support geolocation or you didn't enabled GPS </div>
-                <div secondary>Please enable GPS and reload the page</div>
-                </paper-item-body>
-            </paper-item>
-            <paper-item hidden$={{!orientation}}>
-              <paper-item-body two-line>
+                <div class="second">Please enable GPS and reload the page</div>
+            </div>
+            <div hidden class="primary" hidden$={{!orientation}}>
                 <div>Contratulation your device support device orientation API </div>
-                <div secondary>You will be able to use the compass!</div>
-                </paper-item-body>
-            </paper-item>
-            <paper-item hidden$={{orientation}}>
-              <paper-item-body two-line>
+                <div class="second">You will be able to use the compass!</div>
+            </div>
+            <div hidden class="primary" hidden$={{orientation}}>
+              <div-body two-line>
                 <div>Sorry your device do not support device orientation</div>
-                <div secondary>You will not be able to use the compass on this device</div>
-                </paper-item-body>
-            </paper-item>
-            <paper-item hidden$={{!motion}}>
-              <paper-item-body two-line>
+                <div class="second">You will not be able to use the compass on this device</div>
+            </div>
+            <div hidden class="primary" hidden$={{!motion}}>
+              <div-body two-line>
                 <div>Contratulation your device support the motion API </div>
-                <div secondary>You will be able to use motion based games</div>
-                </paper-item-body>
-            </paper-item>
-            <paper-item hidden$={{motion}}>
-              <paper-item-body two-line>
+                <div class="second">You will be able to use motion based games</div>
+            </div>
+            <div hidden class="primary" hidden$={{motion}}>
+              <div-body two-line>
                 <div>Sorry your device do not support device motion API</div>
-                <div secondary>You will not be able to use motion based game</div>
-                </paper-item-body>
-            </paper-item>
-        </paper-listbox>
+                <div class="second">You will not be able to use motion based game</div>
+            </div>
 
 
         <h2>Supported output</h2>
-        <paper-listbox>
-            <paper-item hidden$={{!mediadevices}}>
-              <paper-item-body two-line>
+            <div hidden class="primary" hidden$={{!mediadevices}}>
                 <div>Contratulation your device support direct Webcam and microphone access </div>
-                <div secondary>You can enjoy AR games and direct video chat</div>
-                </paper-item-body>
-            </paper-item>
-            <paper-item hidden$={{mediadevices}}>
-              <paper-item-body two-line>
+                <div class="second">You can enjoy AR games and direct video chat</div>
+            </div>
+            <div hidden class="primary" hidden$={{mediadevices}}>
                 <div>Sorry your device do not support getUserMedia </div>
-                <div secondary>You will not be able to play AR games neither do video chat</div>
-                </paper-item-body>
-            </paper-item>
+                <div class="second">You will not be able to play AR games neither do video chat</div>
+            </div>
     </template>
     <script>
     'use strict';

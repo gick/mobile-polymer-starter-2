@@ -1,0 +1,141 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/paper-audio-player/paper-audio-player.html">
+<dom-module id="media-viewer">
+    <template>
+        <style include="shared-styles">
+        paper-card {
+            --paper-card-header: {
+                background-color: #b2ffa6;
+            }
+            ;
+            --paper-card-header-text: {
+                width: 250px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            ;
+            --paper-card: {
+                margin-left: 15px;
+                margin-bottom: 15px;
+            }
+            ;
+        }
+        
+        .info {
+            color: #737373;
+            font-weight: 400;
+            font-size: 16px;
+            font-family: 'Roboto', 'Noto', sans-serif;
+            display: inline-block;
+        }
+        
+        .mediaimg {
+            max-height: 300px;
+            max-width: 300px;
+            border-radius: 3px;
+            -moz-box-shadow: 6px 5px 2px #CECEB9;
+            -webkit-box-shadow: 6px 5px 2px #CECEB9;
+            -o-box-shadow: 6px 5px 2px #CECEB9;
+            box-shadow: 6px 5px 2px #CECEB9;
+            margin-bottom: 15px;
+        }
+        
+        .innerdiv {
+            position: relative;
+            overflow: visible;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        </style>
+        <div class="innerdiv">
+            <iron-ajax id="ajaxLoader" url="/listUserMediaFiles" handle-as="json" last-response="{{items}}"></iron-ajax>
+            <template is="dom-repeat" items="{{items}}" as="item">
+                <template is="dom-if" if="{{_ismedia(item)}}">
+                    <paper-card heading="{{item.filename}}">
+                        <div class=card-content>
+                            <template is="dom-if" if="{{_isaudio(item)}}">
+                                <img class="mediaimg" src="/file/5710cd61b8f1164314cfef02">
+                                <paper-audio-player src="/file/{{item._id}}"></paper-audio-player>
+                            </template>
+                            <template is="dom-if" if="{{_isimage(item)}}">
+                                <div class="mediablock">
+                                    <img class="mediaimg" src="/file/{{item._id}}">
+                                </div>
+                            </template>
+                            <template is="dom-if" if="{{_isvideo(item)}}">
+                                <div class="mediablock">
+                                    <video preload width="300px" controls>
+                                        <source src="/file/{{item._id}}" type="{{item.contentType}}">
+                                    </video>
+                                </div>
+                            </template>
+                        </div>
+                    </paper-card>
+                </template>
+            </template>
+        </div>
+    </template>
+    <script>
+    (function() {
+        'use strict';
+
+        Polymer({
+            is: 'media-viewer',
+
+            ready: function() {
+                this.addEventListener('authentification-changed', function(event) {
+                    if (event.detail.logged)
+                        this.$.ajaxLoader.generateRequest();
+                })
+
+                this.addEventListener('media-changed', function(event) {
+                        this.$.ajaxLoader.generateRequest();
+                })
+
+
+            },
+
+            _ismedia: function(item) {
+                return this._isaudio(item) + this._isvideo(item) + this._isimage(item);
+            },
+
+            _isaudio: function(item) {
+                var result = item.contentType == 'audio/mp3';
+                return result;
+            },
+
+            _isvideo: function(item) {
+                var supported = item.contentType == 'video/webm';
+                return supported
+            },
+            _isimage: function(item) {
+                var image = item.contentType == 'image/png'
+                return image;
+            },
+
+            properties: {
+                poi: {
+                    type: Object,
+                    notify: true
+                }
+
+            }
+        });
+    })();
+    </script>
+</dom-module>
+2

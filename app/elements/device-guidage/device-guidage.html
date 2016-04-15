@@ -9,8 +9,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-
 <dom-module id="device-guidage">
+<!--
+UILess component that provide the direction between the user position and compass heading and a given latitude and longitude
+@group Gameplay Element
+@demo demo/index.html
+
+
+-->
 
   <script>
     (function() {
@@ -25,8 +31,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             window.addEventListener('deviceorientation', this.handleOrientation.bind(this), false);
           },
 
-        angleFromCoordinate:function( lat1, long1, lat2,
-        long2) {
+        angleFromCoordinate:function( lat1, long1, lat2, long2) {
 
         var  dLon = (long2 - long1);
 
