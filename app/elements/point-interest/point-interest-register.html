@@ -49,8 +49,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         cursor: pointer; /* "hand" cursor */
       }
     </style>
-          <geo-location latitude="{{latitude}}" longitude="{{longitude}}"></geo-location>
-          <paper-card heading="Register a new POI">
+          <geo-location  watch-pos latitude="{{latitude}}" longitude="{{longitude}}"></geo-location>
+          <paper-card style="margin-left: 15px;" heading="Register a new POI">
           <div class=card-content>
            <form id="piform" is="iron-form" enctype="multipart/form-data" method="post" action="/poi">  
             <paper-input readonly name="latitude" value="{{latitude}}" label="Current latitude"></paper-input>

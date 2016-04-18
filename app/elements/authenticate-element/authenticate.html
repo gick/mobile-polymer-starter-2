@@ -19,12 +19,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <dom-module id="authenticate-element">
     <style>
     :host
+
+  .insidePaper {
+    margin-left: 15px;
+    margin-right :15px;
+  }
+
+
     </style>
     <template>
         <iron-request id="xhr"></iron-request>
         <iron-ajax auto id="userConnect" url="/profile" handle-as="json" on-response="handleResponse" last-response="{{auth}}"></iron-ajax>
         <template is="dom-if" if="{{!auth.success}}">
-           <form id="authform" is="iron-form" method="post" action="/login">  
+           <form class="insidePaper" id="authform" is="iron-form" method="post" action="/login">  
             <h1>Please log-in</h1>
             <paper-input name="name" label="Name" required></paper-input>
             <paper-input name="password" label="password" required></paper-input>
@@ -34,7 +41,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </form>
         </template>
         <template is="dom-if" if="{{auth.success}}">
-            <h1>User profile</h1>
+            <h1 class="insidePaper">User profile</h1>
             <div role="listbox">
                 <paper-icon-item>
                     <iron-icon icon="social:person" item-icon></iron-icon>

@@ -10,6 +10,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <dom-module id="game-runner">
   <style>
+  .insidePaper {
+    margin-left: 15px;
+    margin-right :15px;
+  }
 
     paper-card {
       display:inline-block;
@@ -24,13 +28,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   </style>
   <template>
-  <h1>ReveRIES Game Runner</h1>
+  <h1 class="insidePaper" >ReveRIES Game Runner</h1>
     <div class="horizontal-section-container">
       <div>
         <div class="vertical-section">
-          <div><p>Choose a json scenario to get started or upload new scenario in the scenario manager</p>
+          <div class="insidePaper" ><p>Choose a json scenario to get started or upload new scenario in the scenario manager</p>
           <p>Please check your device compativility before starting.</p></div>
-          <paper-card style="--paper-card-header:{ background-color: #a7ff97;}"   heading="Demo scénario" >
+          <paper-card  class="insidePaper" style="--paper-card-header:{ background-color: #a7ff97;}"   heading="Demo scénario" >
             <div class="card-actions">
               <paper-button id="Start" raised class="green" on-click="startScenario">Start</paper-button>
             </div>
