@@ -66,11 +66,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     });
 
 
-
-    page('/ressources', function() {
+    page('/userpoi', function() {
       if(app.auth.logged){
 
-      app.route = 'ressources';
+      app.route = 'userpoi';
+      setFocus(app.route);}
+      else{
+      app.route = 'notlogged';
+      setFocus(app.route);}
+
+      }
+    );
+
+
+    page('/usermedia', function() {
+      if(app.auth.logged){
+
+      app.route = 'usermedia';
       setFocus(app.route);}
       else{
       app.route = 'notlogged';

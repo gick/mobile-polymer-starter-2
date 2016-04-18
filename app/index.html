@@ -59,7 +59,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     <span class="menu-name">Menu</span>
                 </paper-toolbar>
                 <!-- Drawer Content -->
-                <paper-menu attr-for-selected="data-route" selected="[[route]]">
+                <paper-menu attr-for-item-title="label" attr-for-selected="data-route" selected="[[route]]">
                     <a data-route="home" href="{{baseUrl}}">
                         <iron-icon icon="home"></iron-icon>
                         <span>ReVeRIES</span>
@@ -77,10 +77,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         <iron-icon icon="social:school"></iron-icon>
                         <span>Demo game</span>
                     </a>
-                    <a data-route="ressources" href="{{baseUrl}}ressources">
-                        <iron-icon icon="icons:assignment"></iron-icon>
-                        <span>My ressources</span>
-                    </a>
+                    <paper-submenu label="My ressources">
+                        <paper-item class="submenu-selector menu-trigger">
+                            <iron-icon icon="icons:assignment"></iron-icon>
+                            My ressources
+                        </paper-item>
+                        <paper-menu class="menu-content sublist">
+                            <a data-route="usermedia" href="{{baseUrl}}usermedia">
+                                <paper-item class="menuitem">
+                                    <iron-icon icon="icons:assignment"></iron-icon>
+                                    My media
+                                </paper-item>
+                            </a>
+                            <a data-route="userpoi" href="{{baseUrl}}userpoi">
+                                <paper-item class="menuitem">
+                                    <iron-icon icon="social:public"></iron-icon>
+                                    My POI
+                                </paper-item>
+                            </a>
+                            <a data-route="scenario" href="{{baseUrl}}scenario">
+                                <paper-item class="menuitem">
+                                    <iron-icon icon="verified-user"></iron-icon>
+                                    My Scenarios elements
+                                </paper-item>
+                            </a>
+                        </paper-menu>
+                    </paper-submenu>
                     <a data-route="public" href="{{baseUrl}}public">
                         <iron-icon icon="social:public"></iron-icon>
                         <span>Public ressources</span>
@@ -153,24 +175,30 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         </section>
                         <section data-route="public" tabindex="-1">
                             <paper-material elevation="1">
-                                <jsonymer-editor obj="{firstname:'Joe'}"></jsonymer-editor>
+                                <h3>Public POI</h3>
+                                <paper-material elevation="2">
+                                    <point-interest-display poi-url="/listPublicPoi" id="publicpoi"></point-interest-display>
+                                </paper-material>
                             </paper-material>
                         </section>
-                        <section data-route="ressources" tabindex="-1">
-                            <paper-material elevation="1">
-                                <h3>Point of interest</h3>
-                                <point-interest-register id="poireg"></point-interest-register>
-                                <paper-material elevation="2">
-                                    <h3>My POI</h3>
-                                    <point-interest-display id="poidisplay"></point-interest-display>
-                                </paper-material>
+                        <section data-route="userpoi" tabindex="-1">
+                            <h3>Point of interest</h3>
+                            <point-interest-register id="poireg"></point-interest-register>
+                            <paper-material elevation="2">
+                                <h3>My POI</h3>
+                                <point-interest-display poi-url="/poi" id="poidisplay"></point-interest-display>
+                            </paper-material>
+                        </section>
+                        <section data-route="usermedia" tabindex="-1">
                             <paper-material elevation="1">
                                 <h3>Media ressources</h3>
-                                <file-upload droppable id="fileupload" raised method="POST" target="/file">Upload media ressources</file-upload>
-                                <paper-button onclick="app.$.fileupload.clear()">Clear uploaded files</paper-button>
+                                <file-upload droppable id="fileupload" public={{setpublic}} raised method="POST" target="/file">Upload media ressources</file-upload>
+                                <paper-icon-button id="removeMedia" icon="icons:remove-circle-outline" onclick="app.$.fileupload.clear()"></paper-icon-button>
+                                <paper-checkbox style="display:block" raised checked={{setpublic}} id="makemediapublic">Make media public</paper-checkbox>
+                                <paper-tooltip for="removeMedia" offset="0">Clear uploaded list</paper-tooltip>
                                 <paper-material elevation="2">
                                     <h3>My medias</h3>
-                                    <media-viewer id="mediaviewer"></media-viewer>
+                                    <media-viewer media-url="/listUserMediaFiles" id="mediaviewer"></media-viewer>
                                 </paper-material>
                             </paper-material>
                             </paper-material>

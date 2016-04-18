@@ -59,13 +59,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             flex-wrap: wrap;
         }
         </style>
-        <iron-ajax id="ajaxLoader" url="/poi" handle-as="json" last-response="{{items}}"></iron-ajax>
+        <iron-ajax id="ajaxLoader" url="{{poiUrl}}" handle-as="json" last-response="{{items}}"></iron-ajax>
         <div class="innerdiv">
             <template is="dom-repeat" items="{{items}}" as="item">
                 <template is="dom-if" if={{item.photo}}>
                     <paper-card heading="{{item.name}}">
                         <div class=card-content>
                             <img class="mediaimg" src="/file/{{item.photo}}">
+                            <template is="dom-if" if={{item.creator}}>
+                            <div>Creator :
+                                <div class="info"> {{item.creator}}</div>
+                            </div>
+
+                            </template>    
                             <div>Longitude :
                                 <div class="info"> {{item.longitude}}</div>
                             </div>
@@ -79,7 +85,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                                 <div class="info">{{item.date}}</div>
                             </div>                                                        
                             <div>Comment :
-                                <div class="info">{{iten.comment}}</div>
+                                <div class="info">{{item.comment}}</div>
                             </div>
                         </div>
                     </paper-card>
@@ -87,6 +93,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <template is="dom-if" if={{!item.photo}}>
                     <paper-card heading="{{item.name}}">
                         <div class=card-content>
+                            <template is="dom-if" if={{item.creator}}>
+                            <div>Creator :
+                                <div class="info"> {{item.creator}}</div>
+                            </div>
+
+                            </template>    
+
                             <div>Longitude :
                                 <div class="info"> {{item.longitude}}</div>
                             </div>
@@ -100,7 +113,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                                 <div class="info">{{item.date}}</div>
                             </div>                                                        
                             <div>Comment :
-                                <div class="info">{{iten.comment}}</div>
+                                <div class="info">{{item.comment}}</div>
                             </div>
                         </div>
                     </paper-card>
@@ -128,8 +141,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
             properties: {
-                poi: {
-                    type: Object,
+                poiUrl: {
+                    type: String,
                     notify: true
                 }
 

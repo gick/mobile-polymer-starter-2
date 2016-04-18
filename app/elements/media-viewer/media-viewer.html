@@ -83,6 +83,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                                     </video>
                                 </div>
                             </template>
+                            <div>Filename : <div class="info">{{item.filename}}</div></div>
+                            <div>Type : <div class="info">{{item.contentType}}</div></div>
+                            <div>Upload date : <div class="info">{{item.uploadDate}}</div></div>
+                            <div>Size : <div class="info">{{_getSize(item)}} Ko</div></div>
                         </div>
                     </paper-card>
                 </template>
@@ -108,7 +112,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
             },
-
+            _getSize:function(item){
+                return (item.length/1024).toPrecision(2);
+            },
             _ismedia: function(item) {
                 return this._isaudio(item) + this._isvideo(item) + this._isimage(item);
             },
@@ -128,8 +134,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             },
 
             properties: {
-                poi: {
-                    type: Object,
+                mediaUrl: {
+                    type: String,
                     notify: true
                 }
 

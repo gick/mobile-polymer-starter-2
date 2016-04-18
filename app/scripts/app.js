@@ -51,6 +51,7 @@ function distance(lat1, lon1, lat2, lon2, unit) {
   app.addEventListener('dom-change', function() {
     app.$.poireg.addEventListener('poi-changed',function(event){
       app.fire('poi-changed',auth.detail,{bubbles:false,node:app.$.poidisplay});
+      app.fire('poi-changed',auth.detail,{bubbles:false,node:app.$.publicpoi});
     })
 
     app.$.fileupload.addEventListener('success',function(event){
@@ -60,6 +61,7 @@ function distance(lat1, lon1, lat2, lon2, unit) {
     console.log('Our app is ready to rock!');
     app.$.auth.addEventListener('authentification-changed',function(auth){
       app.auth=auth.detail;
+      app.fire('authentification-changed',auth.detail,{bubbles:false,node:app.$.publicpoi});
       app.fire('authentification-changed',auth.detail,{bubbles:false,node:app.$.poidisplay});
       app.fire('authentification-changed',auth.detail,{bubbles:false,node:app.$.mediaviewer});
 
