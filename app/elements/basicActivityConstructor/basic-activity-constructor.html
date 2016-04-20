@@ -33,7 +33,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
             <paper-input name="question" label="Question" required></paper-input>
             <paper-input name="response" label="Response" required></paper-input>
-
+            <paper-input name="media"  value="{{mediaId}}" label="Media file"></paper-input>  
             <paper-button raised on-click="_submit">Save</paper-button>
             <paper-button raised on-click="_reset">Reset</paper-button>
             <div class="output"></div>
@@ -45,10 +45,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         Polymer({
             is: 'basic-activity-constructor',
             ready: function() {
-                // this.auth={};
+                this.addEventListener('new-media',function(event,detail){
+                    this.set('mediaId',event.detail);
+                    this.mediaId=this.get('mediaId');
+                }.bind(this))
             },
             logout: function() {
             },
+            _mediaObserver:function(newval,old){
+                    this.set('mediaId', 'baseurl'+'/' + newval);
+            },
+
             handleResponse: function(resp) {
 	            },
 
@@ -57,6 +64,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             _reset: function(event) {
             },
             properties: {
+                mediaId:{type:String,notify:true,observer:'_mediaObserver'}
             	
             }
         });

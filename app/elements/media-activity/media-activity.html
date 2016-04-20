@@ -1,0 +1,48 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../media-viewer/media-viewer-activity.html">
+<link rel="import" href="../basicActivityConstructor/basic-activity-constructor.html">
+<dom-module id="media-activity">
+    <template>
+        <style include="shared-styles">
+
+        </style>
+        <basic-activity-constructor id="activityconstructor"></basic-activity-constructor>
+        <media-viewer-activity media-name="{{name}}" id="mediavieweractivity"></media-viewer-activity>
+    </template>
+    <script>
+    (function() {
+        'use strict';
+
+        Polymer({
+            is: 'media-activity',
+            ready: function() {
+                this.addEventListener('authentification-changed', function(event) {
+                    this.$.mediavieweractivity.fire('media-changed');
+                });
+                this.$.mediavieweractivity.addEventListener('media-name-changed', function(event) {
+                   this.$.activityconstructor.fire('new-media',this.name);
+                }.bind(this))
+
+            },
+
+            _mediaObserver:function(newval,oldval){
+              console.log('new media')
+              this.$.activityconstructor.fire('new-media',newval);
+            },
+
+
+            properties: {
+            }
+        });
+    })();
+    </script>
+</dom-module>

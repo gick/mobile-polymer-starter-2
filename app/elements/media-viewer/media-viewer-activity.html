@@ -50,7 +50,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <paper-button on-click="toggle">Add media</paper-button>
             <iron-collapse id="collapse">
                 <iron-ajax id="ajaxLoader" url="/listUserMediaFiles" handle-as="json" last-response="{{items}}"></iron-ajax>
-                <template is="dom-repeat" items="{{items}}" as="item">
+                <template is="dom-repeat" id ="models" items="{{items}}" as="item">
                     <template is="dom-if" if="{{_ismedia(item)}}">
                         <template is="dom-if" if="{{_isimage(item)}}">
                             <template is="dom-if" if="{{item.selected}}">
@@ -85,9 +85,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
             select: function(elem) {
                 var m=elem.model;
+                var selected=m.get('item._id');
+                for(var i=0;i<this.items.length;i++){
+                this.notifyPath("items." + i + '.selected',false);
+                }
                 m.set('item.selected',!m.get('item.selected'));
+                this.set('mediaName',selected);
+
             },
             ready: function() {
+                this.set('mediaName',"Test")
                 this.addEventListener('authentification-changed', function(event) {
                     if (event.detail.logged)
                         this.$.ajaxLoader.generateRequest();
@@ -125,11 +132,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     type: String,
                     notify: true
                 },
-                selected: {
-                    type: Number,
-                    notify: true
+                mediaName:{
+                    type:String,
+                    reflectToAttribute:true,
+                    notify:true
                 }
-
 
             }
         });

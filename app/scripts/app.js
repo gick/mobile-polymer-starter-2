@@ -64,8 +64,7 @@ function distance(lat1, lon1, lat2, lon2, unit) {
       app.auth=auth.detail;
       app.fire('authentification-changed',auth.detail,{bubbles:false,node:app.$.publicpoi});
       app.fire('authentification-changed',auth.detail,{bubbles:false,node:app.$.poidisplay});
-      app.fire('authentification-changed',auth.detail,{bubbles:false,node:app.$.mediaviewer});
-      app.fire('authentification-changed',auth.detail,{bubbles:false,node:app.$.mediavieweractivity});
+      app.fire('authentification-changed',auth.detail,{bubbles:false,node:app.$.mediaactivity});
 
     })
 
