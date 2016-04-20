@@ -33,7 +33,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
             <paper-input name="question" label="Question" required></paper-input>
             <paper-input name="response" label="Response" required></paper-input>
-            <paper-input name="media"  value="{{mediaId}}" label="Media file"></paper-input>  
+            <paper-input name="media"  value="/files/{{mediaId}}" label="Media file"></paper-input>  
             <paper-button raised on-click="_submit">Save</paper-button>
             <paper-button raised on-click="_reset">Reset</paper-button>
             <div class="output"></div>
@@ -53,7 +53,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             logout: function() {
             },
             _mediaObserver:function(newval,old){
-                    this.set('mediaId', 'baseurl'+'/' + newval);
+                    this.set('mediaId',  newval);
             },
 
             handleResponse: function(resp) {
