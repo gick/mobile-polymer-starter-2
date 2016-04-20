@@ -56,6 +56,7 @@ function distance(lat1, lon1, lat2, lon2, unit) {
 
     app.$.fileupload.addEventListener('success',function(event){
       app.fire('media-changed',auth.detail,{bubbles:false,node:app.$.mediaviewer});
+      app.fire('media-changed',auth.detail,{bubbles:false,node:app.$.mediavieweractivity});
     })
 
     console.log('Our app is ready to rock!');
@@ -64,6 +65,7 @@ function distance(lat1, lon1, lat2, lon2, unit) {
       app.fire('authentification-changed',auth.detail,{bubbles:false,node:app.$.publicpoi});
       app.fire('authentification-changed',auth.detail,{bubbles:false,node:app.$.poidisplay});
       app.fire('authentification-changed',auth.detail,{bubbles:false,node:app.$.mediaviewer});
+      app.fire('authentification-changed',auth.detail,{bubbles:false,node:app.$.mediavieweractivity});
 
     })
 

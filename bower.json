@@ -56,6 +56,7 @@
     "web-component-tester": "^4.0.0"
   },
   "resolutions": {
-    "file-upload": "e9742292b0747b6588755083eb1c26f3a3d71e12"
+    "file-upload": "e9742292b0747b6588755083eb1c26f3a3d71e12",
+    "polymer": "^1.0.0"
   }
 }

@@ -1,0 +1,139 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/paper-audio-player/paper-audio-player.html">
+<link rel="import" href="../../bower_components/iron-collapse/iron-collapse.html">
+<dom-module id="media-viewer-activity">
+    <template>
+        <style include="shared-styles">
+        .mediaimg {
+            height: 300px;
+            max-width: 300px;
+            border-radius: 3px;
+            -moz-box-shadow: 6px 5px 2px #CECEB9;
+            -webkit-box-shadow: 6px 5px 2px #CECEB9;
+            -o-box-shadow: 6px 5px 2px #CECEB9;
+            box-shadow: 6px 5px 26px #CECEB9;
+            margin-bottom: 15px;
+            margin-left: 24px;
+        }
+        
+        .mediablock {
+            display: inline-block;
+        }
+        
+        .selected {
+            border-spacing: 5px;
+            border: 3px solid blue;
+        }
+        
+        .innerdiv {
+            margin-top: 25px;
+            position: relative;
+            overflow: visible;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        </style>
+        <div class="innerdiv">
+            <paper-button on-click="toggle">Add media</paper-button>
+            <iron-collapse id="collapse">
+                <iron-ajax id="ajaxLoader" url="/listUserMediaFiles" handle-as="json" last-response="{{items}}"></iron-ajax>
+                <template is="dom-repeat" items="{{items}}" as="item">
+                    <template is="dom-if" if="{{_ismedia(item)}}">
+                        <template is="dom-if" if="{{_isimage(item)}}">
+                            <template is="dom-if" if="{{item.selected}}">
+                                <div class="mediablock selected" on-click="select">
+                                   <img class="mediaimg" src="/file/{{item._id}}">
+                                </div>
+                            </template>
+                            <template is="dom-if" if="{{!item.selected}}">
+                            <div class="mediablock" on-click="select">
+                                <img class="mediaimg" src="/file/{{item._id}}">
+                            </div>
+                            </template>
+                        </template>
+                    </template>
+                </template>
+            </iron-collapse>
+        </div>
+    </template>
+    <script>
+    (function() {
+        'use strict';
+
+        Polymer({
+            is: 'media-viewer-activity',
+            toggle: function() {
+                this.$.collapse.toggle();
+            },
+            _isselect: function(index) {
+                console.log(index)
+
+            },
+
+            select: function(elem) {
+                var m=elem.model;
+                m.set('item.selected',!m.get('item.selected'));
+            },
+            ready: function() {
+                this.addEventListener('authentification-changed', function(event) {
+                    if (event.detail.logged)
+                        this.$.ajaxLoader.generateRequest();
+                })
+
+                this.addEventListener('media-changed', function(event) {
+                    this.$.ajaxLoader.generateRequest();
+                })
+
+
+            },
+            _getSize: function(item) {
+                return (item.length / 1024).toPrecision(2);
+            },
+            _ismedia: function(item) {
+                return this._isaudio(item) + this._isvideo(item) + this._isimage(item);
+            },
+
+            _isaudio: function(item) {
+                var result = item.contentType == 'audio/mp3';
+                return result;
+            },
+
+            _isvideo: function(item) {
+                var supported = item.contentType == 'video/webm';
+                return supported
+            },
+            _isimage: function(item) {
+                var image = item.contentType == 'image/png'
+                return image;
+            },
+
+            properties: {
+                mediaUrl: {
+                    type: String,
+                    notify: true
+                },
+                selected: {
+                    type: Number,
+                    notify: true
+                }
+
+
+            }
+        });
+    })();
+    </script>
+</dom-module>
+2

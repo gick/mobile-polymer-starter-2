@@ -1,0 +1,65 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/iron-label/iron-label.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-item/paper-icon-item.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-icons/social-icons.html">
+<dom-module id="basic-activity-constructor">
+    <style>
+    :host
+
+  .insidePaper {
+    margin-left: 15px;
+    margin-right :15px;
+  }
+
+
+    </style>
+    <template>
+           <form class="insidePaper" id="authform" is="iron-form" method="post" action="/login">  
+            <h1>Free text answer activity</h1>
+
+            <paper-input name="question" label="Question" required></paper-input>
+            <paper-input name="response" label="Response" required></paper-input>
+
+            <paper-button raised on-click="_submit">Save</paper-button>
+            <paper-button raised on-click="_reset">Reset</paper-button>
+            <div class="output"></div>
+            </form>
+    </template>
+    <script>
+    (function() {
+        'use strict';
+        Polymer({
+            is: 'basic-activity-constructor',
+            ready: function() {
+                // this.auth={};
+            },
+            logout: function() {
+            },
+            handleResponse: function(resp) {
+	            },
+
+            _submit: function(event) {
+            },
+            _reset: function(event) {
+            },
+            properties: {
+            	
+            }
+        });
+    })();
+    </script>
+</dom-module>
