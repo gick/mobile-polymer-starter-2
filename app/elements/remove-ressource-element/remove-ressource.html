@@ -1,0 +1,56 @@
+
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+
+<dom-module id="remove-ressource">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      span {
+        @apply(--paper-font-body1);
+      }
+    </style>
+  <iron-ajax id="remove" url="/{{ressource-url}}/{{ressource-id}}" method="DELETE" on-response="{{callback-function}}"></iron-ajax> 
+  <paper-icon-button onclick="this.$.remove.generateRequest()" tooltip="{{ressource-tooltip}}"></paper-icon-button>
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'remove-ressource',
+
+        properties: {
+          ressourceTooltip:{type:String,value:"Remove element"},
+          ressourceButton:{type:Boolean,value : true},
+          ressourceIcon:{type:String,value:"icons:delete"},
+          ressourceId:{
+            type:String,
+            notify:true
+          },
+          ressourceUrl: {
+            type: String,
+            notify: true
+          },
+          callbackFunction:{
+            type:Object,
+            notify:true
+          }
+        },
+
+        ready: function() {
+          this.$.remove.addEventListener('remove-ressource',function(){
+            this.$.remove.generateRequest()
+          })
+          
+        }
+      });
+    })();
+  </script>
+</dom-module>

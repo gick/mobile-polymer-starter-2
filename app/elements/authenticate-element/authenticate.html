@@ -16,6 +16,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/paper-item/paper-icon-item.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/iron-icons/social-icons.html">
+<link rel="import" href="../../bower_components/iron-a11y-keys">
+
 <dom-module id="authenticate-element">
     <style>
     :host
@@ -31,10 +33,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <iron-request id="xhr"></iron-request>
         <iron-ajax auto id="userConnect" url="/profile" handle-as="json" on-response="handleResponse" last-response="{{auth}}"></iron-ajax>
         <template is="dom-if" if="{{!auth.success}}">
+
            <form class="insidePaper" id="authform" is="iron-form" method="post" action="/login">  
             <h1>Please log-in</h1>
             <paper-input name="name" label="Name" required></paper-input>
-            <paper-input name="password" label="password" required></paper-input>
+            <paper-input type="password" name="password" label="password" required></paper-input>
             <paper-button raised on-click="_submit">Submit</paper-button>
             <paper-button raised on-click="_reset">Reset</paper-button>
             <div class="output"></div>
