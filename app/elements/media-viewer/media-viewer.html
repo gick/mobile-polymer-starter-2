@@ -11,6 +11,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../../bower_components/paper-audio-player/paper-audio-player.html">
+<link rel="import" href="../remove-ressource-element/remove-ressource.html">
 <dom-module id="media-viewer">
     <template>
         <style include="shared-styles">
@@ -31,8 +32,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 margin-bottom: 15px;
             }
             ;
+
+
+            --paper-card-actions {
+                border-top: 1px solid lightgrey;
+            }
         }
-        
+        .myactions{
+                border-top: 1px solid lightgrey!important;
+
+        }
         .info {
             color: #737373;
             font-weight: 400;
@@ -42,8 +51,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
         
         .mediaimg {
-            max-height: 300px;
-            max-width: 300px;
+            height: 300px;
+            display:flex;
             border-radius: 3px;
             -moz-box-shadow: 6px 5px 2px #CECEB9;
             -webkit-box-shadow: 6px 5px 2px #CECEB9;
@@ -57,7 +66,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             overflow: visible;
             width: 100%;
             height: 100%;
-            display: flex;
+            display:flex;
             flex-wrap: wrap;
         }
         </style>
@@ -83,10 +92,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                                     </video>
                                 </div>
                             </template>
-                            <div>Filename : <div class="info">{{item.filename}}</div></div>
-                            <div>Type : <div class="info">{{item.contentType}}</div></div>
-                            <div>Upload date : <div class="info">{{item.uploadDate}}</div></div>
-                            <div>Size : <div class="info">{{_getSize(item)}} Ko</div></div>
+                            <div>Filename :
+                                <div class="info">{{item.filename}}</div>
+                            </div>
+                            <div>Type :
+                                <div class="info">{{item.contentType}}</div>
+                            </div>
+                            <div>Upload date :
+                                <div class="info">{{item.uploadDate}}</div>
+                            </div>
+                            <div>Size :
+                                <div class="info">{{_getSize(item)}} Ko</div>
+                            </div>
+                        </div>
+                        <div style="border-top: 1px solid lightgrey;"class="myaction card-action">
+                            <paper-button on-click='genrequest'>Remove</paper-button>
+                            <remove-ressource ressource-url='/file' callbackfunction="{{callback}}" ressource-id={{item._id}}></remove-ressource>
                         </div>
                     </paper-card>
                 </template>
@@ -104,16 +125,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 this.addEventListener('authentification-changed', function(event) {
                     if (event.detail.logged)
                         this.$.ajaxLoader.generateRequest();
-                })
+                }.bind(this))
 
                 this.addEventListener('media-changed', function(event) {
-                        this.$.ajaxLoader.generateRequest();
-                })
+                    this.$.ajaxLoader.generateRequest();
+                }.bind(this))
+
+                this.set('callback',function(){
+                    this.$.ajaxLoader.generateRequest();
+                }.bind(this));
 
 
             },
-            _getSize:function(item){
-                return (item.length/1024).toPrecision(2);
+            genrequest:function(event){
+               event.srcElement.nextElementSibling.genRequest();    
+            },
+            _mediaRemoved: function(response) {
+                console.log(response);
+                this.$.ajaxLoader.generateRequest();
+            },
+            _getSize: function(item) {
+                return (item.length / 1024).toPrecision(2);
             },
             _ismedia: function(item) {
                 return this._isaudio(item) + this._isvideo(item) + this._isimage(item);
@@ -134,6 +166,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             },
 
             properties: {
+                callback:{
+                    type:Object,
+                    value:{}
+                },
                 mediaUrl: {
                     type: String,
                     notify: true

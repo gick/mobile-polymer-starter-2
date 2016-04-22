@@ -9,7 +9,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../remove-ressource-element/remove-ressource.html">
 <dom-module id="point-interest-display">
     <template>
         <style include="shared-styles">
@@ -22,6 +24,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
+            }
+            ;
+            --paper-card-actions {
+                border-top: 1px solid lightgrey;
             }
             ;
             --paper-card: {
@@ -40,8 +46,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
         
         .mediaimg {
-            max-height: 300px;
-            max-width: 300px;
+            height: 300px;
+            display:flex;
             border-radius: 3px;
             -moz-box-shadow: 6px 5px 2px #CECEB9;
             -webkit-box-shadow: 6px 5px 2px #CECEB9;
@@ -65,13 +71,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <template is="dom-if" if={{item.photo}}>
                     <paper-card heading="{{item.name}}">
                         <div class=card-content>
+                        <div class="mediablock">
                             <img class="mediaimg" src="/file/{{item.photo}}">
+                        </div>
                             <template is="dom-if" if={{item.creator}}>
-                            <div>Creator :
-                                <div class="info"> {{item.creator}}</div>
-                            </div>
-
-                            </template>    
+                                <div>Creator :
+                                    <div class="info"> {{item.creator}}</div>
+                                </div>
+                            </template>
                             <div>Longitude :
                                 <div class="info"> {{item.longitude}}</div>
                             </div>
@@ -83,9 +90,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                             </div>
                             <div>Date taken :
                                 <div class="info">{{item.date}}</div>
-                            </div>                                                        
-                            <div>Comment :
-                                <div class="info">{{item.comment}}</div>
+                            </div>
+                            </div>
+                            <div class="card-action"  style="border-top: 1px solid lightgrey;">
+                                <paper-button on-click='genrequest'>Remove</paper-button>
+                                <remove-ressource ressource-id={{item._id}} callbackfunction="{{callback}}" ressource-url='/poi'></remove-ressource>
                             </div>
                         </div>
                     </paper-card>
@@ -94,12 +103,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     <paper-card heading="{{item.name}}">
                         <div class=card-content>
                             <template is="dom-if" if={{item.creator}}>
-                            <div>Creator :
-                                <div class="info"> {{item.creator}}</div>
-                            </div>
-
-                            </template>    
-
+                                <div>Creator :
+                                    <div class="info"> {{item.creator}}</div>
+                                </div>
+                            </template>
                             <div>Longitude :
                                 <div class="info"> {{item.longitude}}</div>
                             </div>
@@ -111,10 +118,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                             </div>
                             <div>Date taken :
                                 <div class="info">{{item.date}}</div>
-                            </div>                                                        
-                            <div>Comment :
-                                <div class="info">{{item.comment}}</div>
                             </div>
+                           
+                        </div>
+                        <div class="card-action" style="border-top: 1px solid lightgrey;">
+                            <paper-button on-click='genrequest'>Remove</paper-button>
+                            <remove-ressource ressource-id={{item._id}} callbackfunction="{{callback}}" ressource-url='/poi'></remove-ressource>
                         </div>
                     </paper-card>
                 </template>
@@ -134,13 +143,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         this.$.ajaxLoader.generateRequest();
                 })
                 this.addEventListener('poi-changed', function(event) {
-                        this.$.ajaxLoader.generateRequest();
+                    this.$.ajaxLoader.generateRequest();
                 })
+                this.set('callback', function() {
+                    this.$.ajaxLoader.generateRequest();
+                }.bind(this));
 
+            },
+            genrequest: function(event) {
+                event.srcElement.nextElementSibling.genRequest();
             },
 
 
             properties: {
+                callbackfunction: {
+                    type: Object
+                },
                 poiUrl: {
                     type: String,
                     notify: true

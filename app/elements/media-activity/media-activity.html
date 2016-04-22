@@ -26,6 +26,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             is: 'media-activity',
             ready: function() {
                 this.addEventListener('authentification-changed', function(event) {
+                    if(event.detail.logged)
                     this.$.mediavieweractivity.fire('media-changed');
                 });
                 this.$.mediavieweractivity.addEventListener('media-name-changed', function(event) {
