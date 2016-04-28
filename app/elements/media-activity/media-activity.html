@@ -8,6 +8,7 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-material/paper-material.html">
 <link rel="import" href="../media-viewer/media-viewer-activity.html">
 <link rel="import" href="../basicActivityConstructor/basic-activity-constructor.html">
 <dom-module id="media-activity">
@@ -15,8 +16,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <style include="shared-styles">
 
         </style>
-        <basic-activity-constructor id="activityconstructor"></basic-activity-constructor>
-        <media-viewer-activity media-name="{{name}}" id="mediavieweractivity"></media-viewer-activity>
+        <basic-activity-constructor style="display: flex;flex-direction: initial;flex-grow: inherit;" id="activityconstructor"> </basic-activity-constructor>
+        <media-viewer-activity media-name="{{name}}" has-media="{{required}}" id="mediavieweractivity"></media-viewer-activity>
     </template>
     <script>
     (function() {
@@ -26,22 +27,31 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             is: 'media-activity',
             ready: function() {
                 this.addEventListener('authentification-changed', function(event) {
-                    if(event.detail.logged)
-                    this.$.mediavieweractivity.fire('media-changed');
+                    if (event.detail.logged)
+                        this.$.mediavieweractivity.fire('media-changed');
                 });
                 this.$.mediavieweractivity.addEventListener('media-name-changed', function(event) {
-                   this.$.activityconstructor.fire('new-media',this.name);
+                    this.$.activityconstructor.fire('new-media', this.name);
+                }.bind(this));
+                this.$.activityconstructor.addEventListener('image-required-changed', function(event) {
+
+                    this.$.mediavieweractivity.set('hasMedia', event.detail.value)
                 }.bind(this))
 
             },
 
-            _mediaObserver:function(newval,oldval){
-              console.log('new media')
-              this.$.activityconstructor.fire('new-media',newval);
+            _mediaObserver: function(newval, oldval) {
+                console.log('new media')
+                this.$.activityconstructor.fire('new-media', newval);
             },
-
-
+            _collapsedObs: function() {
+                alert('true');
+            },
             properties: {
+                required: {
+                    type: String,
+                }
+
             }
         });
     })();

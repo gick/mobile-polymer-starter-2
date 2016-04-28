@@ -1,0 +1,66 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../../bower_components/iron-collapse/iron-collapse.html">
+<link rel="import" href="../../remove-ressource-element/remove-ressource.html">
+<link rel="import" href="../../../bower_components/paper-material/paper-material.html">
+<link rel="import" href="./free-text-question.html">
+<dom-module id="list-free-text-activities">
+    <template>
+        <style include="shared-styles">
+        .test {
+            display: inline-flex;
+            width: 340px;
+        }
+        
+        .test2 {
+            display: inline-flex;
+            width: 650px;
+        }
+        </style>
+        <iron-collapse  id="icollapse">
+            <iron-ajax id="ajaxLoader" url="{{url}}" handle-as="json" last-response="{{items}}"></iron-ajax>
+            <template is="dom-repeat" items="{{items}}" as="item">
+                <template is=dom-if if="{{item.imageId}}">
+                    <free-text-question style="margin-left:15px;margin-top: 15px; border:1px solid black;padding:7px;"    class="test2" question="{{item.question}}" image-id=/file/{{item.imageId}} wrong-answer="Batard" correct-answer="cool" response="bien" response-label="Entrez la réponse"></free-text-question>
+                </template>
+            </template>
+            <iron-ajax id="ajaxLoader2" url="{{url}}" handle-as="json" last-response="{{items}}"></iron-ajax>
+            <template is="dom-repeat" items="{{items}}" as="item">
+                <template is=dom-if if="!{{imageId}}">
+                    <free-text-question style="margin-left:15px;margin-top: 15px; border:1px solid black;" class="test" question="{{item.question}}"  wrong-answer="Batard" correct-answer="cool" response="bien" response-label="Entrez la réponse"></free-text-question>
+                </template>
+            </template>
+        </iron-collapse>>
+    </template>
+    <script>
+    (function() {
+        'use strict';
+
+        Polymer({
+            is: 'list-free-text-activities',
+            ready: function() {
+                this.set('callback', function() {
+                    this.$.ajaxLoader.generateRequest();
+                }.bind(this));
+            },
+            getList: function() {
+                this.$.ajaxLoader.generateRequest();
+                this.$.ajaxLoader2.generateRequest();
+                this.$.icollapse.toggle();
+                    
+            },
+            properties: {
+                url: {
+                    type: String,
+                    notify: true
+                },
+                state:{
+                    type:Boolean,
+                    notify:true,
+                    value:false,
+                }
+            }
+        });
+    })();
+    </script>
+</dom-module>

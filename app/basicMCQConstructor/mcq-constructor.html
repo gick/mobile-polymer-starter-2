@@ -11,16 +11,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/iron-form/iron-form.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/iron-label/iron-label.html">
-<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
-<link rel="import" href="../../bower_components/paper-item/paper-item.html">
-<link rel="import" href="../../bower_components/paper-item/paper-icon-item.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/iron-icons/social-icons.html">
-<link rel="import" href="../scenario-elements/free-text-question/free-text-question.html">
+<link rel="import" href="../../app/elements/scenario-elements/mcq-activity/mcq-activity.html">
 <link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../../bower_components/paper-material/paper-material.html">
 
-<dom-module id="basic-activity-constructor">
+<dom-module id="mcq-constructor">
     <style>
     :host 
     .insidePaper {
@@ -45,8 +42,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </style>
     <template>
         <form class="insidePaper" id="freeTextForm" is="iron-form" method="post" action="/freetextactivity">
-            <h1>Free text answer activity</h1>
+            <h1>MCQ with clue activity</h1>
             <paper-input name="question" value={{quest}} label="Question" required></paper-input>
+            <paper-input name="distractor1" label="Distrator1" value={{dist1}} required></paper-input>
+            <paper-input name="distractor2" label="Distractor2" value={{dist2}} required></paper-input>
+            
             <paper-input name="response" label="Response" value={{resp}} required></paper-input>
             <paper-input name="correctMessage" label="Correct answer message" value={{correct}} required></paper-input>
             <paper-input name="wrongMessage" label="Wrong answer message" value={{wrong}} required></paper-input>
@@ -59,7 +59,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <paper-button raised on-click="_reset">Reset</paper-button>
         </form>
     <paper-material style="display: inline-flex;padding: 20px;">
-    <free-text-question style="display:inline-flex" question="{{quest}}" wrong-answer="{{wrong}}" correct-answer="{{correct}}" image-id={{mediaPath}} response="{{resp}}" response-label="Entrez la réponse"></free-text-question>
+    <mcq-activity style="" question="{{quest}}" wrong-answer="{{wrong}}" correct-answer="{{correct}}" image-id={{mediaPath}} response="{{resp}}" response-label="Entrez la réponse"></free-text-question>
     </paper-material>
     </template>
     <script>

@@ -175,20 +175,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         </section>
                         <section data-route="public" tabindex="-1">
                             <paper-material elevation="1">
-                             <h3>Public POI</h3>
+                                <h3>Public POI</h3>
                                 <paper-material elevation="2">
                                     <point-interest-display poi-url="/listPublicPoi" id="publicpoi"></point-interest-display>
                                 </paper-material>
                             </paper-material>
                         </section>
                         <section data-route="userpoi" tabindex="-1">
-                        <paper-material elevation="1">
-                            <h3 style="margin-left:15px">Point of interest</h3>
-                            <point-interest-register id="poireg"></point-interest-register>
-                            <paper-material elevation="2">
-                                <h3>My POI</h3>
-                                <point-interest-display poi-url="/poi" id="poidisplay"></point-interest-display>
-                            </paper-material>
+                            <paper-material elevation="1">
+                                <h3 style="margin-left:15px">Point of interest</h3>
+                                <point-interest-register id="poireg"></point-interest-register>
+                                <paper-material elevation="2">
+                                    <h3>My POI</h3>
+                                    <point-interest-display poi-url="/poi" id="poidisplay"></point-interest-display>
+                                </paper-material>
                             </paper-material>
                         </section>
                         <section data-route="usermedia" tabindex="-1">
@@ -208,12 +208,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                             <paper-material elevation="1">
                                 <h3>Scenario element constructor</h3>
                             </paper-material>
-
                             <paper-material elevation="1">
                                 <media-activity id="mediaactivity"></media-activity>
                             </paper-material>
+                            <paper-material elevation=1>
+                                <h3>My elements</h3>
+                                <paper-toggle-button style="margin-left:10px" onclick="app.$.listfreetext.getList()">My scenario ressources</paper-toggle-button>
+                                <paper-material elevation="2">
+                                    <list-free-text-activities  style="display:inline-flex;flex-wrap: wrap;"url="/freetextactivity" id="listfreetext"></list-free-text-activities>
+                                </paper-material>
+                            </paper-material>
                         </section>
-
                         <section data-route="admin" tabindex="-1">
                             <paper-material elevation="1">
                                 <signup-element></signup-element>
