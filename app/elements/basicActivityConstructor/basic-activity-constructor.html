@@ -19,48 +19,51 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../scenario-elements/free-text-question/free-text-question.html">
 <link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../../bower_components/paper-material/paper-material.html">
-
 <dom-module id="basic-activity-constructor">
     <style>
     :host 
     .insidePaper {
-        margin-left: 15px;
-        margin-right: 15px;
-        display:inline-block;
-        width: 700px;
+        display: inline-flex;
+        flex-flow: column;
+        align-items: baseline;
+        flex-wrap: wrap;
+        width:400px;
+        margin-left: 20px;
     }
     
-    div.info {
-        display: inline-block;
+    .insideflex {
+            display: inline-flex;
+            flex-direction: row;
+            align-self: stretch;
+            justify-content: space-between;
+            margin-top: 16px;
+            margin-bottom: 10px;
+        }
+
+    .toggleMedia {
+        margin-top: 15px;
+        margin-bottom: 15px;
         font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
         color: #333;
-    }
-    .toggleMedia{
-    margin-top: 15px;
-    margin-bottom: 15px;
-       
-    font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    color: #333;
     }
     </style>
     <template>
         <form class="insidePaper" id="freeTextForm" is="iron-form" method="post" action="/freetextactivity">
             <h1>Free text answer activity</h1>
-            <paper-input name="question" value={{quest}} label="Question" required></paper-input>
-            <paper-input name="response" label="Response" value={{resp}} required></paper-input>
-            <paper-input name="correctMessage" label="Correct answer message" value={{correct}} required></paper-input>
-            <paper-input name="wrongMessage" label="Wrong answer message" value={{wrong}} required></paper-input>
-           
+            <paper-input style="display: inline-flex;" name="question" value={{quest}} label="Question" required></paper-input>
+            <paper-input style="display: inline-flex;" name="response" label="Response" value={{resp}} required></paper-input>
+            <paper-input style="display: inline-flex;" name="correctMessage" label="Correct answer message" value={{correct}} required></paper-input>
+            <paper-input style="display: inline-flex;" name="wrongMessage" label="Wrong answer message" value={{wrong}} required></paper-input>
             <paper-toggle-button id="toggleMedia" class="toggleMedia" checked={{activate}}>Show images</paper-toggle-button>
             <template is="dom-if" if="{{activate}}">
-                <paper-input name="imageId" editable=false value="{{mediaId}}" label="Image id"></paper-input>
+                <paper-input style="display: inline-flex;" name="imageId" editable=false value="{{mediaId}}" label="Image id"></paper-input>
             </template>
-            <paper-button style="margin-top:15px"raised on-click="_submit">Save</paper-button>
+            <div class="insideflex">
+            <paper-button style=" margin-top:15px" raised on-click="_submit">Save</paper-button>
             <paper-button raised on-click="_reset">Reset</paper-button>
+            </div>
         </form>
-    <paper-material style="display: inline-flex;padding: 20px;">
-    <free-text-question style="display:inline-flex" question="{{quest}}" wrong-answer="{{wrong}}" correct-answer="{{correct}}" image-id={{mediaPath}} response="{{resp}}" response-label="Entrez la réponse"></free-text-question>
-    </paper-material>
+            <free-text-question style="display:inline-flex" question="{{quest}}" wrong-answer="{{wrong}}" correct-answer="{{correct}}" image-id={{mediaPath}} response="{{resp}}" response-label="Entrez la réponse"></free-text-question>
     </template>
     <script>
     (function() {
@@ -71,12 +74,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 this.addEventListener('new-media', function(event, detail) {
                     this.set('mediaId', event.detail);
                     this.mediaId = this.get('mediaId');
-                    this.set('mediaPath','/file/' + this.mediaId)
+                    this.set('mediaPath', '/file/' + this.mediaId)
                 }.bind(this));
-                this.$.toggleMedia.addEventListener('change',function(event){
-                    if(!event.srcElement.__data__.active){
-                        this.set('mediaPath',null);
-                        this.mediaPath=null;
+                this.$.toggleMedia.addEventListener('change', function(event) {
+                    if (!event.srcElement.__data__.active) {
+                        this.set('mediaPath', null);
+                        this.mediaPath = null;
                     }
 
                 }.bind(this));
@@ -86,13 +89,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             _mediaObserver: function(newval, old) {
                 this.set('mediaId', newval);
             },
-            _activateObs:function(newval,oldval){
-                this.set('imageRequired',newval)
-                }
-            ,
+            _activateObs: function(newval, oldval) {
+                this.set('imageRequired', newval)
+            },
             handleResponse: function(resp) {},
-            _changeHasMedia:function(newv,oldb){
-            }.bind(this),
+            _changeHasMedia: function(newv, oldb) {}.bind(this),
             _submit: function(event) {
                 this.$.freeTextForm.submit();
             },
@@ -101,22 +102,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 mediaId: {
                     type: String,
                     notify: true,
-                    value:null,
+                    value: null,
                     observer: '_mediaObserver'
                 },
-                mediaPath:{
+                mediaPath: {
                     type: String,
                     notify: true,
-                    value:null,}
-                ,
-                activate:{type:Boolean,
-                    reflectToAttribute:true,
-                    value:false,
-                    observer:'_activateObs'
-                    },
-                imageRequired:{type:String,
-                    notify:true,
-                    reflectToAttribute:true}
+                    value: null,
+                },
+                activate: {
+                    type: Boolean,
+                    reflectToAttribute: true,
+                    value: false,
+                    observer: '_activateObs'
+                },
+                imageRequired: {
+                    type: String,
+                    notify: true,
+                    reflectToAttribute: true
+                }
 
             }
         });

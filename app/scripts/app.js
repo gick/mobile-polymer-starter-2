@@ -49,6 +49,18 @@ function distance(lat1, lon1, lat2, lon2, unit) {
   // Listen for template bound event to know when bindings
   // have resolved and content has been stamped to the page
   app.addEventListener('dom-change', function() {
+    app.$.selectTabsPOI.addEventListener('iron-select',function(item){
+      var selected = app.$.selectTabsPOI.selected;
+      if(selected=="POIREG"){
+        this.set('showReg',true);
+        this.set('showFromMap',false);
+
+      }
+      if(selected=="POIMAP"){
+        this.set("showFromMap",true);
+        this.set('showReg',false);
+      }
+    }.bind(this))
     app.$.poireg.addEventListener('poi-changed',function(event){
       app.fire('poi-changed',auth.detail,{bubbles:false,node:app.$.poidisplay});
       app.fire('poi-changed',auth.detail,{bubbles:false,node:app.$.publicpoi});
@@ -57,6 +69,7 @@ function distance(lat1, lon1, lat2, lon2, unit) {
     app.$.fileupload.addEventListener('success',function(event){
       app.fire('media-changed',auth.detail,{bubbles:false,node:app.$.mediaviewer});
       app.fire('media-changed',auth.detail,{bubbles:false,node:app.$.mediavieweractivity});
+      app.$.mediaSuccess.open();
     })
 
     console.log('Our app is ready to rock!');
@@ -103,7 +116,12 @@ function distance(lat1, lon1, lat2, lon2, unit) {
   app.scrollPageToTop = function() {
     app.$.headerPanelMain.scrollToTop(true);
   };
-
+  app.isHidden=function(){
+    if(this.selectedAddPOI=="POIREG"){
+      return true;
+    }
+    return false;
+  };
   app.closeDrawer = function() {
     app.$.paperDrawerPanel.closeDrawer();
   };

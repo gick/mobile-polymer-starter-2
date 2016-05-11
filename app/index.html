@@ -183,23 +183,69 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         </section>
                         <section data-route="userpoi" tabindex="-1">
                             <paper-material elevation="1">
-                                <h3 style="margin-left:15px">Point of interest</h3>
-                                <point-interest-register id="poireg"></point-interest-register>
+                                <h2 style="margin-left:15px">Point of interest and maps</h2>
+                                <paper-material elevation="2">
+                                    <div style="margin-left:15px"><b>Point of interest</b> (POI) represents <b>physical location</b> within the mobile game area.
+                                        <br> Point of interest are fundamental for the design of mobile activities : most activities being situated, they must be associated with a point of interest.
+                                        <br> There are two way of adding a new POI :
+                                        <ul>
+                                            <li>The POI can be added using the <b> POI mobile tool</b>. This tool is designed to be used with a mobile phone where GPS is activated. Using this tool with your mobile phone, you can add new POI directly, and take an optionnal photo of the POI </li>
+                                            <li> <b>The POI can be added using a map.</b> In that case, you have to select on the map the location of the POI and associate optional comments. The map can be Google Map or another map as long as the map reflects well the game area</li>
+                                        </ul>
+                                        <br>
+                                    </div>
+                                </paper-material>
+                                <paper-material elevation="2">
+                                    <style is="custom-style">
+                                    paper-tabs paper-tab.iron-selected {
+                                        color: blue;
+                                    }
+                                    </style>
+                                    <paper-tabs id="selectTabsPOI" attr-for-selected="activity">
+                                        <paper-tab activity="POIREG">Add POI from mobile</paper-tab>
+                                        <paper-tab activity="POIMAP">Add POI from map</paper-tab>
+                                    </paper-tabs>
+                                    <iron-collapse opened="{{showReg}}">
+                                        <point-interest-register  id="poireg"></point-interest-register>
+                                    </iron-collapse>
+                                    <iron-collapse opened="{{showFromMap}}">
+                                        <poi-from-map lat="48.088275" long="-0.756458" id="poimap"></poi-from-map>
+                                    </iron-collapse>
+
+                                </paper-material>
                                 <paper-material elevation="2">
                                     <h3>My POI</h3>
-                                    <point-interest-display poi-url="/poi" id="poidisplay"></point-interest-display>
+                                    <point-interest-display hidden$="isHidden" poi-url="/poi" id="poidisplay"></point-interest-display>
                                 </paper-material>
                             </paper-material>
                         </section>
                         <section data-route="usermedia" tabindex="-1">
                             <paper-material elevation="1">
-                                <h3>Media ressources</h3>
-                                <file-upload droppable id="fileupload" public={{setpublic}} raised method="POST" target="/file">Upload media ressources</file-upload>
-                                <paper-icon-button id="removeMedia" icon="icons:remove-circle-outline" onclick="app.$.fileupload.clear()"></paper-icon-button>
-                                <paper-checkbox style="display:block" raised checked={{setpublic}} id="makemediapublic">Make media public</paper-checkbox>
-                                <paper-tooltip for="removeMedia" offset="0">Clear uploaded list</paper-tooltip>
+                                <h2>Media ressources</h2>
                                 <paper-material elevation="2">
-                                    <h3>My medias</h3>
+                                    <div style="margin-left:15px"><b>Media, such as images, video or audio are an important aspect of Serious Games</b>, including of course Mobile Serious Games.
+                                        <br> In this section :
+                                        <ul>
+                                            <li>you can upload new media of different types (image, audio, video), to be used later during activities design</li>
+                                            <li> You can also manage remove an existing media, or add keyword to a media</li>
+                                        </ul>
+                                        Media can be public or private,
+                                        <ul>
+                                            <li>if the media is public, all designers will be allowed to see and use for conception</li>
+                                            <li>private media can be seen and used only by the user that uploaded this media. </li>
+                                        </ul>
+                                    </div>
+                                </paper-material>
+                                <paper-material elevation="2">
+                                    <h2>Media uploader</h2>
+                                    <paper-checkbox style="display:inline-block;" raised checked={{setpublic}} id="makemediapublic">Make media public</paper-checkbox>
+                                    <file-upload id="fileupload" public={{setpublic}} raised method="POST" target="/file">Upload media ressources
+                                    </file-upload>
+                                    <paper-button id="removeMedia" raised icon="icons:remove-circle-outline" onclick="app.$.fileupload.clear()">Clear uploaded list</paper-icon-button>
+                                        <paper-tooltip for="removeMedia" offset="0">Clear uploaded list</paper-tooltip>
+                                </paper-material>
+                                <paper-material elevation="2">
+                                    <h2>My medias</h2>
                                     <media-viewer media-url="/listUserMediaFiles" id="mediaviewer"></media-viewer>
                                 </paper-material>
                             </paper-material>
@@ -209,13 +255,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                                 <h3>Scenario element constructor</h3>
                             </paper-material>
                             <paper-material elevation="1">
-                                <media-activity id="mediaactivity"></media-activity>
+                                <free-text-media-maker id="mediaactivity"></free-text-media-maker>
                             </paper-material>
                             <paper-material elevation=1>
                                 <h3>My elements</h3>
                                 <paper-toggle-button style="margin-left:10px" onclick="app.$.listfreetext.getList()">My scenario ressources</paper-toggle-button>
                                 <paper-material elevation="2">
-                                    <list-free-text-activities  style="display:inline-flex;flex-wrap: wrap;"url="/freetextactivity" id="listfreetext"></list-free-text-activities>
+                                    <list-free-text-activities style="display:inline-flex;" url="/freetextactivity" id="listfreetext"></list-free-text-activities>
                                 </paper-material>
                             </paper-material>
                         </section>
@@ -251,6 +297,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </paper-drawer-panel>
         <paper-toast id="toast">
             <span class="toast-hide-button" role="button" tabindex="0" onclick="app.$.toast.hide()">Ok</span>
+        </paper-toast>
+        <paper-toast id="mediaSuccess">
+            <span>Media has been successfully added</span>
         </paper-toast>
         <!-- Uncomment next block to enable Service Worker support (1/2) -->
         <!--

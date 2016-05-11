@@ -11,7 +11,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/paper-material/paper-material.html">
 <link rel="import" href="../media-viewer/media-viewer-activity.html">
 <link rel="import" href="../basicActivityConstructor/basic-activity-constructor.html">
-<dom-module id="media-activity">
+<dom-module id="free-text-media-maker">
     <template>
         <style include="shared-styles">
 
@@ -24,7 +24,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         'use strict';
 
         Polymer({
-            is: 'media-activity',
+            is: 'free-text-media-maker',
             ready: function() {
                 this.addEventListener('authentification-changed', function(event) {
                     if (event.detail.logged)

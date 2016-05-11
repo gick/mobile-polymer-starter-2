@@ -17,7 +17,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <style include="shared-styles">
         .mediaimg {
             height: 300px;
-            max-width: 300px;
+            display: inline-flex;
             border-radius: 3px;
             -moz-box-shadow: 6px 5px 2px #CECEB9;
             -webkit-box-shadow: 6px 5px 2px #CECEB9;
@@ -28,7 +28,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
         
         .mediablock {
-            display: inline-block;
+            display: inline-flex;
         }
         
         .selected {
@@ -42,26 +42,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             overflow: visible;
             width: 100%;
             height: 100%;
-            display: flex;
+            display: inline-flex;
             flex-wrap: wrap;
         }
         </style>
         <div class="innerdiv">
             <iron-collapse opened="{{hasMedia}}" id="collapse">
                 <iron-ajax id="ajaxLoader" url="/listUserMediaFiles" handle-as="json" last-response="{{items}}"></iron-ajax>
-                <template is="dom-repeat" id ="models" items="{{items}}" as="item">
+                <template is="dom-repeat" id="models" items="{{items}}" as="item">
                     <template is="dom-if" if="{{_ismedia(item)}}">
                         <template is="dom-if" if="{{_isimage(item)}}">
-                            <template is="dom-if" if="{{item.selected}}">
-                                <div class="mediablock selected" on-click="select">
-                                   <img class="mediaimg" src="/file/{{item._id}}">
-                                </div>
-                            </template>
-                            <template is="dom-if" if="{{!item.selected}}">
-                            <div class="mediablock" on-click="select">
+                            <div class$="{{computeClass(item.selected)}}" on-click="select">
                                 <img class="mediaimg" src="/file/{{item._id}}">
                             </div>
-                            </template>
                         </template>
                     </template>
                 </template>
@@ -81,19 +74,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 console.log(index)
 
             },
-
-            select: function(elem) {
-                var m=elem.model;
-                var selected=m.get('item._id');
-                for(var i=0;i<this.items.length;i++){
-                this.notifyPath("items." + i + '.selected',false);
+            computeClass: function(elem) {
+                if (!elem) {
+                    return 'mediablock'
+                } else {
+                    return 'mediablock selected'
                 }
-                m.set('item.selected',!m.get('item.selected'));
-                this.set('mediaName',selected);
+            },
+            select: function(elem) {
+                for (var i = 0; i < this.items.length; i++) {
+                    this.set('items.#'+i+'.selected', false);
 
+                }
+                var model = elem.model;
+                if (!model.get('item.selected')) {
+                    model.set('item.selected', true)
+                    model.set('item.class', 'mediablock selected')
+                } else {
+                    model.set('item.selected', false)
+                    this.set('item.class', 'mediablock')
+                }
+                if (model.get('item.selected')) {
+                    this.set('mediaName', model.get('item._id'));
+                }
             },
             ready: function() {
-                this.set('mediaName',"Test")
+                this.set('mediaName', "Test")
                 this.addEventListener('authentification-changed', function(event) {
                     if (event.detail.logged)
                         this.$.ajaxLoader.generateRequest();
@@ -105,17 +111,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
             },
-            _iscollapsed:function(newval,oldval){
-                if(newval=="true"){
-                    this.set('collapsed',true);
-                }else{
-                    this.set('collapsed',false);
+            _iscollapsed: function(newval, oldval) {
+                if (newval == "true") {
+                    this.set('collapsed', true);
+                } else {
+                    this.set('collapsed', false);
                 }
             },
             _getSize: function(item) {
                 return (item.length / 1024).toPrecision(2);
             },
             _ismedia: function(item) {
+                console.log("ismedia")
                 return this._isaudio(item) + this._isvideo(item) + this._isimage(item);
             },
 
@@ -138,19 +145,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     type: String,
                     notify: true
                 },
-                mediaName:{
-                    type:String,
-                    reflectToAttribute:true,
-                    notify:true
+                mediaName: {
+                    type: String,
+                    reflectToAttribute: true,
+                    notify: true
                 },
-                hasMedia:{
-                    type:Boolean,
-                    notify:true,      
-                }
+                hasMedia: {
+                    type: Boolean,
+                    notify: true,
+                },
 
             }
         });
     })();
     </script>
 </dom-module>
-

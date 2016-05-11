@@ -16,83 +16,62 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../../bower_components/paper-card/paper-card.html">
 <dom-module id="free-text-question">
     <style include="shared-styles">
-    paper-card {
-        --paper-card-header: {
-            background-color: #b2ffa6;
-        }
-        ;
-        --paper-card-header-text: {
-            width: 250px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        ;
-        --paper-card: {
-            margin-left: 15px;
-            margin-bottom: 15px;
-        }
-        ;
-        --paper-card-actions {
-            border-top: 1px solid lightgrey;
-        }
-    }
-    
-    .myactions {
-        border-top: 1px solid lightgrey!important;
+    .insideflex {
+        display: inline-flex;
+        flex-direction: row;
+        align-self: stretch;
+        justify-content: space-between;
+        margin-top: 16px;
+        margin-bottom: 10px;
     }
     
     .mediaimg {
-
-        height: 300px;
-        display: inline-block;
+        display: inline-flex;
         border-radius: 3px;
         -moz-box-shadow: 6px 5px 2px #CECEB9;
         -webkit-box-shadow: 6px 5px 2px #CECEB9;
         -o-box-shadow: 6px 5px 2px #CECEB9;
         box-shadow: 6px 5px 2px #CECEB9;
         margin-bottom: 15px;
-        margin-right:10px;
+        margin-right: 10px;
     }
     
     .question {
+        display: inline-flex;
         font-family: 'Roboto', 'Noto', sans-serif;
         -webkit-font-smoothing: antialiased;
         font-size: 16px;
         font-weight: 500;
         line-height: 24px;
     }
-    
-    .response {
-        display: inline-block;
+        
+    .element {
+        display: inline-flex;
     }
     
     .inner {
-        position: relative;
-        overflow: visible;
-        display: inline-block;
-
+        display: inline-flex;
+        flex-flow: column;
+        align-items: baseline;
+        flex-wrap: wrap;
     }
     </style>
-        <template>
-        <div style="display:flex">
+    <template>
+        <div style="display:inline-flex">
             <template is="dom-if" if={{imageId}}>
                 <img src="{{imageId}}" class="mediaimg">
             </template>
-          
-                <div class="inner">
-
-            <iron-form style="display:inline-block">
-                <div class="question" name="question">{{question}}</div>
-                <paper-input class="" style="margin-top:80px" name="response" value="{{userResponse}}" error-message="{{incorrectMessage}}" label="{{responseLabel}}" required></paper-input>
+            <iron-form class="inner">
+                <div class="element" name="question">{{question}}</div>
+                <paper-input class="element" name="response" value="{{userResponse}}" error-message="{{incorrectMessage}}" label="{{responseLabel}}" required></paper-input>
                 <paper-toast id="correct" class="fit-bottom" text="{{correctAnswer}}"></paper-toast>
                 <paper-toast id="wrong" class="fit-bottom" text="{{wrongAnswer}}"></paper-toast>
-                <div style="margin-top:120px" class="card-actions">
+                <div style="" class="insideflex">
                     <paper-button raised on-click="validate">Validate</paper-button>
                     <paper-button raised>Dismiss</paper-button>
                 </div>
             </iron-form>
-    </div></div>
+        </div>
     </template>
     <script>
     (function() {

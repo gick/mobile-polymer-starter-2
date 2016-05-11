@@ -16,14 +16,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../app/elements/scenario-elements/mcq-activity/mcq-activity.html">
 <link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../../bower_components/paper-material/paper-material.html">
-
 <dom-module id="mcq-constructor">
     <style>
-    :host 
-    .insidePaper {
+    :host .insidePaper {
         margin-left: 15px;
         margin-right: 15px;
-        display:inline-block;
+        display: inline-block;
         width: 700px;
     }
     
@@ -32,35 +30,31 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
         color: #333;
     }
-    .toggleMedia{
-    margin-top: 15px;
-    margin-bottom: 15px;
-       
-    font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    color: #333;
+    
+    .toggleMedia {
+        margin-top: 15px;
+        margin-bottom: 15px;
+        font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        color: #333;
     }
     </style>
     <template>
-        <form class="insidePaper" id="freeTextForm" is="iron-form" method="post" action="/freetextactivity">
-            <h1>MCQ with clue activity</h1>
+        <form class="insidePaper" id="freeTextForm" is="iron-form" method="post" action="/mcqactivity">
+            <h1>MCQ with optionnal clue activity</h1>
             <paper-input name="question" value={{quest}} label="Question" required></paper-input>
-            <paper-input name="distractor1" label="Distrator1" value={{dist1}} required></paper-input>
-            <paper-input name="distractor2" label="Distractor2" value={{dist2}} required></paper-input>
-            
-            <paper-input name="response" label="Response" value={{resp}} required></paper-input>
+            <paper-input name="distractor1" label="First distracor(wrong choice)" value={{dist1}} required></paper-input>
+            <paper-input name="distractor2" label="Second distractor (wrong choice)" value={{dist2}} required></paper-input>
+            <paper-input name="response" label="Valid choice" value={{resp}} required></paper-input>
             <paper-input name="correctMessage" label="Correct answer message" value={{correct}} required></paper-input>
             <paper-input name="wrongMessage" label="Wrong answer message" value={{wrong}} required></paper-input>
-           
-            <paper-toggle-button id="toggleMedia" class="toggleMedia" checked={{activate}}>Set clue image?</paper-toggle-button>
+            <paper-toggle-button id="toggleMedia" class="toggleMedia" checked={{activate}}>Set clue image</paper-toggle-button>
             <template is="dom-if" if="{{activate}}">
                 <paper-input name="imageId" editable=false value="{{mediaId}}" label="Image id"></paper-input>
             </template>
-            <paper-button style="margin-top:15px"raised on-click="_submit">Save</paper-button>
+            <paper-button style="margin-top:15px" raised on-click="_submit">Save</paper-button>
             <paper-button raised on-click="_reset">Reset</paper-button>
         </form>
-    <paper-material style="display: inline-flex;padding: 20px;">
-    <mcq-activity wrong-answer1={{dist1}}  wrong-answer2={{dist2}}    question="{{quest}}" wrong-answer="{{wrong}}" correct-answer-message="Well done"  correct-answer="{{resp}}" image.id={{imahe}}  wrong-answer-message="Retry" response-label="Entrez la réponse"></mcq-activity><
-    </paper-material>
+        <mcq-activity></mcq-activity>
     </template>
     <script>
     (function() {
@@ -71,12 +65,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 this.addEventListener('new-media', function(event, detail) {
                     this.set('mediaId', event.detail);
                     this.mediaId = this.get('mediaId');
-                    this.set('mediaPath','/file/' + this.mediaId)
+                    this.set('mediaPath', '/file/' + this.mediaId)
                 }.bind(this));
-                this.$.toggleMedia.addEventListener('change',function(event){
-                    if(!event.srcElement.__data__.active){
-                        this.set('mediaPath',null);
-                        this.mediaPath=null;
+                this.$.toggleMedia.addEventListener('change', function(event) {
+                    if (!event.srcElement.__data__.active) {
+                        this.set('mediaPath', null);
+                        this.mediaPath = null;
                     }
 
                 }.bind(this));
@@ -86,13 +80,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             _mediaObserver: function(newval, old) {
                 this.set('mediaId', newval);
             },
-            _activateObs:function(newval,oldval){
-                this.set('imageRequired',newval)
-                }
-            ,
+            _activateObs: function(newval, oldval) {
+                this.set('imageRequired', newval)
+            },
             handleResponse: function(resp) {},
-            _changeHasMedia:function(newv,oldb){
-            }.bind(this),
+            _changeHasMedia: function(newv, oldb) {}.bind(this),
             _submit: function(event) {
                 this.$.freeTextForm.submit();
             },
@@ -101,22 +93,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 mediaId: {
                     type: String,
                     notify: true,
-                    value:null,
+                    value: null,
                     observer: '_mediaObserver'
                 },
-                mediaPath:{
+                mediaPath: {
                     type: String,
                     notify: true,
-                    value:null,}
-                ,
-                activate:{type:Boolean,
-                    reflectToAttribute:true,
-                    value:false,
-                    observer:'_activateObs'
-                    },
-                imageRequired:{type:String,
-                    notify:true,
-                    reflectToAttribute:true}
+                    value: null,
+                },
+                activate: {
+                    type: Boolean,
+                    reflectToAttribute: true,
+                    value: false,
+                    observer: '_activateObs'
+                },
+                imageRequired: {
+                    type: String,
+                    notify: true,
+                    reflectToAttribute: true
+                }
 
             }
         });

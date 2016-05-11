@@ -9,15 +9,13 @@
         <style include="shared-styles">
         .test {
             display: inline-flex;
-            width: 340px;
         }
         
         .test2 {
             display: inline-flex;
-            width: 650px;
         }
         </style>
-        <iron-collapse  id="icollapse">
+        <iron-collapse style="display:inline-flex;flex-wrap: wrap;" id="icollapse">
             <iron-ajax id="ajaxLoader" url="{{url}}" handle-as="json" last-response="{{items}}"></iron-ajax>
             <template is="dom-repeat" items="{{items}}" as="item">
                 <template is=dom-if if="{{item.imageId}}">
@@ -30,7 +28,7 @@
                     <free-text-question style="margin-left:15px;margin-top: 15px; border:1px solid black;" class="test" question="{{item.question}}"  wrong-answer="Batard" correct-answer="cool" response="bien" response-label="Entrez la réponse"></free-text-question>
                 </template>
             </template>
-        </iron-collapse>>
+        </iron-collapse>
     </template>
     <script>
     (function() {
