@@ -7,25 +7,27 @@
 <dom-module id="list-free-text-activities">
     <template>
         <style include="shared-styles">
-        .test {
+
+    .previewquestion {
             display: inline-flex;
-        }
-        
-        .test2 {
-            display: inline-flex;
-        }
+            flex-grow: 2;
+            padding: 10px;
+            box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.4);
+
+    }
+
         </style>
         <iron-collapse style="display:inline-flex;flex-wrap: wrap;" id="icollapse">
             <iron-ajax id="ajaxLoader" url="{{url}}" handle-as="json" last-response="{{items}}"></iron-ajax>
             <template is="dom-repeat" items="{{items}}" as="item">
                 <template is=dom-if if="{{item.imageId}}">
-                    <free-text-question style="margin-left:15px;margin-top: 15px; border:1px solid black;padding:7px;"    class="test2" question="{{item.question}}" image-id=/file/{{item.imageId}} wrong-answer="Batard" correct-answer="cool" response="bien" response-label="Entrez la réponse"></free-text-question>
+                    <free-text-question image-style="height:300px;align-self:center;" class="previewquestion" question="{{item.question}}" image-id=/file/{{item.imageId}} wrong-answer="Batard" correct-answer="cool" response="bien" response-label="Entrez la réponse"></free-text-question>
                 </template>
             </template>
             <iron-ajax id="ajaxLoader2" url="{{url}}" handle-as="json" last-response="{{items}}"></iron-ajax>
             <template is="dom-repeat" items="{{items}}" as="item">
                 <template is=dom-if if="!{{imageId}}">
-                    <free-text-question style="margin-left:15px;margin-top: 15px; border:1px solid black;" class="test" question="{{item.question}}"  wrong-answer="Batard" correct-answer="cool" response="bien" response-label="Entrez la réponse"></free-text-question>
+                    <free-text-question image-style="height:300px;align-self:center;" class="previewquestion" style="margin-left:15px;margin-top: 15px; border:1px solid black;" class="test" question="{{item.question}}"  wrong-answer="Batard" correct-answer="cool" response="bien" response-label="Entrez la réponse"></free-text-question>
                 </template>
             </template>
         </iron-collapse>

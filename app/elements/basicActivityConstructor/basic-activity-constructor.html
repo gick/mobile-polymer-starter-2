@@ -21,49 +21,69 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/paper-material/paper-material.html">
 <dom-module id="basic-activity-constructor">
     <style>
-    :host 
-    .insidePaper {
-        display: inline-flex;
-        flex-flow: column;
-        align-items: baseline;
-        flex-wrap: wrap;
-        width:400px;
+
+     .freeTextCreator {
+        border-radius: 3px;
+        padding:10px;
+        display: flex;
+        flex-direction: column;
+        width: 400px;
         margin-left: 20px;
+        box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.4);
     }
     
     .insideflex {
-            display: inline-flex;
-            flex-direction: row;
-            align-self: stretch;
-            justify-content: space-between;
-            margin-top: 16px;
-            margin-bottom: 10px;
-        }
-
+        display: inline-flex;
+        flex-direction: row;
+        align-self: stretch;
+        justify-content: space-between;
+        margin-top: 16px;
+        margin-bottom: 10px;
+    }
+    
     .toggleMedia {
         margin-top: 15px;
         margin-bottom: 15px;
         font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
         color: #333;
     }
+
+
+    .previewContainer{
+    display: inline-flex;
+    align-self: inherit;
+    margin-right: 30px;
+    flex-direction:column;
+    justify-content:space-between;
+    }
+
+    .previewquestion {
+            display: inline-flex;
+            flex-grow: 2;
+            padding: 10px;
+            box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.4);
+
+    }
     </style>
     <template>
-        <form class="insidePaper" id="freeTextForm" is="iron-form" method="post" action="/freetextactivity">
-            <h1>Free text answer activity</h1>
-            <paper-input style="display: inline-flex;" name="question" value={{quest}} label="Question" required></paper-input>
-            <paper-input style="display: inline-flex;" name="response" label="Response" value={{resp}} required></paper-input>
-            <paper-input style="display: inline-flex;" name="correctMessage" label="Correct answer message" value={{correct}} required></paper-input>
-            <paper-input style="display: inline-flex;" name="wrongMessage" label="Wrong answer message" value={{wrong}} required></paper-input>
-            <paper-toggle-button id="toggleMedia" class="toggleMedia" checked={{activate}}>Show images</paper-toggle-button>
+        <form class="freeTextCreator" id="freeTextForm" is="iron-form" method="post" action="/freetextactivity">
+            <paper-input name="question" value={{quest}} label="Question"></paper-input>
+            <paper-input style=";" name="response" label="Response" value={{resp}} required></paper-input>
+            <paper-input style=";" name="correctMessage" label="Correct answer message" value={{correct}} required></paper-input>
+            <paper-input style=";" name="wrongMessage" label="Wrong answer message" value={{wrong}} required></paper-input>
+            <paper-toggle-button id="toggleMedia" class="toggleMedia" checked={{activate}}>Add image</paper-toggle-button>
             <template is="dom-if" if="{{activate}}">
-                <paper-input style="display: inline-flex;" name="imageId" editable=false value="{{mediaId}}" label="Image id"></paper-input>
+                <paper-input style=";" name="imageId" editable=false value="{{mediaId}}" label="Image id"></paper-input>
             </template>
             <div class="insideflex">
-            <paper-button style=" margin-top:15px" raised on-click="_submit">Save</paper-button>
-            <paper-button raised on-click="_reset">Reset</paper-button>
+                <paper-button raised on-click="_submit">Save</paper-button>
+                <paper-button raised on-click="_reset">Reset</paper-button>
             </div>
         </form>
-            <free-text-question style="display:inline-flex" question="{{quest}}" wrong-answer="{{wrong}}" correct-answer="{{correct}}" image-id={{mediaPath}} response="{{resp}}" response-label="Entrez la réponse"></free-text-question>
+        <div class="previewContainer">
+        <h3>Free text live preview</h3>
+        <free-text-question class="previewquestion" image-style="height:300px;align-self:center;" question="{{quest}}" wrong-answer="{{wrong}}" correct-answer="{{correct}}" image-id={{mediaPath}} response="{{resp}}" response-label="Entrez la réponse"></free-text-question>
+        </div>
     </template>
     <script>
     (function() {

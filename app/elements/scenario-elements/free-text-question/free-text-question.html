@@ -27,13 +27,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     
     .mediaimg {
         display: inline-flex;
-        border-radius: 3px;
-        -moz-box-shadow: 6px 5px 2px #CECEB9;
-        -webkit-box-shadow: 6px 5px 2px #CECEB9;
-        -o-box-shadow: 6px 5px 2px #CECEB9;
-        box-shadow: 6px 5px 2px #CECEB9;
-        margin-bottom: 15px;
-        margin-right: 10px;
+        margin-right: 15px;
     }
     
     .question {
@@ -43,10 +37,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         font-size: 16px;
         font-weight: 500;
         line-height: 24px;
+        max-width: 300px;
     }
         
     .element {
-        display: inline-flex;
+        align-self: stretch;
     }
     
     .inner {
@@ -54,23 +49,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         flex-flow: column;
         align-items: baseline;
         flex-wrap: wrap;
+        justify-content: space-between;
     }
     </style>
     <template>
         <div style="display:inline-flex">
             <template is="dom-if" if={{imageId}}>
-                <img src="{{imageId}}" class="mediaimg">
+                <img src="{{imageId}}" style$="{{imageStyle}}" class="mediaimg">
             </template>
-            <iron-form class="inner">
-                <div class="element" name="question">{{question}}</div>
-                <paper-input class="element" name="response" value="{{userResponse}}" error-message="{{incorrectMessage}}" label="{{responseLabel}}" required></paper-input>
+            <form class="inner">
+                <div class="question" name="question">{{question}}</div>
+                <paper-input name="response" class="element" value="{{userResponse}}" error-message="{{incorrectMessage}}" label="{{responseLabel}}" required></paper-input>
                 <paper-toast id="correct" class="fit-bottom" text="{{correctAnswer}}"></paper-toast>
                 <paper-toast id="wrong" class="fit-bottom" text="{{wrongAnswer}}"></paper-toast>
                 <div style="" class="insideflex">
                     <paper-button raised on-click="validate">Validate</paper-button>
                     <paper-button raised>Dismiss</paper-button>
                 </div>
-            </iron-form>
+            </form>
         </div>
     </template>
     <script>
@@ -124,6 +120,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     type: String,
                     notify: true
                 },
+                imageStyle:{
+                    type:'string',
+                    notify:true
+                }
             }
         });
     })();
