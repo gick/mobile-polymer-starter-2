@@ -71,7 +71,9 @@ function distance(lat1, lon1, lat2, lon2, unit) {
       app.fire('media-changed',auth.detail,{bubbles:false,node:app.$.mediavieweractivity});
       app.$.mediaSuccess.open();
     })
-
+    app.$.mediaactivity.addEventListener('saveFreeTextActivity',function(){
+      app.$.listfreetext.requestElements();
+    })
     console.log('Our app is ready to rock!');
     app.$.auth.addEventListener('authentification-changed',function(auth){
       app.auth=auth.detail;

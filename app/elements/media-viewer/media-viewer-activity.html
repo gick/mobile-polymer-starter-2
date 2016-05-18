@@ -19,21 +19,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             height: 300px;
             display: inline-flex;
             border-radius: 3px;
-            -moz-box-shadow: 6px 5px 2px #CECEB9;
-            -webkit-box-shadow: 6px 5px 2px #CECEB9;
-            -o-box-shadow: 6px 5px 2px #CECEB9;
-            box-shadow: 6px 5px 26px #CECEB9;
-            margin-bottom: 15px;
-            margin-left: 24px;
         }
         
         .mediablock {
             display: inline-flex;
+            margin-bottom: 15px;
+            margin-left: 24px;
+            box-shadow: 6px 5px 26px #CECEB9;
+            -moz-box-shadow: 6px 5px 2px #CECEB9;
+            -webkit-box-shadow: 6px 5px 2px #CECEB9;
+            -o-box-shadow: 6px 5px 2px #CECEB9;
+            box-shadow: 6px 5px 26px #CECEB9;
         }
         
         .selected {
-            border-spacing: 5px;
-            border: 3px solid blue;
+            opacity: 0.7;
+            background-color: lightblue;
         }
         
         .innerdiv {
@@ -47,18 +48,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
         </style>
         <div class="innerdiv">
-            <iron-collapse opened="{{hasMedia}}" id="collapse">
-                <iron-ajax id="ajaxLoader" url="/listUserMediaFiles" handle-as="json" last-response="{{items}}"></iron-ajax>
-                <template is="dom-repeat" id="models" items="{{items}}" as="item">
-                    <template is="dom-if" if="{{_ismedia(item)}}">
-                        <template is="dom-if" if="{{_isimage(item)}}">
-                            <div class$="{{computeClass(item.selected)}}" on-click="select">
-                                <img class="mediaimg" src="/file/{{item._id}}">
-                            </div>
-                        </template>
+            <iron-ajax id="ajaxLoader" url="/listUserMediaFiles" handle-as="json" last-response="{{items}}"></iron-ajax>
+            <template is="dom-repeat" id="models" items="{{items}}" as="item">
+                <template is="dom-if" if="{{_ismedia(item)}}">
+                    <template is="dom-if" if="{{_isimage(item)}}">
+                        <div class$="{{computeClass(item.selected)}}" on-click="select">
+                            <img class="mediaimg" src="/file/{{item._id}}">
+                        </div>
                     </template>
                 </template>
-            </iron-collapse>
+            </template>
         </div>
     </template>
     <script>
@@ -67,12 +66,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         Polymer({
             is: 'media-viewer-activity',
-            toggle: function() {
-                this.$.collapse.toggle();
-            },
             _isselect: function(index) {
                 console.log(index)
 
+            },
+            genReq: function() {
+                this.$.ajaxLoader.generateRequest();
             },
             computeClass: function(elem) {
                 if (!elem) {
@@ -82,24 +81,29 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 }
             },
             select: function(elem) {
+
+                var model = elem.model;
+                if (model.get('item.selected')) {
+                    model.set('item.selected', false);
+                    this.set('mediaId', null);
+                    this.set('mediaName', null)
+                    return
+                }
+
                 for (var i = 0; i < this.items.length; i++) {
-                    this.set('items.#'+i+'.selected', false);
+                    this.set('items.#' + i + '.selected', false);
 
                 }
-                var model = elem.model;
                 if (!model.get('item.selected')) {
                     model.set('item.selected', true)
-                    model.set('item.class', 'mediablock selected')
-                } else {
-                    model.set('item.selected', false)
-                    this.set('item.class', 'mediablock')
+                        //model.set('item.class', 'mediablock selected')
                 }
                 if (model.get('item.selected')) {
-                    this.set('mediaName', model.get('item._id'));
+                    this.set('mediaId', model.get('item._id'));
+                    this.set('mediaName', model.get('item.filename'))
                 }
             },
             ready: function() {
-                this.set('mediaName', "Test")
                 this.addEventListener('authentification-changed', function(event) {
                     if (event.detail.logged)
                         this.$.ajaxLoader.generateRequest();
@@ -110,13 +114,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 })
 
 
-            },
-            _iscollapsed: function(newval, oldval) {
-                if (newval == "true") {
-                    this.set('collapsed', true);
-                } else {
-                    this.set('collapsed', false);
-                }
             },
             _getSize: function(item) {
                 return (item.length / 1024).toPrecision(2);
@@ -145,14 +142,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     type: String,
                     notify: true
                 },
-                mediaName: {
+                mediaId: {
                     type: String,
                     reflectToAttribute: true,
                     notify: true
                 },
-                hasMedia: {
-                    type: Boolean,
-                    notify: true,
+                mediaName: {
+                    type: String,
+                    reflectToAttribute: true,
+                    notify: true
                 },
 
             }

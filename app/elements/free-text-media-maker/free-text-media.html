@@ -11,16 +11,26 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/paper-material/paper-material.html">
 <link rel="import" href="../media-viewer/media-viewer-activity.html">
 <link rel="import" href="../basicActivityConstructor/basic-activity-constructor.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
 <dom-module id="free-text-media-maker">
     <template>
         <style include="shared-styles">
 
         </style>
         <h1 style="margin-left:20px">Free text answer constructor</h1>
-        <basic-activity-constructor style="    display: flex;
+        <basic-activity-constructor style="display: flex;
     flex-direction: row;
-    justify-content: space-between;" id="activityconstructor"> </basic-activity-constructor>
-        <media-viewer-activity media-name="{{name}}" has-media="{{required}}" id="mediavieweractivity"></media-viewer-activity>
+    justify-content: space-between;" media-id={{currentid}} media-name={{currentname}} id="activityconstructor"> </basic-activity-constructor>
+        <paper-dialog id="selectImage">
+            <h2> Select image</h2>
+            <paper-dialog-scrollable>
+                <media-viewer-activity media-name={{currentname}} media-id="{{currentid}}" id="mediavieweractivity"></media-viewer-activity>
+            </paper-dialog-scrollable>
+            <div class="buttons">
+                <paper-button raised style="background-color: lightgreen" dialog-confirm>Accept</paper-button>
+            </div>
+            </paper-dialog>
     </template>
     <script>
     (function() {
@@ -33,16 +43,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     if (event.detail.logged)
                         this.$.mediavieweractivity.fire('media-changed');
                 });
-                this.$.mediavieweractivity.addEventListener('media-name-changed', function(event) {
+             /*   this.$.mediavieweractivity.addEventListener('media-name-changed', function(event) {
                     this.$.activityconstructor.fire('new-media', this.name);
                 }.bind(this));
                 this.$.activityconstructor.addEventListener('image-required-changed', function(event) {
 
                     this.$.mediavieweractivity.set('hasMedia', event.detail.value)
-                }.bind(this))
+                }.bind(this))*/
+
+                this.$.activityconstructor.addEventListener("showImageDialog", this.showDialog.bind(this))
 
             },
-
+            showDialog: function(event) {
+                this.$.selectImage.open();
+            },
             _mediaObserver: function(newval, oldval) {
                 console.log('new media')
                 this.$.activityconstructor.fire('new-media', newval);

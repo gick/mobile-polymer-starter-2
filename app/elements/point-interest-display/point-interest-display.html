@@ -44,6 +44,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             font-family: 'Roboto', 'Noto', sans-serif;
             display: inline-block;
         }
+
+        .generalflex{
+            display:inline-flex;
+            flex-wrap: wrap;
+            flex-direction: column;
+        }
         
         .mediaimg {
             height: 300px;
@@ -69,8 +75,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <div class="innerdiv">
             <template is="dom-repeat" items="{{items}}" as="item">
                 <template is="dom-if" if={{item.photo}}>
-                    <paper-card heading="{{item.name}}">
-                        <div class=card-content>
+                    <paper-card  class="generalflex" heading="{{item.name}}">
+                        <div style="flex-grow:1" class=card-content>
                         <div class="mediablock">
                             <img class="mediaimg" src="/file/{{item.photo}}">
                         </div>
@@ -100,8 +106,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     </paper-card>
                 </template>
                 <template is="dom-if" if={{!item.photo}}>
-                    <paper-card heading="{{item.name}}">
-                        <div class=card-content>
+                    <paper-card class="generalflex" heading="{{item.name}}">
+                        <div class=card-content style="flex-grow:1">
                             <template is="dom-if" if={{item.creator}}>
                                 <div>Creator :
                                     <div class="info"> {{item.creator}}</div>

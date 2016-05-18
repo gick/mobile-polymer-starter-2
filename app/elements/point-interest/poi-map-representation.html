@@ -3,9 +3,10 @@
 <link rel="import" href="../../bower_components/paper-material/paper-material.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/iron-form/iron-form.html">
 <link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
 <link rel="import" href="./google-map-marker-icons.html">
-
+<link rel="import" href="../media-viewer/media-viewer-activity.html">
 <dom-module id="poi-map-representation">
     <template>
         <style>
@@ -33,7 +34,7 @@
             flex-direction: row;
             align-self: stretch;
             justify-content: space-between;
-            ;
+            margin-left: 5px!important;
         }
         
         paper-button.small {
@@ -59,26 +60,49 @@
         }
         </style>
         <paper-material class="flexible" elevation="2">
-            <div class=innerdiv>
+            <form id="poimap" is="iron-form" method="POST" action="/poimap" class="innerdiv">
                 <h3 class="smallh3">Edit POI</h3>
-                <paper-input style="display:inline-flex;margin-bottom: 10px " name="name" value={{title}} label="Title"></paper-input>
-                <paper-input style="display:inline-flex;margin-bottom: 10px" name="Information" value={{info}} label="Information"></paper-input>
+                <paper-input style="display:inline-flex;" required name="name" value={{title}} label="Title"></paper-input>
+                <paper-input style="display:inline-flex;" required name="comment" value={{info}} label="Information"></paper-input>
                 <div class="insideflex" style="">
                     <paper-button noink on-click="openDialog" raised class="small" style="align-self: center;margin-right: 15px;" name="Iconpick">Change icon</paper-button><img style="display:inline-flex" src="{{mapicon}}">
+                    <input type="hidden" value={{mapicon}} name="marker" />
+                    <input type="hidden" value={{latitude}} name="latitude" />
+                    <input type="hidden" value={{longitude}} name="longitude" />
+                    <input type="hidden" value={{mapLatitude}} name="mapLatitude" />
+                    <input type="hidden" value={{mapLongitude}} name="mapLongitude" />
+                    <input type="hidden" value={{mapZoom}} name="mapZoom" />
                 </div>
-                <paper-button name class="small" raised "setImage">Add image</paper-button>
+                <template is="dom-if" if="{{_noImage(hasImage)}}">
+                    <paper-button name class="small" raised on-click="setImage">Set image</paper-button>
+                </template>
+                <template is="dom-if" if="{{_hasImage(hasImage)}}">
+                    <paper-input style="display:inline-flex;" name="filename" value={{currentname}} label="filename"></paper-input>
+                    <paper-button name class="small" raised on-click="removeImage">Remove image</paper-button>
+                    <input type="hidden" value={{currentid}} name="imageId" />
+                </template>
                 <div class=insideflex style="margin-bottom: 10px">
-                    <paper-button noink style="background-color: #b2ffa6" name="save" class="small" raised>Save marker</paper-button>
-                    <paper-button noink style="background-color: rgba(231, 25, 25, 0.25)" name="delete" on-click="removeMark" class="small" raised>Delete marker</paper-button>
+                    <paper-button noink style="background-color: #b2ffa6" name="save" class="small" on-click="submitForm" raised>Save POI</paper-button>
+                    <paper-button noink style="background-color: rgba(231, 25, 25, 0.25)" name="delete" on-click="removeMark" class="small" raised>Remove POI</paper-button>
                 </div>
-            </div>
+            </form>
         </paper-material>
+        <paper-dialog id="selectImage">
+            <h2> Select image</h2>
+            <paper-dialog-scrollable>
+                <media-viewer-activity media-name={{currentname}} media-id="{{currentid}}" id="mediaviewer"></media-viewer-activity>
+            </paper-dialog-scrollable>
+            <div class="buttons">
+                <paper-button raised style="background-color: lightgreen" on-click="setValues" dialog-confirm>Accept</paper-button>
+            </div>
+        </paper-dialog>
         <paper-dialog id="icons">
             <h2>Select icon</h2>
-              <paper-dialog-scrollable>
-
-            <div><map-icons icon={{mapicon}}></map-icons></div>
-                </paper-dialog-scrollable>
+            <paper-dialog-scrollable>
+                <div>
+                    <map-icons icon={{mapicon}}></map-icons>
+                </div>
+            </paper-dialog-scrollable>
         </paper-dialog>
     </template>
     <script>
@@ -88,21 +112,48 @@
         Polymer({
             is: 'poi-map-representation',
 
-            openDialog:function(){
+            openDialog: function() {
                 this.$.icons.open();
             },
-
-            removeMark:function(elem){
-                this.fire('remove-marker',{latitude:this.latitude,longitude:this.longitude})
+            setValues: function() {
+                if (this.currentname.length !== 0) {
+                    this.set('currentname', this.currentname);
+                    this.set('currentid', this.currentid);
+                    this.set('hasImage', true);
+                }
             },
-            _mapiconobs:function(newval,oldval){
-                this.set('icon',newval);
+            _hasImage: function(arg) {
+                return this.get('hasImage');
+            },
+
+            _noImage: function(arg) {
+
+                return !this.get('hasImage');
+            },
+            setImage: function() {
+                this.$.mediaviewer.genReq();
+                this.$.selectImage.open();
+            },
+            removeImage: function() {
+                this.set('currentid', "");
+                this.set('currentname', "");
+                this.set('hasImage', false);
+            },
+            submitForm: function() {
+                this.$.poimap.submit();
+            },
+            removeMark: function(elem) {
+                this.fire('remove-marker', {
+                    latitude: this.latitude,
+                    longitude: this.longitude
+                })
+            },
+            _mapiconobs: function(newval, oldval) {
+                this.set('icon', newval);
                 this.$.icons.close();
             },
 
-            ready: function() {
-
-            },
+            ready: function() {},
 
 
             properties: {
@@ -113,7 +164,41 @@
                 },
                 info: {
                     type: String
-                } ,
+                },
+                currentid: {
+                    type: String,
+                    reflectToAttribute: true,
+                    notify: true,
+                    value: "",
+
+                },
+                hasImage: {
+                    type: Boolean,
+                    notify: true,
+                    value: false,
+                },
+                currentname: {
+                    type: String,
+                    reflectToAttribute: true,
+                    notify: true,
+                    value: "",
+                },
+
+                mapLatitude: {
+                    type: Number,
+                    notify: true,
+                },
+
+                mapLongitude: {
+                    type: Number,
+                    notify: true,
+                },
+
+                mapZoom: {
+                    type: Number,
+                    notify: true,
+                },
+
                 icon: {
                     type: String,
                     reflectToAttribute: true,
@@ -122,13 +207,13 @@
                 mapicon: {
                     type: String,
                     notify: true,
-                    observer:'_mapiconobs'
+                    observer: '_mapiconobs'
                 },
-                latitude:{
-                    type:Number,
+                latitude: {
+                    type: Number,
                 },
-                longitude:{
-                    type:Number,
+                longitude: {
+                    type: Number,
                 },
 
 
