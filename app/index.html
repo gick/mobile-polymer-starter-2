@@ -101,6 +101,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                                     My Scenarios elements
                                 </paper-item>
                             </a>
+                            <a data-route="mobilegame" href="{{baseUrl}}mobilegame">
+                                <paper-item class="menuitem">
+                                    <iron-icon icon="verified-user"></iron-icon>
+                                    My mobile games
+                                </paper-item>
+                            </a>
                         </paper-menu>
                     </paper-submenu>
                     <a data-route="public" href="{{baseUrl}}public">
@@ -206,12 +212,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                                         <paper-tab activity="POIMAP">Add POI from map</paper-tab>
                                     </paper-tabs>
                                     <iron-collapse opened="{{showReg}}">
-                                        <point-interest-register  id="poireg"></point-interest-register>
+                                        <point-interest-register id="poireg"></point-interest-register>
                                     </iron-collapse>
                                     <iron-collapse opened="{{showFromMap}}">
                                         <poi-from-map lat="48.088275" long="-0.756458" id="poimap"></poi-from-map>
                                     </iron-collapse>
-
                                 </paper-material>
                                 <paper-material elevation="2">
                                     <h3>My POI</h3>
@@ -257,9 +262,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                             <paper-material elevation="1">
                                 <free-text-media-maker id="mediaactivity"></free-text-media-maker>
                             </paper-material>
+                            <paper-material elevation="1">
+                                <mcq-media-maker id="mcqmaker"></mcq-media-maker>
+                            </paper-material>
                             <paper-material elevation=1>
                                 <h3>My elements</h3>
-                                    <list-free-text-activities style="display:inline-flex;" url="/freetextactivity" id="listfreetext"></list-free-text-activities>
+                                <list-free-text-activities style="display:inline-flex;" url="/freetextactivity" id="listfreetext"></list-free-text-activities>
                             </paper-material>
                         </section>
                         <section data-route="admin" tabindex="-1">

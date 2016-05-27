@@ -77,6 +77,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       }
     );
+    page('/mobilegame', function() {
+      if(app.auth.logged){
+
+      app.route = 'mobilegame';
+      setFocus(app.route);}
+      else{
+      app.route = 'notlogged';
+      setFocus(app.route);}
+
+      }
+    );
 
 
     page('/usermedia', function() {

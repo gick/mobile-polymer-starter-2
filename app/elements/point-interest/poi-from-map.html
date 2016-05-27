@@ -1,8 +1,10 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/google-map/google-map.html">
+<link rel="import" href="../../bower_components/google-apis/google-maps-api.html">
 <link rel="import" href="../../bower_components/google-map/google-map-point.html">
 <link rel="import" href="../../bower_components/google-map/google-map-marker.html">
 <link rel="import" href="../../bower_components/google-map/google-map-poly.html">
+<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="./poi-map-representation.html">
 <dom-module id="poi-from-map">
     <template>
@@ -35,7 +37,8 @@
         }
         </style>
         <div class="outerdiv">
-            <google-map api-key="" id="poimap" zoom="{{mapzoom}}" latitude="{{lat}}" longitude="{{long}}" click-events>
+            <google-maps-api></google-maps-api>
+            <google-map api-key="" id="poimapgmap" zoom="{{mapzoom}}" map={{mapsAPI}} latitude="{{lat}}" longitude="{{long}}" click-events>
                 <template is="dom-repeat" items={{markers}} as="marker">
                     <google-map-marker click-events title="{{marker.title}}" icon={{marker.icon}} on-google-map-marker-click="{{markerClicked}}" latitude="{{marker.latitude}}" longitude="{{marker.longitude}}"></google-map-marker>
                 </template>
@@ -46,6 +49,7 @@
                 </template>
             </div>
         </div>
+        <paper-toast id="poiadded" class="fit-bottom" text="POI added correctly"></paper-toast>
     </template>
     <script>
     (function() {
@@ -55,20 +59,23 @@
             is: 'poi-from-map',
             ready: function() {
                 this.set('markers', [])
-                this.$.poimap.addEventListener("google-map-click", this.addMarker.bind(this))
+                this.$.poimapgmap.addEventListener("google-map-click", this.addMarker.bind(this))
                 this.addEventListener("remove-marker", this.removeMarker.bind(this))
-
+                this.addEventListener("poi-saved", function() {
+                    this.fire('poi-changed', null);
+                    this.$.poiadded.open();
+                }.bind(this));
             },
 
             removeMarker: function(event) {
-                var i=this.findIndex(event.detail);
-                this.splice('markers',i,1);
+                var i = this.findIndex(event.detail);
+                this.splice('markers', i, 1);
             },
 
-            findIndex:function(coord){
-                for(var i=0;i<this.markers.length;i++){
-                    if(this.markers[i].latitude==coord.latitude){
-                        if(this.markers[i].longitude==coord.longitude){
+            findIndex: function(coord) {
+                for (var i = 0; i < this.markers.length; i++) {
+                    if (this.markers[i].latitude == coord.latitude) {
+                        if (this.markers[i].longitude == coord.longitude) {
                             return i
                         }
                     }
@@ -76,12 +83,15 @@
                 return -1
             },
             addMarker: function(event) {
+                var map = this.get('mapsAPI')
                 var lat = event.detail.latLng.lat();
                 var long = event.detail.latLng.lng();
+
                 this.push('markers', {
                     latitude: lat,
                     longitude: long
-                })
+                });
+
             },
 
 

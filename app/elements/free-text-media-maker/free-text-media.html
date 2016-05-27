@@ -30,7 +30,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <div class="buttons">
                 <paper-button raised style="background-color: lightgreen" dialog-confirm>Accept</paper-button>
             </div>
-            </paper-dialog>
+        </paper-dialog>
     </template>
     <script>
     (function() {
@@ -43,13 +43,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     if (event.detail.logged)
                         this.$.mediavieweractivity.fire('media-changed');
                 });
-             /*   this.$.mediavieweractivity.addEventListener('media-name-changed', function(event) {
-                    this.$.activityconstructor.fire('new-media', this.name);
-                }.bind(this));
-                this.$.activityconstructor.addEventListener('image-required-changed', function(event) {
+                /*   this.$.mediavieweractivity.addEventListener('media-name-changed', function(event) {
+                       this.$.activityconstructor.fire('new-media', this.name);
+                   }.bind(this));
+                   this.$.activityconstructor.addEventListener('image-required-changed', function(event) {
 
-                    this.$.mediavieweractivity.set('hasMedia', event.detail.value)
-                }.bind(this))*/
+                       this.$.mediavieweractivity.set('hasMedia', event.detail.value)
+                   }.bind(this))*/
 
                 this.$.activityconstructor.addEventListener("showImageDialog", this.showDialog.bind(this))
 

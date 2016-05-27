@@ -61,10 +61,16 @@ function distance(lat1, lon1, lat2, lon2, unit) {
         this.set('showReg',false);
       }
     }.bind(this))
+
+    app.$.poimap.addEventListener('poi-changed',function(event){
+      app.fire('poi-changed',auth.detail,{bubbles:false,node:app.$.poidisplay});
+      app.fire('poi-changed',auth.detail,{bubbles:false,node:app.$.publicpoi});
+    });
+
     app.$.poireg.addEventListener('poi-changed',function(event){
       app.fire('poi-changed',auth.detail,{bubbles:false,node:app.$.poidisplay});
       app.fire('poi-changed',auth.detail,{bubbles:false,node:app.$.publicpoi});
-    })
+    });
 
     app.$.fileupload.addEventListener('success',function(event){
       app.fire('media-changed',auth.detail,{bubbles:false,node:app.$.mediaviewer});

@@ -8,10 +8,6 @@
 <link rel="import" href="../../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <dom-module id="mcq-activity">
     <style is="custom-style" include="iron-flex iron-flex-alignment">
-    :host {
-        display: inline-block;
-        border: 1px solid black;
-    }
         .outer {
         display: inline-flex;
         flex-wrap: wrap;
@@ -66,25 +62,35 @@
             },
             properties: {
                 question: {
-                    type: String
+                    type: String,
+                    notify: true,
                 },
                 correctAnswerMessage: {
-                    type: String
+                    type: String,
+                    notify: true,                    
                 },
+                wrongAnswerMessage:{
+                    type:String,
+                    notify: true,
+                },
+                
                 correctAnswer: {
-                    type: String
+                    type: String,
+                    notify: true,
                 },
 
                 wrongAnswer1: {
-                    type: String
+                    type: String,
+                    notify: true,
                 },
                 wrongAnswer2: {
-                    type: String
+                    type: String,
+                    notify: true,
                 },
 
                 imageId: {
                     type: String,
-                    notify: true
+                    notify: true,
                 },
             }
         });

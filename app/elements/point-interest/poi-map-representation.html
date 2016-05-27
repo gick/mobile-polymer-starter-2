@@ -73,12 +73,20 @@
                     <input type="hidden" value={{mapLongitude}} name="mapLongitude" />
                     <input type="hidden" value={{mapZoom}} name="mapZoom" />
                 </div>
+                <template is="dom-if" if="{{_noarea(hasArea)}}">
+                    <paper-button name class="small" raised on-click="setArea">Set trigger area</paper-button>
+                </template>
+                <template is="dom-if" if="{{!_noarea(hasArea)}}">
+                    <paper-input style="display:inline-flex;" name="radius" value={{radius}} label="Trigger area radius (m)"></paper-input>
+                    <paper-button name class="small" raised on-click="_removeArea">Remove trigger area</paper-button>
+                    <input type="hidden" value={{currentid}} name="imageId" />
+                </template>
                 <template is="dom-if" if="{{_noImage(hasImage)}}">
                     <paper-button name class="small" raised on-click="setImage">Set image</paper-button>
                 </template>
                 <template is="dom-if" if="{{_hasImage(hasImage)}}">
-                    <paper-input style="display:inline-flex;" name="filename" value={{currentname}} label="filename"></paper-input>
-                    <paper-button name class="small" raised on-click="removeImage">Remove image</paper-button>
+                    <paper-input style="display:inline-flex;" name="imagename" value={{currentname}} label="File name"></paper-input>
+                    <paper-button name class="small" raised on-click="removeImage">Remove Image</paper-button>
                     <input type="hidden" value={{currentid}} name="imageId" />
                 </template>
                 <div class=insideflex style="margin-bottom: 10px">
@@ -122,6 +130,16 @@
                     this.set('hasImage', true);
                 }
             },
+            setArea: function() {
+                this.set('hasArea', true);
+            },
+            _removeArea: function() {
+                this.set('hasArea', false);
+            },
+
+            _noarea: function(hasArea) {
+                return !this.get('hasArea');
+            },
             _hasImage: function(arg) {
                 return this.get('hasImage');
             },
@@ -141,6 +159,7 @@
             },
             submitForm: function() {
                 this.$.poimap.submit();
+                this.fire('poi-saved', null);
             },
             removeMark: function(elem) {
                 this.fire('remove-marker', {
@@ -153,7 +172,10 @@
                 this.$.icons.close();
             },
 
-            ready: function() {},
+            ready: function() {
+                if (this.get('radius') !== 0)
+                    this.set('hasArea', true);
+            },
 
 
             properties: {
@@ -173,6 +195,11 @@
 
                 },
                 hasImage: {
+                    type: Boolean,
+                    notify: true,
+                    value: false,
+                },
+                hasArea: {
                     type: Boolean,
                     notify: true,
                     value: false,
@@ -204,6 +231,13 @@
                     reflectToAttribute: true,
                     notify: true,
                 },
+                radius: {
+                    type: Number,
+                    notify: true,
+                    reflectToAttribute: true,
+                    value: 0,
+                },
+
                 mapicon: {
                     type: String,
                     notify: true,

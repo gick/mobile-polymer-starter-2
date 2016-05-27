@@ -69,10 +69,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <paper-input style=";" name="correctMessage" label="Correct answer message" value={{correct}} required></paper-input>
             <paper-input style=";" name="wrongMessage" label="Wrong answer message" value={{wrong}} required></paper-input>
             <paper-button on-click="showImageDialog">Set image</paper-button>
-            <template is="dom-if" if="{{mediaId}}">
-                <input style=";" type ="hidden" name="imageId" editable=false value="{{mediaId}}" label="Image id"/>
+            <template is="dom-if" if="{{mediaId}}" restamp=true>
+                <paper-input  style="display:none" name="imageId" editable="false" value="{{mediaId}}" label="Image id"></paper-input>
                 <paper-input style=";" name="filename" editable=false value="{{mediaName}}" label="File name"></paper-input>
-
+                <paper-button raised on-click="removeImage">Remove Image</paper-button>
             </template>
             <div class="insideflex">
                 <paper-button raised on-click="_submit">Save</paper-button>
@@ -89,14 +89,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         'use strict';
         Polymer({
             is: 'basic-activity-constructor',
-            ready: function() {
-            },
+            ready: function() {},
             logout: function() {},
             _mediaObserver: function(newval, old) {
                 this.set('mediaId', newval);
             },
             _activateObs: function(newval, oldval) {
                 this.set('imageRequired', newval)
+            },
+            removeImage: function() {
+                this.set('mediaId', null);
+                this.set('mediaName', null);
             },
             showImageDialog: function() {
                 this.fire("showImageDialog", "show");
@@ -105,7 +108,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             _changeHasMedia: function(newv, oldb) {}.bind(this),
             _submit: function(event) {
                 this.$.freeTextForm.submit();
-                this.fire('saveFreeTextActivity',null);
+                this.fire('saveFreeTextActivity', null);
             },
             _reset: function(event) {},
             properties: {
