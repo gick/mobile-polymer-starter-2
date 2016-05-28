@@ -45,7 +45,7 @@
             </google-map>
             <div class=innerdiv>
                 <template is="dom-repeat" items={{markers}} as="marker">
-                    <poi-map-representation map-zoom="{{mapZoom}}" map-latitude="{{lat}}" map-longitude="{{long}}" latitude="{{marker.latitude}}" longitude="{{marker.longitude}}" icon={{marker.icon}} info={{marker.info}} title="{{marker.title}}"></poi-map-representation>
+                    <poi-map-representation map-zoom="{{mapZoom}}" map-latitude="{{lat}}" map-longitude="{{long}}" latitude="{{marker.latitude}}" longitude="{{marker.longitude}}" radius={{marker.radius}} icon={{marker.icon}} info={{marker.info}} title="{{marker.title}}"></poi-map-representation>
                 </template>
             </div>
         </div>
@@ -84,17 +84,47 @@
             },
             addMarker: function(event) {
                 var map = this.get('mapsAPI')
+                var date = new Date();
+                var id= date.getTime();
                 var lat = event.detail.latLng.lat();
                 var long = event.detail.latLng.lng();
-
+                var circle = new google.maps.Circle({
+                    strokeColor: '#FF0000',
+                    id:id,
+                    strokeOpacity: 0.8,
+                    strokeWeight: 2,
+                    fillColor: '#FF0000',
+                    fillOpacity: 0.35,
+                    map: map,
+                    center: {
+                        lat: lat,
+                        lng: long
+                    },
+                    radius: 100,
+                    editable: true,
+                })
+                google.maps.event.addDomListener(circle,'radius_changed', function(){this.updateRadius(circle)}.bind(this))
                 this.push('markers', {
                     latitude: lat,
-                    longitude: long
+                    longitude: long,
+                    radius: 100,
+                    id:id,
                 });
 
             },
+            _getMarkeIndexById:function(id){
+                for (var i = 0; i < this.markers.length; i++) {
+                    if(id==this.markers[i].id) return i;
+                }
+                return -1;
 
+            },
+            updateRadius:function(circle){
+                var index=this._getMarkeIndexById(circle.id);
+                 var mark=   this.get('markers.#' + index);
+                 this.set('markers.#' + index + '.radius',circle.radius.toFixed(2));
 
+            },
             properties: {
                 lat: {
                     type: Number

@@ -210,6 +210,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                                     <paper-tabs id="selectTabsPOI" attr-for-selected="activity">
                                         <paper-tab activity="POIREG">Add POI from mobile</paper-tab>
                                         <paper-tab activity="POIMAP">Add POI from map</paper-tab>
+                                        <paper-tab activity="CUSTOMMAP">Create custom map</paper-tab>
                                     </paper-tabs>
                                     <iron-collapse opened="{{showReg}}">
                                         <point-interest-register id="poireg"></point-interest-register>
@@ -217,6 +218,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                                     <iron-collapse opened="{{showFromMap}}">
                                         <poi-from-map lat="48.088275" long="-0.756458" id="poimap"></poi-from-map>
                                     </iron-collapse>
+                                     <iron-collapse opened="{{customMap}}">
+                                        <poi-from-map lat="48.088275" long="-0.756458" id="poimap"></poi-from-map>
+                                    </iron-collapse>
+                                   
                                 </paper-material>
                                 <paper-material elevation="2">
                                     <h3>My POI</h3>

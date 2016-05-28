@@ -1,0 +1,138 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/google-map/google-map.html">
+<link rel="import" href="../../bower_components/google-apis/google-maps-api.html">
+<link rel="import" href="../../bower_components/google-map/google-map-point.html">
+<link rel="import" href="../../bower_components/google-map/google-map-marker.html">
+<link rel="import" href="../../bower_components/google-map/google-map-poly.html">
+<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="./poi-map-representation.html">
+<dom-module id="custom-map">
+    <template>
+        <style>
+        .outerdiv {
+            display: inline-flex;
+            align-items: flex-start;
+            flex-direction: row;
+            flex-wrap: wrap;
+            ;
+            width: 100%;
+        }
+        
+        .innerdiv {
+            display: inline-flex;
+            flex-flow: initial;
+            flex-direction: row;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            align-content: center;
+            flex-grow: 1;
+            width: 50%
+        }
+        
+        google-map {
+            width: 40%;
+            height: 700px;
+            display: inline-flex;
+        }
+        </style>
+        <div class="outerdiv">
+            <google-maps-api></google-maps-api>
+            <google-map api-key="" id="custommap" zoom="{{mapzoom}}" map={{mapsAPI}} latitude="{{lat}}" longitude="{{long}}" click-events>
+            </google-map>
+        </div>
+    </template>
+    <script>
+    (function() {
+        'use strict';
+
+        Polymer({
+            is: 'custom-map',
+            ready: function() {
+                this.$.custommap.addEventListener("google-map-click", this.addline.bind(this))
+
+            },
+
+            addline: function() {
+                if (!this.poly) {
+                    this.poly = new google.maps.Polyline({
+                        strokeColor: '#000000',
+                        strokeOpacity: 0.0,
+                        strokeWeight: 3
+                    });
+                    var map = this.get('mapsAPI')
+                    this.poly.setMap(map);
+                    this.path = this.poly.getPath();
+                    this.path.push(event.detail.latLng);
+
+                    return;
+                }
+
+                // Because path is an MVCArray, we can simply append a new coordinate
+                // and it will automatically appear.
+                this.path.push(event.detail.latLng);
+                if (this.poly.getPath().j.length > 1) {
+                    this.getCardinalValues()
+                }
+            },
+
+            getCardinalValues: function() {
+                var map = this.get('mapsAPI');
+
+                var north, south, east, west;
+                var path = this.poly.getPath();
+                north = path.j[0].lat();
+                south = path.j[0].lat();
+                east = path.j[0].lng();
+                west = path.j[0].lng();
+                for (var i = 0; i < path.j.length; i++) {
+                    if (path.j[i].lat() > north) {
+                        north = path.j[i].lat();
+                    }
+                    if (path.j[i].lat() < south) {
+                        south = path.j[i].lat();
+                    }
+                    if (path.j[i].lng() > east) {
+                        east = path.j[i].lng();
+                    }
+                    if (path.j[i].lng() < west) {
+                        west = path.j[i].lng();
+                    }
+                }
+
+                var imageBounds = {
+                    north: north,
+                    south: south,
+                    east: east,
+                    west: west
+                };
+
+               var historicalOverlay = new google.maps.GroundOverlay(
+                    'http://localhost:8080/file/5749f28253543af81a2a939e',
+                    imageBounds);
+                historicalOverlay.setMap(map);
+
+                console.log("north" + north)
+                console.log("south" + south)
+                console.log("west" + west)
+                console.log("east" + east)
+
+
+            },
+            properties: {
+                lat: {
+                    type: Number
+                },
+                long: {
+                    type: Number
+                },
+                mapzoom:{
+                    type:Number
+                }
+
+
+            }
+        })
+    })();
+    </script>
+</dom-module>
