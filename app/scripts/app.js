@@ -18,16 +18,16 @@ function distance(lat1, lon1, lat2, lon2, unit) {
     dist = Math.acos(dist);
     dist = dist * 180 / Math.PI;
     dist = dist * 60 * 1.1515;
-    if (unit == "K") { dist = dist * 1.609344 }
-    if (unit == "N") { dist = dist * 0.8684 }
+    if (unit === 'K') { dist = dist * 1.609344 }
+    if (unit === 'N') { dist = dist * 0.8684 }
     return dist
 }
 (function(document) {
     'use strict';
-
-    // Grab a reference to our auto-binding template
-    // and give it some initial binding values
-    // Learn more about auto-binding templates at http://goo.gl/Dx1u2g
+    console.log('ready app')
+        // Grab a reference to our auto-binding template
+        // and give it some initial binding values
+        // Learn more about auto-binding templates at http://goo.gl/Dx1u2g
     var app = document.querySelector('#app');
 
     // Sets app default base URL
@@ -49,23 +49,25 @@ function distance(lat1, lon1, lat2, lon2, unit) {
     // Listen for template bound event to know when bindings
     // have resolved and content has been stamped to the page
     app.addEventListener('dom-change', function() {
-        app.$.selectTabsPOI.addEventListener('iron-select', function(item) {
+        console.log('ready-dom')
+        app.fire('routingReady', null)
+        app.$.selectTabsPOI.addEventListener('iron-select', function() {
             var selected = app.$.selectTabsPOI.selected;
-            if (selected == "POIREG") {
+            if (selected === 'POIREG') {
                 this.set('showReg', true);
                 this.set('showFromMap', false);
-                this.set('customMap',false);
+                this.set('customMap', false);
 
             }
-            if (selected == "POIMAP") {
-                this.set("showFromMap", true);
+            if (selected === 'POIMAP') {
+                this.set('showFromMap', true);
                 this.set('showReg', false);
-                this.set('customMap',false);
+                this.set('customMap', false);
             }
-            if (selected == "CUSTOMMAP") {
-                this.set("showFromMap", false);
+            if (selected === 'CUSTOMMAP') {
+                this.set('showFromMap', false);
                 this.set('showReg', false);
-                this.set('customMap',true);
+                this.set('customMap', true);
             }
 
         }.bind(this))
@@ -73,16 +75,20 @@ function distance(lat1, lon1, lat2, lon2, unit) {
         app.$.poimap.addEventListener('poi-changed', function(event) {
             app.fire('poi-changed', auth.detail, { bubbles: false, node: app.$.poidisplay });
             app.fire('poi-changed', auth.detail, { bubbles: false, node: app.$.publicpoi });
+            app.fire('poi-changed', auth.detail, { bubbles: false, node: app.$.gameactivity });
         });
 
         app.$.poireg.addEventListener('poi-changed', function(event) {
             app.fire('poi-changed', auth.detail, { bubbles: false, node: app.$.poidisplay });
             app.fire('poi-changed', auth.detail, { bubbles: false, node: app.$.publicpoi });
+            app.fire('poi-changed', auth.detail, { bubbles: false, node: app.$.gameactivity });
+
         });
 
         app.$.fileupload.addEventListener('success', function(event) {
             app.fire('media-changed', auth.detail, { bubbles: false, node: app.$.mediaviewer });
             app.fire('media-changed', auth.detail, { bubbles: false, node: app.$.mediavieweractivity });
+            app.fire('media-changed', auth.detail, { bubbles: false, node: app.$.gameactivity});
             app.$.mediaSuccess.open();
         })
         app.$.mediaactivity.addEventListener('saveFreeTextActivity', function() {
@@ -91,10 +97,11 @@ function distance(lat1, lon1, lat2, lon2, unit) {
         console.log('Our app is ready to rock!');
         app.$.auth.addEventListener('authentification-changed', function(auth) {
             app.auth = auth.detail;
+            
             app.fire('authentification-changed', auth.detail, { bubbles: false, node: app.$.publicpoi });
             app.fire('authentification-changed', auth.detail, { bubbles: false, node: app.$.poidisplay });
             app.fire('authentification-changed', auth.detail, { bubbles: false, node: app.$.mediaactivity });
-            app.fire('authentification-changed', auth.detail, { bubbles: false, node: app.$.mediaviewer });
+            app.fire('authentification-changed', auth.detail, { bubbles: false, node: app.$.gameactivity });
 
         })
 

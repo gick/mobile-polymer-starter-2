@@ -74,12 +74,13 @@
                     <input type="hidden" value={{mapZoom}} name="mapZoom" />
                 </div>
                 <template is="dom-if" if="{{_noarea(hasArea)}}">
-                    <paper-button name class="small" raised on-click="setArea">Set trigger area</paper-button>
                 </template>
-                <template is="dom-if" if="{{!_noarea(hasArea)}}">
+                <template is="dom-if" restamp=true if="{{!_noarea(hasArea)}}">
                     <paper-input style="display:inline-flex;" name="radius" value={{radius}} label="Trigger area radius (m)"></paper-input>
                     <paper-button name class="small" raised on-click="_removeArea">Remove trigger area</paper-button>
                     <input type="hidden" value={{currentid}} name="imageId" />
+                    <input type="hidden" value={{areaLat}} name="areaLat" />
+                    <input type="hidden" value={{areaLong}} name="areaLong" />
                 </template>
                 <template is="dom-if" if="{{_noImage(hasImage)}}">
                     <paper-button name class="small" raised on-click="setImage">Set image</paper-button>
@@ -135,16 +136,19 @@
             },
             _removeArea: function() {
                 this.set('hasArea', false);
+                this.fire('remove-area', {
+                    id: this.ident
+                });
             },
 
             _noarea: function(hasArea) {
                 return !this.get('hasArea');
             },
-            _hasImage: function(arg) {
+            _hasImage: function() {
                 return this.get('hasImage');
             },
 
-            _noImage: function(arg) {
+            _noImage: function() {
 
                 return !this.get('hasImage');
             },
@@ -153,15 +157,15 @@
                 this.$.selectImage.open();
             },
             removeImage: function() {
-                this.set('currentid', "");
-                this.set('currentname', "");
+                this.set('currentid', '');
+                this.set('currentname', '');
                 this.set('hasImage', false);
             },
             submitForm: function() {
                 this.$.poimap.submit();
                 this.fire('poi-saved', null);
             },
-            removeMark: function(elem) {
+            removeMark: function() {
                 this.fire('remove-marker', {
                     latitude: this.latitude,
                     longitude: this.longitude
@@ -173,8 +177,9 @@
             },
 
             ready: function() {
-                if (this.get('radius') !== 0)
+                if (this.get('radius') !== 0) {
                     this.set('hasArea', true);
+                }
             },
 
 
@@ -191,7 +196,7 @@
                     type: String,
                     reflectToAttribute: true,
                     notify: true,
-                    value: "",
+                    value: '',
 
                 },
                 hasImage: {
@@ -208,7 +213,7 @@
                     type: String,
                     reflectToAttribute: true,
                     notify: true,
-                    value: "",
+                    value: '',
                 },
 
                 mapLatitude: {
@@ -237,6 +242,19 @@
                     reflectToAttribute: true,
                 },
 
+                areaLat: {
+                    type: Number,
+                    reflectToAttribute: true,
+                    notify: true,
+                },
+
+                areaLong: {
+                    type: Number,
+                    reflectToAttribute: true,
+                    notify: true,
+                },
+
+
                 mapicon: {
                     type: String,
                     notify: true,
@@ -248,6 +266,10 @@
                 longitude: {
                     type: Number,
                 },
+                ident: {
+                    type: Number,
+                    notify: true,
+                }
 
 
             }

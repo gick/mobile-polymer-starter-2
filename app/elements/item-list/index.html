@@ -15,14 +15,14 @@
 <body>
   <template id="t" is="dom-bind">
 
-<item-list listname="POI" items={{test}}></item-list>
+<item-list listname="POI" max-element=1 list-group="POI" items={{test}}></item-list>
 
   </template>
 
 </body>
 <script>
   var t = document.querySelector('#t');
-  test=['1','2']
+  t.test=['place1']
   t.addEventListener('dom-change', function() {
     // auto-binding template is ready.
   });

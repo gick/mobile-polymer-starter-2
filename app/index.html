@@ -218,10 +218,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                                     <iron-collapse opened="{{showFromMap}}">
                                         <poi-from-map lat="48.088275" long="-0.756458" id="poimap"></poi-from-map>
                                     </iron-collapse>
-                                     <iron-collapse opened="{{customMap}}">
-                                        <poi-from-map lat="48.088275" long="-0.756458" id="poimap"></poi-from-map>
+                                    <iron-collapse opened="{{customMap}}">
+                                        <poi-from-map lat="48.088275" long="-0.756458" id="poimap2"></poi-from-map>
                                     </iron-collapse>
-                                   
                                 </paper-material>
                                 <paper-material elevation="2">
                                     <h3>My POI</h3>
@@ -273,6 +272,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                             <paper-material elevation=1>
                                 <h3>My elements</h3>
                                 <list-free-text-activities style="display:inline-flex;" url="/freetextactivity" id="listfreetext"></list-free-text-activities>
+                            </paper-material>
+                        </section>
+                        <section data-route="mobilegame" tabindex="-1">
+                            <paper-material elevation="1">
+                                <h3>Game unit element constructor</h3>
+                            </paper-material>
+                            <paper-material elevation="1">
+                                <unit-game-creator id="gameactivity"></unit-game-creator>
+                            </paper-material>
+                            <paper-material elevation=1>
+                                <h3>My games units</h3>
+                                <list-game-activities style="display:inline-flex;" url="/freetextactivity" id="listgamesactivity"></list-game-activities>
                             </paper-material>
                         </section>
                         <section data-route="admin" tabindex="-1">

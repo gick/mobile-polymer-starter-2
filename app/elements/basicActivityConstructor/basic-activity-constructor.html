@@ -64,13 +64,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </style>
     <template>
         <form class="freeTextCreator" id="freeTextForm" is="iron-form" method="post" action="/freetextactivity">
+            <paper-input name="name" value={{name}} label="Name"></paper-input>
             <paper-input name="question" value={{quest}} label="Question"></paper-input>
             <paper-input style=";" name="response" label="Response" value={{resp}} required></paper-input>
             <paper-input style=";" name="correctMessage" label="Correct answer message" value={{correct}} required></paper-input>
             <paper-input style=";" name="wrongMessage" label="Wrong answer message" value={{wrong}} required></paper-input>
             <paper-button on-click="showImageDialog">Set image</paper-button>
             <template is="dom-if" if="{{mediaId}}" restamp=true>
-                <paper-input  style="display:none" name="imageId" editable="false" value="{{mediaId}}" label="Image id"></paper-input>
+                <paper-input style="display:none" name="imageId" editable="false" value="{{mediaId}}" label="Image id"></paper-input>
                 <paper-input style=";" name="filename" editable=false value="{{mediaName}}" label="File name"></paper-input>
                 <paper-button raised on-click="removeImage">Remove Image</paper-button>
             </template>

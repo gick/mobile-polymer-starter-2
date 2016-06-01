@@ -1,51 +1,44 @@
 <!--
 @license
 Copyright Pierre-Yves Gicquel ReVeRIES project-->
-
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
-
 <dom-module id="custom-item">
-  <template>
-    <style>
-      :host {
-        display: block;
-      }
+    <template>
+        <style>
 
-    </style>
-
-    <ul>
-      <template is="dom-repeat" items="{{items}}">
-        <li><span>{{item}}</span></li>
-      </template>
-    </ul>
-  </template>
-
-  <script>
+        </style>
+        <paper-item>
+            {{name}}  {{data.filename}}
+            <input hidden name="{{listname}}" value="{{getText(data)}}">
+        </paper-item>
+    </template>
+    <script>
     (function() {
-      'use strict';
+        'use strict';
 
-      Polymer({
-        is: 'item-list',
+        Polymer({
+            is: 'custom-item',
+            getText:function(data){
+                return JSON.stringify(data);
+            },
 
-        properties: {
-          items: {
-            type: Array,
-            notify: true
-          }
-        },
+            properties: {
+                name: {
+                    type: String,
+                    notify: true,
+                },
+                data: {
+                    type: Object,
+                    notify: true
+                },
+                listname:{type:String,
+                  notify:true}
 
-        ready: function() {
-          this.items = [
-            'Responsive Web App boilerplate',
-            'Iron Elements and Paper Elements',
-            'End-to-end Build Tooling (including Vulcanize)',
-            'Unit testing with Web Component Tester',
-            'Routing with Page.js',
-            'Offline support with the Platinum Service Worker Elements'
-          ];
-        }
-      });
+            },
+
+            ready: function() {}
+        });
     })();
-  </script>
+    </script>
 </dom-module>

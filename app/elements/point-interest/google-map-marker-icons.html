@@ -68,7 +68,7 @@
         </div>
     </template>
     <script>
-    (function() {
+(function() {
         'use strict';
 
         Polymer({
@@ -86,7 +86,7 @@
                     if (!this.$.size.active) {
                         this.set('size', '_maps')
                     } else {
-                        this.set('size', "")
+                        this.set('size', '')
                     }
                 }.bind(this));
                 this.set('blue', []);
@@ -115,7 +115,7 @@
                 this.push('red', {
                     name: 'red-diamond'
                 })
-                this.push('red', {
+                this.push('red', {  
                     name: 'red-square'
                 })
                 this.push('red', {
@@ -193,7 +193,7 @@
             properties: {
                 size: {
                     type: String,
-                    value: "_maps",
+                    value: '_maps',
                     notify: true,
                 },
 
@@ -201,7 +201,7 @@
                     type: String,
                     notify: true,
                     reflectToAttribute: true,
-                    value: "http://www.google.com/mapfiles/marker.png"
+                    value: 'http://www.google.com/mapfiles/marker.png'
                 }
 
             }

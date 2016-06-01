@@ -1,5 +1,5 @@
 <!--
-@license
+license
 Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
 This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
 The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
@@ -16,31 +16,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/paper-item/paper-icon-item.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/iron-icons/social-icons.html">
-<link rel="import" href="../../bower_components/iron-a11y-keys">
-
 <dom-module id="authenticate-element">
     <style>
-    :host
-
-  .insidePaper {
-    margin-left: 15px;
-    margin-right :15px;
-  }
-
-
+    :host .insidePaper {
+        margin-left: 15px;
+        margin-right: 15px;
+    }
     </style>
     <template>
         <iron-request id="xhr"></iron-request>
         <iron-ajax auto id="userConnect" url="/profile" handle-as="json" on-response="handleResponse" last-response="{{auth}}"></iron-ajax>
         <template is="dom-if" if="{{!auth.success}}">
-
-           <form class="insidePaper" id="authform" is="iron-form" method="post" action="/login">  
-            <h1>Please log-in</h1>
-            <paper-input name="name" label="Name" required></paper-input>
-            <paper-input type="password" name="password" label="password" required></paper-input>
-            <paper-button raised on-click="_submit">Submit</paper-button>
-            <paper-button raised on-click="_reset">Reset</paper-button>
-            <div class="output"></div>
+            <form class="insidePaper" id="authform" is="iron-form" method="post" action="/login">
+                <h1>Please log-in</h1>
+                <paper-input  on-keypress="_keyPressed" name="name" label="Name" required></paper-input>
+                <paper-input  on-keypress="_keyPressed" type="password" name="password" label="password" required></paper-input>
+                <paper-button raised  on-click="_submit">Submit</paper-button>
+                <paper-button raised on-click="_reset">Reset</paper-button>
+                <div class="output"></div>
             </form>
         </template>
         <template is="dom-if" if="{{auth.success}}">
@@ -62,7 +55,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     <div class="icons:verified-user" item-icon></div>
                     User is admin : {{auth.user.isadmin}}
                 </paper-icon-item>
-
                 <paper-item>
                     <paper-button on-click="logout" raised>Disconnect</paper-button>
                     <paper-button style="float:right" raised>Update profile</paper-button>
@@ -76,59 +68,68 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         Polymer({
             is: 'authenticate-element',
             ready: function() {
-	                 this.addEventListener('iron-form-response',this.handleResponse.bind(this));
+                this.addEventListener('iron-form-response', this.handleResponse.bind(this));
                 // this.auth={};
             },
             logout: function() {
-                var that=this;
-            	var logout = document.createElement('iron-request')
-            	logout.send({url:"/logout"}).then(function(){that.$.userConnect.generateRequest();})
+                var that = this;
+                var logout = document.createElement('iron-request')
+                logout.send({
+                    url: '/logout'
+                }).then(function() {
+                    that.$.userConnect.generateRequest();
+                })
             },
             handleResponse: function(resp) {
-            		console.log(response);
-            		var response = resp.detail.__data__.response;
-            		this.set('auth',response);
-                    var logged;
-                    if(!resp.detail.__data__.response.success){
-                        logged={logged:false}
+                var response = resp.detail.__data__.response;
+                this.set('auth', response);
+                var logged;
+                if (!resp.detail.__data__.response.success) {
+                    logged = {
+                        logged: false
                     }
-                    else if (!resp.detail.__data__.response.user.isadmin)
-                    {
-                        logged={logged:'user',name:resp.detail.__data__.response.user.name}
+                } else if (!resp.detail.__data__.response.user.isadmin) {
+                    logged = {
+                        logged: 'user',
+                        name: resp.detail.__data__.response.user.name
                     }
-                    else if (resp.detail.__data__.response.user.isadmin)
-                    {
-                        logged={logged:'admin', name:resp.detail.__data__.response.user.name}
+                } else if (resp.detail.__data__.response.user.isadmin) {
+                    logged = {
+                        logged: 'admin',
+                        name: resp.detail.__data__.response.user.name
                     }
-                    this.fire('authentification-changed',logged);
-                    //this.set('auth',{success:resp.detail.__data__.response.success,'user': {name:resp.detail.__data__.response.success.});
-
-            		//this.auth={success:true};
-
-            		//this.setPath('auth.connect',true);
-            		//that.$.userConnect.generateRequest();
-	            },
+                }
+                this.fire('authentification-changed', logged);
+            },
 
             _submit: function(event) {
                 Polymer.dom(event).localTarget.parentElement.submit();
             },
+            _keyPressed: function(e) {
+                if (13 === e.charCode) {
+                    Polymer.dom(event).localTarget.parentElement.submit();
+                }
+            },
+
             _reset: function(event) {
                 var form = Polymer.dom(event).localTarget.parentElement
                 form.reset();
                 form.querySelector('.output').innerHTML = '';
             },
             properties: {
-            	auth:{
-            	 type:Object,
-            	 notify:true,
-            	 value:{success:false},
-            	 bindToAttribute:true
-            	},
+                auth: {
+                    type: Object,
+                    notify: true,
+                    value: {
+                        success: false
+                    },
+                    bindToAttribute: true
+                },
                 isauthenticated: {
                     type: Boolean,
                     value: false,
-          			reflectToAttribute: true,
-          			notify:true,
+                    reflectToAttribute: true,
+                    notify: true,
                 }
             }
         });

@@ -120,7 +120,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             },
             _ismedia: function(item) {
                 console.log("ismedia")
-                return this._isaudio(item) + this._isvideo(item) + this._isimage(item);
+                return this._isaudio(item) | this._isvideo(item)  | this._isimage(item);
             },
 
             _isaudio: function(item) {
@@ -133,7 +133,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 return supported
             },
             _isimage: function(item) {
-                var image = item.contentType == 'image/png'
+                var image = item.contentType == 'image/png' | item.contentType=='image/jpeg' |item.contentType =='image/bmp'| item.contentType =='image/gif' 
                 return image;
             },
 
