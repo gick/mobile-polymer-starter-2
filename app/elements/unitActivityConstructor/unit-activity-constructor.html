@@ -138,7 +138,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     <label class="subtitle" id="label1">User guidance:</label>
                     <paper-radio-group aria-labelledby="label1">
                         <paper-radio-button name="compass">Device compass</paper-radio-button>
-                        <paper-radio-button name="map">Device map (not implemented)</paper-radio-button>
+                        <paper-radio-button name="map">POI map</paper-radio-button>
+                        <paper-radio-button name="map_compass">Device compass and POI map</paper-radio-button>
                         <paper-radio-button name="noguide">No guidance</paper-radio-button>
                     </paper-radio-group>
                     <label class="subtitle" id="label2">POI reached validation:</label>
@@ -215,6 +216,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             _changeHasMedia: function(newv, oldb) {}.bind(this),
             _submit: function(event) {
                 this.$.unitActivityForm.submit();
+                this.fire('unitGameSaved',null);
             },
             _reset: function(event) {},
             properties: {

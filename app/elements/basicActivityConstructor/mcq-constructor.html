@@ -63,6 +63,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 this.$.mediavieweractivity.fire('media-changed');
 
             },
+            setImage:function(){
+                this.$.selectImage.open();
+            }
+            ,
             logout: function() {},
             _submit: function(event) {
                 this.$.freeTextForm.submit();
@@ -72,7 +76,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 imageId: {
                     type: String,
                     notify: true,
-                    value: null,
+                    reflectToAttribute: true,
                 },
 
                 distractor1: {

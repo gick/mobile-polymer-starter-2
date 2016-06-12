@@ -2,7 +2,10 @@
 <link rel="import" href="../unitActivityConstructor/unit-activity-constructor.html">
 <link rel="import" href="../../bower_components/paper-styles/shadow.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../item-list/item-list.html">
+<link rel="import" href="../point-interest/map-display.html">
+
 <dom-module id="unit-game-creator">
     <template>
         <style>
@@ -45,7 +48,10 @@
             flex-wrap: wrap;
             width: 100%;
         }
-        
+        .innerMap{
+            display: inline-flex;
+            flex-direction: row;
+        }
         .innerdiv {
             display: inline-flex;
             flex-flow: initial;
@@ -64,7 +70,9 @@
         <div class="outerdiv">
             <div class="container">
                 <iron-ajax id="ajaxLoaderPOI" url="/poi" handle-as="json" last-response="{{poiitems}}"></iron-ajax>
-                <item-list heading="Your POIS" class="creatorList" list-group="POI" max-element="20" items={{poiitems}} pull="clone"></item-list>
+                <item-list id="poiItem" heading="Your POIS" class="creatorList" list-group="POI" max-element="20" items={{poiitems}} pull="clone"></item-list>
+                <map-display hidden$="{{mapHidden}}" style="display:inline-flex;width:400px" id="poiwithmap"></map-display>
+                <paper-button on-click="showMap">Show map</paper-button>
             </div>
             <div class="container">
                 <iron-ajax id="ajaxLoaderMedia" url="/listUserMediaFiles" handle-as="json" last-response="{{mediaitems}}"></iron-ajax>
@@ -82,6 +90,9 @@
         Polymer({
             is: 'unit-game-creator',
             ready: function() {
+                this.addEventListener("item-selected",this.itemSelected.bind(this))
+
+                this.mapHidden=true;
                 this.addEventListener('authentification-changed', function(event) {
                     if (event.detail.logged) {
                         this.$.ajaxLoaderPOI.generateRequest();
@@ -98,7 +109,16 @@
                 })
 
             },
-
+            showMap:function(){
+                this.mapHidden=!this.mapHidden;
+                window.dispatchEvent(new Event('resize'));
+            },
+            itemSelected:function(ev){
+                var data=ev.detail;
+                if(data.map){
+                    this.$.poiwithmap.showPOI(data)
+                }
+            },
 
             properties: {
 

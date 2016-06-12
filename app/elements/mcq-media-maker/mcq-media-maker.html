@@ -16,11 +16,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <dom-module id="mcq-media-maker">
     <template>
         <style include="shared-styles">
-        :host{
-            display:inline-flex;
+        :host {
+            display: inline-flex;
             flex-wrap: wrap;
-
+            justify-content: space-between;
+            width: 100%;
         }
+        
         .mcqCreator {
             border-radius: 3px;
             padding: 10px;
@@ -40,7 +42,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             justify-content: space-between;
         }
         
-        .previewMCQ{
+        .previewMCQ {
             display: inline-flex;
             flex-grow: 2;
             padding: 10px;

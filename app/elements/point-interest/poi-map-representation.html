@@ -168,7 +168,8 @@
             removeMark: function() {
                 this.fire('remove-marker', {
                     latitude: this.latitude,
-                    longitude: this.longitude
+                    longitude: this.longitude,
+                    id:this.ident,
                 })
             },
             _mapiconobs: function(newval, oldval) {

@@ -130,6 +130,12 @@ Copyright Pierre-Yves Gicquel ReVeRIES project-->
                 this.$.finalList.addEventListener('add', this.itemAdded.bind(this))
                 this.$.beginList.addEventListener('remove', this.itemRemove.bind(this))
             },
+
+            itemSelected:function(event){
+
+            },
+
+
             itemAdded: function(event) {
                 if (event.item) return;
                 var len = this.get('items').length;

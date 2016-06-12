@@ -88,20 +88,27 @@ function distance(lat1, lon1, lat2, lon2, unit) {
         app.$.fileupload.addEventListener('success', function(event) {
             app.fire('media-changed', auth.detail, { bubbles: false, node: app.$.mediaviewer });
             app.fire('media-changed', auth.detail, { bubbles: false, node: app.$.mediavieweractivity });
-            app.fire('media-changed', auth.detail, { bubbles: false, node: app.$.gameactivity});
+            app.fire('media-changed', auth.detail, { bubbles: false, node: app.$.gameactivity });
             app.$.mediaSuccess.open();
         })
-        app.$.mediaactivity.addEventListener('saveFreeTextActivity', function() {
+        app.$.gameactivity.addEventListener('unitGameSaved', function() {
             app.$.listfreetext.requestElements();
         })
+        app.$.mediaactivity.addEventListener('saveFreeTextActivity', function() {
+            app.$.listgamesactivity.requestElements();
+        })
+
         console.log('Our app is ready to rock!');
         app.$.auth.addEventListener('authentification-changed', function(auth) {
             app.auth = auth.detail;
-            
+
             app.fire('authentification-changed', auth.detail, { bubbles: false, node: app.$.publicpoi });
             app.fire('authentification-changed', auth.detail, { bubbles: false, node: app.$.poidisplay });
             app.fire('authentification-changed', auth.detail, { bubbles: false, node: app.$.mediaactivity });
+            app.fire('authentification-changed', auth.detail, { bubbles: false, node: app.$.mediaviewer });
             app.fire('authentification-changed', auth.detail, { bubbles: false, node: app.$.gameactivity });
+            app.fire('authentification-changed', auth.detail, { bubbles: false, node: app.$.listgamesactivity });
+
 
         })
 

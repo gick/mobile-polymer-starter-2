@@ -6,12 +6,18 @@ Copyright Pierre-Yves Gicquel ReVeRIES project-->
 <dom-module id="custom-item">
     <template>
         <style>
-
+        .inner {
+            width: 100%;
+            height: 40px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+        }
         </style>
-        <paper-item>
-            {{name}}  {{data.filename}}
+        <div class="inner" on-click="fireSelected">
+            <div> {{name}} {{data.filename}}</div>
             <input hidden name="{{listname}}" value="{{getText(data)}}">
-        </paper-item>
+        </div>
     </template>
     <script>
     (function() {
@@ -19,8 +25,11 @@ Copyright Pierre-Yves Gicquel ReVeRIES project-->
 
         Polymer({
             is: 'custom-item',
-            getText:function(data){
+            getText: function(data) {
                 return JSON.stringify(data);
+            },
+            fireSelected: function() {
+                this.fire("item-selected", this.data);
             },
 
             properties: {
@@ -32,8 +41,10 @@ Copyright Pierre-Yves Gicquel ReVeRIES project-->
                     type: Object,
                     notify: true
                 },
-                listname:{type:String,
-                  notify:true}
+                listname: {
+                    type: String,
+                    notify: true
+                }
 
             },
 
