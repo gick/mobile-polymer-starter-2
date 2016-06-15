@@ -67,7 +67,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     <a data-route="user" href="{{baseUrl}}user">
                         <iron-icon icon="info"></iron-icon>
                         <template is="dom-if" if="{{!auth.logged}}">
-                            <span>Login</span>
+                            <span>Login/Sign-up</span>
                         </template>
                         <template is="dom-if" if="{{auth.logged}}">
                             <span>Profile/Logout</span>
@@ -166,9 +166,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                             </paper-material>
                         </section>
                         <section data-route="user" tabindex="-1">
-                            <paper-material elevation="1">
                                 <authenticate-element id="auth"></authenticate-element>
-                            </paper-material>
                         </section>
                         <section data-route="configuration" tabindex="-1">
                             <paper-material elevation="1">
